@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gopinathenterprisetechnology.github.io/gettools/sitemap.xml
