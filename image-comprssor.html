@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Compressor - GET Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center;font-family:Arial;">
+<h2>Image Compressor</h2>
+<input type="file" id="upload" accept="image/*">
+<br><br>
+<img id="preview" style="max-width:300px;">
+<script>
+document.getElementById("upload").addEventListener("change",function(e){
+var reader=new FileReader();
+reader.onload=function(){
+document.getElementById("preview").src=reader.result;
+};
+reader.readAsDataURL(e.target.files[0]);
+});
+</script>
+</body>
+</html>
