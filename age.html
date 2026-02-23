@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Age Calculator - GET Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center;font-family:Arial;">
+<h2>Age Calculator</h2>
+<input type="date" id="dob">
+<button onclick="calculateAge()">Calculate</button>
+<p id="result"></p>
+<script>
+function calculateAge(){
+var dob=new Date(document.getElementById("dob").value);
+var diff=Date.now()-dob.getTime();
+var age=new Date(diff);
+document.getElementById("result").innerHTML=
+"Your Age: "+Math.abs(age.getUTCFullYear()-1970)+" Years";
+}
+</script>
+</body>
+</html>
