@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PNG to JPG Converter - GET Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center;font-family:Arial;">
+<h2>PNG to JPG Converter</h2>
+<input type="file" id="upload" accept="image/png">
+<br><br>
+<canvas id="canvas" style="display:none;"></canvas>
+<img id="output" style="max-width:300px;">
+<br><br>
+<button onclick="convert()">Convert</button>
+
+<script>
+let file;
+document.getElementById("upload").addEventListener("change",function(e){
+file=e.target.files[0];
+});
+
+function convert(){
+let reader=new FileReader();
+reader.onload=function(){
+let img=new Image();
+img.onload=function(){
+let canvas=document.getElementById("canvas");
+canvas.width=img.width;
+canvas.height=img.height;
+let ctx=canvas.getContext("2d");
+ctx.fillStyle="#fff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(img,0,0);
+document.getElementById("output").src=canvas.toDataURL("image/jpeg");
+};
+img.src=reader.result;
+};
+reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
