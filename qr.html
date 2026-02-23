@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>QR Code Generator</title>
+<title>QR Code Generator - GET Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <h2>QR Code Tool</h2>
-  <input id="text" placeholder="Enter text">
-  <button onclick="generate()">Generate</button>
-  <br><br>
-  <img id="qr">
-  <script>
-    function generate() {
-      const text = document.getElementById("text").value;
-      document.getElementById("qr").src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + text;
-    }
-  </script>
+<body style="text-align:center;font-family:Arial;">
+<h2>Free QR Code Generator</h2>
+<input type="text" id="text" placeholder="Enter text or URL">
+<button onclick="generateQR()">Generate</button>
+<br><br>
+<img id="qr">
+<script>
+function generateQR(){
+var text=document.getElementById("text").value;
+document.getElementById("qr").src=
+"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(text);
+}
+</script>
 </body>
 </html>
