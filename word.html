@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Word Counter - GET Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center;font-family:Arial;">
+<h2>Word Counter</h2>
+<textarea id="text" rows="6" cols="40" placeholder="Type or paste text"></textarea>
+<br>
+<button onclick="countWords()">Count</button>
+<p id="result"></p>
+<script>
+function countWords(){
+var text=document.getElementById("text").value.trim();
+var words=text.split(/\s+/).filter(Boolean);
+document.getElementById("result").innerHTML=
+"Words: "+words.length+" | Characters: "+text.length;
+}
+</script>
+</body>
+</html>
