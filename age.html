@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ultimate Age Calculator Online - Live Birthday & Zodiac Tool | GET Tools</title>
+<title>Ultimate Advanced Age Calculator - GET Tools</title>
+<meta name="description" content="Calculate exact age in years, months, days, hours, minutes and seconds. Includes zodiac sign, birthday countdown, live counter, share, download and PDF export.">
 
-<meta name="description" content="Calculate your exact age with live seconds counter, zodiac sign, birthday countdown, age graph and multi-language support. 100% free advanced age calculator.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root{
@@ -18,21 +20,18 @@
 --text:#ffffff;
 --glass: blur(15px);
 }
-
 body.dark{
 --bg: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 --card: rgba(0,0,0,0.4);
 --text:#ffffff;
 }
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Poppins;
 background:var(--bg);
 color:var(--text);
 transition:0.5s;
 }
-
 header{
 padding:15px;
 text-align:center;
@@ -40,7 +39,6 @@ font-size:22px;
 font-weight:bold;
 position:relative;
 }
-
 .toggle{
 position:absolute;
 right:20px;
@@ -48,9 +46,8 @@ top:15px;
 cursor:pointer;
 font-size:20px;
 }
-
 .container{
-max-width:750px;
+max-width:800px;
 margin:20px auto;
 background:var(--card);
 backdrop-filter:var(--glass);
@@ -58,33 +55,30 @@ padding:25px;
 border-radius:20px;
 box-shadow:0 15px 40px rgba(0,0,0,0.3);
 }
-
-input,select,button{
+input,button,select{
 padding:10px;
 margin:5px;
 border-radius:8px;
 border:none;
 }
-
 button{
 background:#ffffff;
 color:#333;
 cursor:pointer;
 font-weight:bold;
 }
-
-canvas{
+.result-box{
 margin-top:20px;
+padding:15px;
+background:rgba(255,255,255,0.2);
+border-radius:12px;
 }
-
 .ad-box{
 margin:30px 0;
 padding:20px;
 border:2px dashed rgba(255,255,255,0.5);
 text-align:center;
-font-size:14px;
 }
-
 footer{
 text-align:center;
 padding:20px;
@@ -102,19 +96,30 @@ GET Tools - Ultimate Age Calculator
 
 <div class="container">
 
-<select id="lang" onchange="changeLang()">
-<option value="en">English</option>
-<option value="hi">Hindi</option>
-<option value="bn">Bengali</option>
+<select id="lang">
+<option>English</option>
+<option>Hindi</option>
+<option>Bengali</option>
 </select>
 
 <br>
 
+<label>Date of Birth</label>
 <input type="date" id="dob">
-<button onclick="startLive()">Calculate</button>
 
-<h3 id="result"></h3>
-<p id="details"></p>
+<label>Calculate Till (Optional)</label>
+<input type="date" id="tillDate">
+
+<br>
+<button onclick="startLive()">Calculate Age</button>
+
+<div class="result-box" id="resultBox" style="display:none;">
+<div id="result"></div>
+<button onclick="shareResult()">Share</button>
+<button onclick="downloadTXT()">Download TXT</button>
+<button onclick="downloadPDF()">Download PDF</button>
+</div>
+
 <p id="zodiac"></p>
 <p id="birthday"></p>
 
@@ -133,7 +138,7 @@ AdSense Responsive Ad Space
 <script>
 
 let interval;
-let currentLang="en";
+let birthDate;
 
 function toggleMode(){
 document.body.classList.toggle("dark");
@@ -142,30 +147,66 @@ document.body.classList.toggle("dark");
 function startLive(){
 clearInterval(interval);
 calculateAge();
-interval=setInterval(calculateAge,1000);
+interval=setInterval(updateLiveSeconds,1000);
 }
 
 function calculateAge(){
-let dob=new Date(document.getElementById("dob").value);
-let now=new Date();
-let diff=now-dob;
 
-let seconds=Math.floor(diff/1000);
-let minutes=Math.floor(seconds/60);
-let hours=Math.floor(minutes/60);
-let days=Math.floor(hours/24);
-let years=Math.floor(days/365.25);
+const dobInput=document.getElementById("dob").value;
+if(!dobInput){
+alert("Please select Date of Birth");
+return;
+}
+
+birthDate=new Date(dobInput);
+const tillInput=document.getElementById("tillDate").value;
+const now=tillInput?new Date(tillInput):new Date();
+
+if(birthDate>now){
+alert("DOB cannot be future date");
+return;
+}
+
+const diff=now-birthDate;
+
+const seconds=Math.floor(diff/1000);
+const minutes=Math.floor(seconds/60);
+const hours=Math.floor(minutes/60);
+const days=Math.floor(hours/24);
+
+let years=now.getFullYear()-birthDate.getFullYear();
+let months=now.getMonth()-birthDate.getMonth();
+let dateDiff=now.getDate()-birthDate.getDate();
+
+if(dateDiff<0){
+months--;
+dateDiff+=new Date(now.getFullYear(),now.getMonth(),0).getDate();
+}
+if(months<0){
+years--;
+months+=12;
+}
 
 document.getElementById("result").innerHTML=
-`${years} Years ${days%365} Days`;
+`<h3>Your Exact Age</h3>
+<p>${years} Years, ${months} Months, ${dateDiff} Days</p>
+<p>Total Days: ${days}</p>
+<p>Total Hours: ${hours}</p>
+<p>Total Minutes: ${minutes}</p>
+<p>Total Seconds: <span id="liveSec">${seconds}</span></p>`;
 
-document.getElementById("details").innerHTML=
-`${hours} Hours | ${minutes} Minutes | ${seconds} Seconds`;
+document.getElementById("resultBox").style.display="block";
 
-detectZodiac(dob);
-birthdayCountdown(dob);
+detectZodiac(birthDate);
+birthdayCountdown(birthDate);
 drawChart(years,days);
+}
 
+function updateLiveSeconds(){
+if(!birthDate) return;
+let now=new Date();
+let seconds=Math.floor((now-birthDate)/1000);
+document.getElementById("liveSec").innerText=seconds;
 }
 
 function detectZodiac(d){
@@ -173,7 +214,7 @@ let m=d.getMonth()+1;
 let sign="Pisces ♓";
 if((m==3)||(m==4)) sign="Aries ♈";
 if((m==5)||(m==6)) sign="Gemini ♊";
-document.getElementById("zodiac").innerHTML="Zodiac: "+sign;
+document.getElementById("zodiac").innerHTML="Zodiac Sign: "+sign;
 }
 
 function birthdayCountdown(d){
@@ -189,8 +230,10 @@ confetti();
 }
 }
 
+let chartInstance;
 function drawChart(years,days){
-new Chart(document.getElementById("ageChart"),{
+if(chartInstance) chartInstance.destroy();
+chartInstance=new Chart(document.getElementById("ageChart"),{
 type:'bar',
 data:{
 labels:['Years','Days Lived'],
@@ -202,9 +245,29 @@ data:[years,days]
 });
 }
 
-function changeLang(){
-currentLang=document.getElementById("lang").value;
-alert("Language Changed (Demo Version)");
+function shareResult(){
+const text=document.getElementById("result").innerText;
+if(navigator.share){
+navigator.share({title:"My Age Details",text:text});
+}else{
+alert("Sharing not supported.");
+}
+}
+
+function downloadTXT(){
+const text=document.getElementById("result").innerText;
+const blob=new Blob([text],{type:"text/plain"});
+const link=document.createElement("a");
+link.href=URL.createObjectURL(blob);
+link.download="age-result.txt";
+link.click();
+}
+
+function downloadPDF(){
+const { jsPDF }=window.jspdf;
+const doc=new jsPDF();
+doc.text(document.getElementById("result").innerText,10,10);
+doc.save("age-result.pdf");
 }
 
 </script>
