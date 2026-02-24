@@ -3,57 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free QR Code Generator Online | GET Tools</title>
-<meta name="description" content="Generate high quality QR codes instantly. 100% free, secure and no registration required.">
+<title>Premium QR Generator | GET Tools</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+
+:root{
+  --bg:#F8FAFC;
+  --card:#ffffff;
+  --text:#1E293B;
+}
+
+body.dark{
+  --bg:#0F172A;
+  --card:#1E293B;
+  --text:#ffffff;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:0.3s;
+}
+
+.container{
+  background:var(--card);
+  transition:0.3s;
+}
+
+#qrCanvas{
+  margin-top:20px;
+  text-align:center;
+  animation:fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.9);}
+  to{opacity:1; transform:scale(1);}
+}
+
+.toggle-btn{
+  float:right;
+  cursor:pointer;
+  font-size:14px;
+  padding:5px 10px;
+  border-radius:20px;
+  background:#2563EB;
+  color:white;
+}
+
+.history-item{
+  font-size:12px;
+  padding:6px;
+  background:#e2e8f0;
+  margin-bottom:5px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+body.dark .history-item{
+  background:#334155;
+}
+
+</style>
 </head>
 
 <body>
 
-<header>GET Tools - Free QR Code Generator</header>
+<header>
+GET Tools - Ultimate QR Generator
+<span class="toggle-btn" onclick="toggleDark()">Dark Mode</span>
+</header>
 
 <div class="container">
 
-<h1>Free QR Code Generator</h1>
+<h1>Advanced QR Generator</h1>
 
-<p>This free online QR code generator allows you to create high-quality QR codes instantly. You can generate QR codes for URLs, text, phone numbers and more. No signup required.</p>
+<select id="qrType">
+  <option value="text">Text</option>
+  <option value="url">URL</option>
+  <option value="phone">Phone</option>
+  <option value="sms">SMS</option>
+  <option value="payment">UPI Payment</option>
+</select>
 
-<input type="text" id="text" placeholder="Enter text or URL">
-<button onclick="generateQR()">Generate QR</button>
+<div id="mainInput">
+  <input type="text" id="textInput" placeholder="Enter value">
+</div>
 
-<br><br>
-<img id="qr">
+<div id="paymentFields" style="display:none;">
+  <input type="text" id="upiId" placeholder="UPI ID">
+  <input type="number" id="amount" placeholder="Amount">
+  <input type="text" id="note" placeholder="Note">
+</div>
 
-<h2>How to Use</h2>
-<p>Enter your text or website URL above and click the Generate button. Your QR code will be created instantly.</p>
+<select id="qrSize">
+  <option value="200">200x200</option>
+  <option value="300">300x300</option>
+  <option value="400">400x400</option>
+</select>
 
-<h2>FAQ</h2>
-<p><b>Is this tool free?</b><br>Yes, this QR code generator is completely free.</p>
+<input type="color" id="qrColor" value="#000000">
+<input type="file" id="logoInput" accept="image/*">
 
-<p><b>Do I need to register?</b><br>No registration is required.</p>
+<button onclick="downloadQR()">Download</button>
+
+<div id="qrCanvas"></div>
+
+<h3>QR History</h3>
+<div id="historyBox"></div>
 
 </div>
 
-<footer>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms & Conditions</a>
-  </div>
-
-  <p style="margin-top:10px;">
-© 2026 GET Tools - Gopinath Enterprise Technology.</p>
-  <p>All Rights Reserved.</p>
-</footer>
-
 <script>
-function generateQR(){
-var text=document.getElementById("text").value;
-document.getElementById("qr").src=
-"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(text);
+
+let qr;
+let history = [];
+
+document.getElementById("qrType").addEventListener("change", updateForm);
+document.querySelectorAll("input,select").forEach(el=>{
+  el.addEventListener("input", generateQR);
+});
+
+function updateForm(){
+  const type = qrType.value;
+  paymentFields.style.display = (type==="payment")?"block":"none";
+  mainInput.style.display = (type==="payment")?"none":"block";
+  generateQR();
 }
+
+function generateQR(){
+
+  const type = qrType.value;
+  const size = parseInt(qrSize.value);
+  const color = qrColor.value;
+  let data="";
+
+  if(type==="payment"){
+    if(!upiId.value || !amount.value) return;
+    data=`upi://pay?pa=${upiId.value}&am=${amount.value}&tn=${encodeURIComponent(note.value)}`;
+  }else{
+    if(!textInput.value) return;
+    if(type==="phone") data="tel:"+textInput.value;
+    else if(type==="sms") data="sms:"+textInput.value;
+    else data=textInput.value;
+  }
+
+  qrCanvas.innerHTML="";
+
+  qr=new QRCode(qrCanvas,{
+    text:data,
+    width:size,
+    height:size,
+    colorDark:color,
+    colorLight:"#ffffff"
+  });
+
+  setTimeout(()=>addLogoCenter(),400);
+
+  saveHistory(data);
+}
+
+function addLogoCenter(){
+  const file=logoInput.files[0];
+  if(!file) return;
+
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.src=e.target.result;
+    img.onload=function(){
+      const canvas=qrCanvas.querySelector("canvas");
+      const ctx=canvas.getContext("2d");
+      const logoSize=canvas.width/4;
+      ctx.drawImage(img,
+        (canvas.width-logoSize)/2,
+        (canvas.height-logoSize)/2,
+        logoSize,logoSize);
+    }
+  }
+  reader.readAsDataURL(file);
+}
+
+function downloadQR(){
+  const canvas=qrCanvas.querySelector("canvas");
+  if(!canvas) return alert("Generate QR first");
+  const link=document.createElement("a");
+  link.download="qr.png";
+  link.href=canvas.toDataURL();
+  link.click();
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+function saveHistory(data){
+  if(history.includes(data)) return;
+  history.unshift(data);
+  if(history.length>5) history.pop();
+  renderHistory();
+}
+
+function renderHistory(){
+  historyBox.innerHTML="";
+  history.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="history-item";
+    div.innerText=item.substring(0,40);
+    div.onclick=()=>{
+      textInput.value=item;
+      qrType.value="text";
+      updateForm();
+    };
+    historyBox.appendChild(div);
+  });
+}
+
+updateForm();
+
 </script>
 
 </body>
