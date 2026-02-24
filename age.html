@@ -107,6 +107,8 @@ GET Tools - Ultimate Age Calculator
 <label>Date of Birth</label>
 <input type="date" id="dob">
 
+<br>
+
 <label>Calculate Till (Optional)</label>
 <input type="date" id="tillDate">
 
@@ -132,7 +134,17 @@ AdSense Responsive Ad Space
 </div>
 
 <footer>
-© 2026 GET Tools - Gopinath Enterprise Technology
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms & Conditions</a>
+  </div>
+
+  <p style="margin-top:10px;">
+© 2026 GET Tools - Gopinath Enterprise Technology.</p>
+  <p>All Rights Reserved.</p>
 </footer>
 
 <script>
@@ -190,10 +202,10 @@ months+=12;
 document.getElementById("result").innerHTML=
 `<h3>Your Exact Age</h3>
 <p>${years} Years, ${months} Months, ${dateDiff} Days</p>
-<p>Total Days: ${days}</p>
-<p>Total Hours: ${hours}</p>
-<p>Total Minutes: ${minutes}</p>
-<p>Total Seconds: <span id="liveSec">${seconds}</span></p>`;
+<p>Total Days: ${days} Days</p>
+<p>Total Hours: ${hours} Hours</p>
+<p>Total Minutes: ${minutes} Minutes</p>
+<p>Total Seconds: <span id="liveSec">${seconds} Seconds</span></p>`;
 
 document.getElementById("resultBox").style.display="block";
 
