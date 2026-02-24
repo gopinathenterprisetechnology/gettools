@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Advanced Image Compressor Online - Bulk & Drag Drop | GET Tools</title>
-<meta name="description" content="Compress multiple images online. Drag and drop bulk image compressor with exact target size KB or MB. Free JPG PNG WEBP compression tool.">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Professional Image Tool - GET Tools</title>
 
 <style>
 :root{
 --bg:#f4f6ff;
 --card:#fff;
 --text:#222;
---primary:#667eea;
+--primary:#5661b3;
 }
 body.dark{
 --bg:#121212;
@@ -23,82 +18,81 @@ body.dark{
 --primary:#8b5cf6;
 }
 body{
-margin:0;
-font-family:Poppins;
+font-family:Arial;
 background:var(--bg);
 color:var(--text);
-transition:.4s;
+margin:0;
+padding:20px;
+text-align:center;
+transition:.3s;
 }
 header{
-background:var(--primary);
-color:white;
-padding:15px;
-text-align:center;
-font-size:20px;
-position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
 }
 .toggle{
-position:absolute;
-right:20px;
-top:15px;
 cursor:pointer;
+font-size:18px;
 }
-.container{
-max-width:1000px;
-margin:20px auto;
-background:var(--card);
-padding:25px;
+.upload-box{
+border:3px dashed #8a8ad4;
+padding:60px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-.drop-zone{
-border:2px dashed var(--primary);
-padding:40px;
-text-align:center;
-border-radius:10px;
+background:var(--card);
 cursor:pointer;
-margin-bottom:15px;
-}
-.drop-zone.dragover{
-background:rgba(0,0,0,0.05);
-}
-input,select,button{
-padding:8px;
-margin:6px;
-border-radius:6px;
-}
-button{
-background:var(--primary);
-color:white;
-border:none;
-cursor:pointer;
-}
-.preview-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-gap:15px;
-margin-top:20px;
 }
 .card{
-background:var(--bg);
-padding:10px;
+max-width:400px;
+margin:20px auto;
+background:#49799c;
+color:white;
 border-radius:10px;
-text-align:center;
+display:none;
+overflow:hidden;
 }
 .card img{
 max-width:100%;
-height:auto;
 }
-.ad-box{
-margin:30px 0;
-padding:20px;
-border:2px dashed #ccc;
-text-align:center;
+.info{
+padding:15px;
+text-align:left;
 }
-footer{
-text-align:center;
-padding:20px;
-font-size:14px;
+button{
+padding:8px 15px;
+border:none;
+background:var(--primary);
+color:white;
+border-radius:6px;
+cursor:pointer;
+margin:5px;
+}
+.controls{
+margin-top:20px;
+}
+.compare-wrapper{
+position:relative;
+max-width:400px;
+margin:auto;
+overflow:hidden;
+display:none;
+}
+#afterImg{
+position:absolute;
+top:0;
+left:0;
+width:50%;
+overflow:hidden;
+}
+.slider{
+position:absolute;
+top:0;
+left:50%;
+width:3px;
+height:100%;
+background:red;
+cursor:ew-resize;
 }
 </style>
 </head>
@@ -106,111 +100,97 @@ font-size:14px;
 <body>
 
 <header>
-GET Tools - Bulk Image Compressor
-<span class="toggle" onclick="toggleMode()">🌙</span>
+<h2>GET Tools - Image Pro Editor</h2>
+<div class="toggle" onclick="toggleMode()">🌙</div>
 </header>
 
-<div class="container">
-
-<h2>Drag & Drop Multiple Images</h2>
-
-<div class="drop-zone" id="dropZone">
-Drag & Drop Images Here or Click to Upload
-<input type="file" id="upload" accept="image/*" multiple hidden>
+<div class="upload-box" id="dropZone">
+Drag & Drop or Click to Upload
+<input type="file" id="fileInput" accept="image/*" hidden>
 </div>
 
-<label>Target Size</label>
-<input type="number" id="targetSize">
-<select id="unit">
-<option value="kb">KB</option>
-<option value="mb">MB</option>
-</select>
-
-<br>
-
-<label>Output Format</label>
-<select id="format">
-<option value="image/jpeg">JPG</option>
-<option value="image/png">PNG</option>
-<option value="image/webp">WEBP</option>
-</select>
-
-<br>
-
-<button onclick="compressAll()">Compress All Images</button>
-
-<div class="preview-grid" id="previewGrid"></div>
-
-<div class="ad-box">
-AdSense Responsive Ad Unit
+<div class="card" id="card">
+<img id="preview">
+<div class="info">
+<p id="fileName"></p>
+<p>Size: <span id="fileSize"></span></p>
+<p>Width: <span id="imgWidth"></span></p>
+<p>Height: <span id="imgHeight"></span></p>
+</div>
 </div>
 
-<hr>
-
-<h3>Free Bulk Image Compressor Tool</h3>
-<p>
-Compress multiple images at once using GET Tools advanced bulk image compressor. 
-Drag and drop JPG, PNG, WEBP images and reduce file size to exact KB or MB. 
-Fast, secure and 100% free online compression tool.
-</p>
-
+<div class="controls">
+Size: <input type="number" id="targetSize" value="100"> KB
+<button onclick="compress()">Compress</button>
+<button onclick="download()">Download</button>
 </div>
 
-<footer>
-© 2026 GET Tools - Gopinath Enterprise Technology
-</footer>
+<div class="compare-wrapper" id="compareBox">
+<img id="beforeImg">
+<img id="afterImg">
+<div class="slider" id="slider"></div>
+</div>
 
 <script>
 
-let files=[];
+let originalFile, compressedData;
 
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
 const dropZone=document.getElementById("dropZone");
-const upload=document.getElementById("upload");
+const fileInput=document.getElementById("fileInput");
 
-dropZone.addEventListener("click",()=>upload.click());
+dropZone.onclick=()=>fileInput.click();
 
-dropZone.addEventListener("dragover",(e)=>{
+dropZone.addEventListener("dragover",e=>{
 e.preventDefault();
-dropZone.classList.add("dragover");
 });
 
-dropZone.addEventListener("dragleave",()=>{
-dropZone.classList.remove("dragover");
-});
-
-dropZone.addEventListener("drop",(e)=>{
+dropZone.addEventListener("drop",e=>{
 e.preventDefault();
-dropZone.classList.remove("dragover");
-files=[...e.dataTransfer.files];
+fileInput.files=e.dataTransfer.files;
+loadImage(e.dataTransfer.files[0]);
 });
 
-upload.addEventListener("change",(e)=>{
-files=[...e.target.files];
+fileInput.addEventListener("change",e=>{
+loadImage(e.target.files[0]);
 });
 
-function compressAll(){
-
-if(files.length===0){
-alert("Upload images first");
-return;
-}
-
-const target=document.getElementById("targetSize").value;
-const unit=document.getElementById("unit").value;
-const format=document.getElementById("format").value;
-const maxBytes=unit==="kb"?target*1024:target*1024*1024;
-
-const grid=document.getElementById("previewGrid");
-grid.innerHTML="";
-
-files.forEach(file=>{
+function loadImage(file){
+if(!file) return;
+originalFile=file;
 
 let reader=new FileReader();
+reader.onload=function(e){
 
+let img=new Image();
+img.src=e.target.result;
+
+img.onload=function(){
+
+document.getElementById("preview").src=e.target.result;
+document.getElementById("beforeImg").src=e.target.result;
+
+document.getElementById("fileName").innerText=file.name;
+document.getElementById("fileSize").innerText=(file.size/1024).toFixed(2)+" KB";
+document.getElementById("imgWidth").innerText=img.width+" PX";
+document.getElementById("imgHeight").innerText=img.height+" PX";
+
+document.getElementById("card").style.display="block";
+};
+
+};
+reader.readAsDataURL(file);
+}
+
+function compress(){
+
+let targetKB=document.getElementById("targetSize").value;
+let maxBytes=targetKB*1024;
+
+let reader=new FileReader();
 reader.onload=function(e){
 
 let img=new Image();
@@ -221,45 +201,58 @@ img.onload=function(){
 let canvas=document.createElement("canvas");
 canvas.width=img.width;
 canvas.height=img.height;
+
 let ctx=canvas.getContext("2d");
 ctx.drawImage(img,0,0);
 
-let low=0.1,high=1,mid,result;
+let low=0.1,high=1,mid;
 
 for(let i=0;i<20;i++){
 mid=(low+high)/2;
-let data=canvas.toDataURL(format,mid);
-let size=Math.round((data.length*3)/4);
+let data=canvas.toDataURL("image/jpeg",mid);
+let size=(data.length*3)/4;
 if(size>maxBytes){
 high=mid;
 }else{
 low=mid;
-result=data;
+compressedData=data;
 }
 }
 
-let card=document.createElement("div");
-card.className="card";
-
-card.innerHTML=`
-<img src="${result}">
-<p>Original: ${(file.size/1024).toFixed(1)} KB</p>
-<a href="${result}" download="compressed-${file.name}">Download</a>
-`;
-
-grid.appendChild(card);
+document.getElementById("afterImg").src=compressedData;
+document.getElementById("compareBox").style.display="block";
 
 };
-
 };
+reader.readAsDataURL(originalFile);
+}
 
-reader.readAsDataURL(file);
+function download(){
+if(!compressedData){
+alert("Compress first");
+return;
+}
+let a=document.createElement("a");
+a.href=compressedData;
+a.download="compressed.jpg";
+a.click();
+}
 
+/* Compare Slider */
+const slider=document.getElementById("slider");
+slider.addEventListener("mousedown",function(e){
+document.onmousemove=function(e){
+let rect=slider.parentElement.getBoundingClientRect();
+let x=e.clientX-rect.left;
+slider.style.left=x+"px";
+document.getElementById("afterImg").style.width=x+"px";
+};
+document.onmouseup=function(){
+document.onmousemove=null;
+};
 });
-
-}
 
 </script>
 
 </body>
-  </html>
+</html>
