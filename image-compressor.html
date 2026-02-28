@@ -223,39 +223,7 @@ fileInput.value="";
 }
 
 function resizeImage(){
-
-let width=document.getElementById("resizeWidth").value;
-let height=document.getElementById("resizeHeight").value;
-let dpi=document.getElementById("dpi").value;
-
-if(currentUnit==="mm"){
-width=(width/25.4)*dpi;
-height=(height/25.4)*dpi;
-}
-if(currentUnit==="cm"){
-width=(width/2.54)*dpi;
-height=(height/2.54)*dpi;
-}
-
-let img=new Image();
-img.src=document.getElementById("preview").src;
-
-img.onload=function(){
-
-let canvas=document.createElement("canvas");
-canvas.width=width;
-canvas.height=height;
-
-let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0,width,height);
-
-document.getElementById("preview").src=canvas.toDataURL("image/jpeg",1);
-imgWidthPx=width;
-imgHeightPx=height;
-
-updateDimensions();
-};
-
+window.open("resize.html?unit="+currentUnit+"&img="+encodeURIComponent(document.getElementById("preview").src),"_blank");
 }
 
 function cropImage(){
