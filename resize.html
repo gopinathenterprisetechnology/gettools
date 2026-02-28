@@ -63,10 +63,13 @@ Maintain Aspect Ratio
 
 </div>
 
-<script>
-
-let unit = localStorage.getItem("resizeUnit");
+<script>let unit = localStorage.getItem("resizeUnit");
 let imgSrc = localStorage.getItem("resizeImageData");
+
+if(!imgSrc){
+alert("No image found. Please upload again.");
+window.close();
+}
 
 let preview=document.getElementById("preview");
 preview.src=imgSrc;
@@ -74,47 +77,66 @@ preview.src=imgSrc;
 let originalWidth, originalHeight;
 
 preview.onload=function(){
-originalWidth=preview.naturalWidth;
-originalHeight=preview.naturalHeight;
 
+originalWidth = preview.naturalWidth;
+originalHeight = preview.naturalHeight;
+
+if(!originalWidth || !originalHeight){
+alert("Image dimension not found");
+return;
+}
+
+// PIXEL MODE
 if(unit==="px"){
-document.getElementById("width").value=originalWidth;
-document.getElementById("height").value=originalHeight;
+document.getElementById("width").value = originalWidth;
+document.getElementById("height").value = originalHeight;
 }
-else if(unit==="mm"){
+
+// MM MODE
+if(unit==="mm"){
 document.getElementById("dpiBox").style.display="block";
 let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*25.4).toFixed(1);
-document.getElementById("height").value=((originalHeight/dpi)*25.4).toFixed(1);
+document.getElementById("width").value = ((originalWidth/dpi)*25.4).toFixed(2);
+document.getElementById("height").value = ((originalHeight/dpi)*25.4).toFixed(2);
 }
-else if(unit==="cm"){
+
+// CM MODE
+if(unit==="cm"){
 document.getElementById("dpiBox").style.display="block";
 let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*2.54).toFixed(2);
-document.getElementById("height").value=((originalHeight/dpi)*2.54).toFixed(2);
+document.getElementById("width").value = ((originalWidth/dpi)*2.54).toFixed(2);
+document.getElementById("height").value = ((originalHeight/dpi)*2.54).toFixed(2);
 }
+
 };
 
+
+// Maintain Aspect Ratio
 document.getElementById("width").addEventListener("input",function(){
-if(document.getElementById("ratio").checked){
-let ratio=originalHeight/originalWidth;
-document.getElementById("height").value=(this.value*ratio).toFixed(2);
-}
+
+if(!document.getElementById("ratio").checked) return;
+
+let ratio = originalHeight / originalWidth;
+document.getElementById("height").value = (this.value * ratio).toFixed(2);
+
 });
 
 document.getElementById("height").addEventListener("input",function(){
-if(document.getElementById("ratio").checked){
-let ratio=originalWidth/originalHeight;
-document.getElementById("width").value=(this.value*ratio).toFixed(2);
-}
+
+if(!document.getElementById("ratio").checked) return;
+
+let ratio = originalWidth / originalHeight;
+document.getElementById("width").value = (this.value * ratio).toFixed(2);
+
 });
 
 function applyResize(){
 
 let w=document.getElementById("width").value;
 let h=document.getElementById("height").value;
-let dpi=document.getElementById("dpi").value;
+let dpi=document.getElementById("dpi").value || 300;
 
+// Convert if needed
 if(unit==="mm"){
 w=(w/25.4)*dpi;
 h=(h/25.4)*dpi;
@@ -124,6 +146,9 @@ w=(w/2.54)*dpi;
 h=(h/2.54)*dpi;
 }
 
+w=parseInt(w);
+h=parseInt(h);
+
 let canvas=document.createElement("canvas");
 canvas.width=w;
 canvas.height=h;
@@ -132,8 +157,12 @@ let ctx=canvas.getContext("2d");
 ctx.drawImage(preview,0,0,w,h);
 
 preview.src=canvas.toDataURL("image/jpeg",1);
+
+// Update original values after resize
 originalWidth=w;
 originalHeight=h;
+
+alert("Image Resized Successfully!");
 }
 
 </script>
