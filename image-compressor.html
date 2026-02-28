@@ -44,7 +44,7 @@ cursor:pointer;
 }
 
 .card{
-width:320px;
+width:300px;
 margin:auto;
 background:#49799c;
 color:white;
@@ -86,7 +86,6 @@ top:10px;
 right:10px;
 cursor:pointer;
 font-weight:bold;
-color:black;
 }
 
 .info{
@@ -105,14 +104,6 @@ border:none;
 padding:10px 20px;
 border-radius:6px;
 cursor:pointer;
-}
-
-.resize-input{
-margin-top:10px;
-}
-
-.resize-input input{
-width:70px;
 }
 </style>
 </head>
@@ -134,7 +125,8 @@ Click or Drag Image Here
 
 <div class="preview-box">
 <div class="top-btn">
-<button onclick="resizeImage()">Resize</button>
+<button onclick="resizeImage()">Resize Pixel</button>
+<button onclick="cropImage()">Crop</button>
 </div>
 <div class="close-btn" onclick="removeImage()">✖</div>
 <img id="preview">
@@ -145,16 +137,8 @@ Click or Drag Image Here
 <p><strong>Size:</strong> <span id="fileSize"></span></p>
 <p><strong>Width:</strong> <span id="imgWidth"></span></p>
 <p><strong>Height:</strong> <span id="imgHeight"></span></p>
-
-<div class="resize-input">
-Width: <input type="number" id="newWidth">
-Height: <input type="number" id="newHeight">
-<label>
-<input type="checkbox" id="ratioCheck" checked> Maintain Ratio
-</label>
 </div>
 
-</div>
 </div>
 
 <div class="controls">
@@ -162,8 +146,92 @@ Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
 <button class="reduce-btn" onclick="compress()">Reduce Size</button>
 </div>
 
+let resizeUnit="px";
+
+function resizeImage(){
+if(!originalFile){
+alert("Upload image first");
+return;
+}
+document.getElementById("resizeModal").style.display="flex";
+document.getElementById("resizeWidth").value=imgWidthPx;
+document.getElementById("resizeHeight").value=imgHeightPx;
+}
+
+function closeResize(){
+document.getElementById("resizeModal").style.display="none";
+}
+
+function setResizeUnit(unit){
+resizeUnit=unit;
+
+document.getElementById("unitLabelW").innerText=unit.toUpperCase();
+document.getElementById("unitLabelH").innerText=unit.toUpperCase();
+
+document.getElementById("dpiSection").style.display=
+(unit==="px")?"none":"block";
+}
+
+function applyResize(){
+
+let w=parseFloat(document.getElementById("resizeWidth").value);
+let h=parseFloat(document.getElementById("resizeHeight").value);
+let dpi=parseFloat(document.getElementById("dpiInput").value);
+
+if(resizeUnit==="mm"){
+w=(w/25.4)*dpi;
+h=(h/25.4)*dpi;
+}
+
+if(resizeUnit==="cm"){
+w=(w/2.54)*dpi;
+h=(h/2.54)*dpi;
+}
+
+let reader=new FileReader();
+reader.onload=function(e){
+
+let img=new Image();
+img.src=e.target.result;
+
+img.onload=function(){
+
+let canvas=document.createElement("canvas");
+canvas.width=w;
+canvas.height=h;
+
+let ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0,w,h);
+
+let resized=canvas.toDataURL("image/jpeg",0.95);
+
+document.getElementById("preview").src=resized;
+
+imgWidthPx=w;
+imgHeightPx=h;
+
+updateDimensions();
+
+closeResize();
+};
+};
+reader.readAsDataURL(originalFile);
+}
+
+/* Maintain Aspect Ratio */
+document.getElementById("resizeWidth").addEventListener("input",function(){
+if(document.getElementById("lockRatio").checked){
+let ratio=imgHeightPx/imgWidthPx;
+document.getElementById("resizeHeight").value=
+(this.value*ratio).toFixed(0);
+}
+});
+
+  
 <script>
 
+
+  
 let originalFile;
 let currentUnit="px";
 let imgWidthPx, imgHeightPx;
@@ -192,9 +260,6 @@ document.getElementById("fileName").innerText=file.name;
 document.getElementById("fileSize").innerText=(file.size/1024).toFixed(2)+" KB";
 
 updateDimensions();
-
-document.getElementById("newWidth").value=imgWidthPx;
-document.getElementById("newHeight").value=imgHeightPx;
 
 document.getElementById("card").style.display="block";
 };
@@ -231,19 +296,23 @@ document.getElementById("card").style.display="none";
 fileInput.value="";
 }
 
-document.getElementById("newWidth").addEventListener("input",function(){
-if(document.getElementById("ratioCheck").checked){
-let ratio=imgHeightPx/imgWidthPx;
-document.getElementById("newHeight").value=Math.round(this.value*ratio);
-}
-});
-
 function resizeImage(){
+alert("Resize feature UI can be expanded here");
+}
 
-let newWidth=parseInt(document.getElementById("newWidth").value);
-let newHeight=parseInt(document.getElementById("newHeight").value);
+function cropImage(){
+alert("Crop feature can be integrated with canvas crop system");
+}
 
-if(!newWidth || !newHeight) return;
+function compress(){
+
+if(!originalFile){
+alert("Upload image first");
+return;
+}
+
+let targetKB=document.getElementById("targetSize").value;
+let maxBytes=targetKB*1024;
 
 let reader=new FileReader();
 reader.onload=function(e){
@@ -254,41 +323,10 @@ img.src=e.target.result;
 img.onload=function(){
 
 let canvas=document.createElement("canvas");
-canvas.width=newWidth;
-canvas.height=newHeight;
+canvas.width=img.width;
+canvas.height=img.height;
 let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0,newWidth,newHeight);
-
-let resized=canvas.toDataURL("image/jpeg",0.95);
-
-document.getElementById("preview").src=resized;
-
-imgWidthPx=newWidth;
-imgHeightPx=newHeight;
-
-updateDimensions();
-};
-};
-reader.readAsDataURL(originalFile);
-}
-
-function compress(){
-
-let targetKB=document.getElementById("targetSize").value;
-let maxBytes=targetKB*1024;
-
-let img=document.getElementById("preview");
-let canvas=document.createElement("canvas");
-canvas.width=imgWidthPx;
-canvas.height=imgHeightPx;
-let ctx=canvas.getContext("2d");
-
-let temp=new Image();
-temp.src=img.src;
-
-temp.onload=function(){
-
-ctx.drawImage(temp,0,0);
+ctx.drawImage(img,0,0);
 
 let quality=0.9;
 let compressed=canvas.toDataURL("image/jpeg",quality);
@@ -300,8 +338,51 @@ compressed=canvas.toDataURL("image/jpeg",quality);
 
 document.getElementById("preview").src=compressed;
 };
+};
+reader.readAsDataURL(originalFile);
 }
 
 </script>
+<!-- Resize Modal -->
+<div id="resizeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;">
+<div style="background:#fff;padding:25px;border-radius:10px;width:350px;text-align:center;position:relative;">
+
+<h3>Resize Image In</h3>
+
+<div style="margin-bottom:15px;">
+<button onclick="setResizeUnit('px')" id="btnPx">Pixels</button>
+<button onclick="setResizeUnit('mm')" id="btnMm">MM (Millimeter)</button>
+<button onclick="setResizeUnit('cm')" id="btnCm">CM (Centimeter)</button>
+</div>
+
+<p style="font-size:13px;color:#555;">
+Please enter the width and height of the image you wish to resize
+</p>
+
+<label>
+<input type="checkbox" id="lockRatio" checked> Maintain Aspect Ratio
+</label>
+
+<div id="dpiSection" style="margin-top:10px;">
+DPI: <input type="number" id="dpiInput" value="300" style="width:60px;">
+</div>
+
+<div style="margin-top:15px;">
+Width:
+<input type="number" id="resizeWidth" style="width:70px;">
+<span id="unitLabelW">PX</span>
+
+Height:
+<input type="number" id="resizeHeight" style="width:70px;">
+<span id="unitLabelH">PX</span>
+</div>
+
+<div style="margin-top:20px;">
+<button onclick="applyResize()">Resize Image</button>
+<button onclick="closeResize()" style="background:#d6336c;color:white;">Cancel</button>
+</div>
+
+</div>
+</div>
 </body>
 </html>
