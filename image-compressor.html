@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -223,7 +223,16 @@ fileInput.value="";
 }
 
 function resizeImage(){
-window.open("resize.html?unit="+currentUnit+"&img="+encodeURIComponent(document.getElementById("preview").src),"_blank");
+
+if(!document.getElementById("preview").src){
+alert("Upload image first");
+return;
+}
+
+localStorage.setItem("resizeImageData", document.getElementById("preview").src);
+localStorage.setItem("resizeUnit", currentUnit);
+
+window.open("resize.html","_blank");
 }
 
 function cropImage(){
