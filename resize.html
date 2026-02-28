@@ -72,27 +72,21 @@ Maintain Aspect Ratio
 
 <script>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+let preview = document.getElementById("preview");
+let widthInput = document.getElementById("width");
+let heightInput = document.getElementById("height");
+let dpiBox = document.getElementById("dpiBox");
+let dpiInput = document.getElementById("dpi");
+
 let unit = localStorage.getItem("resizeUnit");
 let imgSrc = localStorage.getItem("resizeImageData");
 
 if(!imgSrc){
 alert("No image found. Upload again.");
-window.close();
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-let preview = document.getElementById("preview");
-let imgSrc = localStorage.getItem("resizeImageData");
-let unit = localStorage.getItem("resizeUnit");
-
-if(!preview){
-console.error("Preview image tag not found");
-return;
-}
-
-if(!imgSrc){
-alert("Image not found. Please upload again.");
 return;
 }
 
@@ -105,89 +99,50 @@ preview.onload = function(){
 originalWidth = preview.naturalWidth;
 originalHeight = preview.naturalHeight;
 
-if(!originalWidth || !originalHeight){
+if(!originalWidth){
 alert("Image dimension not detected");
 return;
 }
 
-// PX
 if(unit==="px"){
-document.getElementById("width").value = originalWidth;
-document.getElementById("height").value = originalHeight;
-}
-
-// MM
-if(unit==="mm"){
-document.getElementById("dpiBox").style.display="block";
-let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*25.4).toFixed(2);
-document.getElementById("height").value=((originalHeight/dpi)*25.4).toFixed(2);
-}
-
-// CM
-if(unit==="cm"){
-document.getElementById("dpiBox").style.display="block";
-let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*2.54).toFixed(2);
-document.getElementById("height").value=((originalHeight/dpi)*2.54).toFixed(2);
-}
-
-};
-
-});
-
-let originalWidth, originalHeight;
-
-preview.onload=function(){
-
-originalWidth = preview.naturalWidth;
-originalHeight = preview.naturalHeight;
-
-if(unit==="px"){
-document.getElementById("width").value = originalWidth;
-document.getElementById("height").value = originalHeight;
+widthInput.value = originalWidth;
+heightInput.value = originalHeight;
 }
 
 if(unit==="mm"){
-document.getElementById("dpiBox").style.display="block";
+dpiBox.style.display="block";
 let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*25.4).toFixed(2);
-document.getElementById("height").value=((originalHeight/dpi)*25.4).toFixed(2);
+widthInput.value=((originalWidth/dpi)*25.4).toFixed(2);
+heightInput.value=((originalHeight/dpi)*25.4).toFixed(2);
 }
 
 if(unit==="cm"){
-document.getElementById("dpiBox").style.display="block";
+dpiBox.style.display="block";
 let dpi=300;
-document.getElementById("width").value=((originalWidth/dpi)*2.54).toFixed(2);
-document.getElementById("height").value=((originalHeight/dpi)*2.54).toFixed(2);
+widthInput.value=((originalWidth/dpi)*2.54).toFixed(2);
+heightInput.value=((originalHeight/dpi)*2.54).toFixed(2);
 }
 
 };
 
 // Maintain ratio
-document.getElementById("width").addEventListener("input",function(){
-
+widthInput.addEventListener("input",function(){
 if(!document.getElementById("ratio").checked) return;
-
 let ratio = originalHeight/originalWidth;
-document.getElementById("height").value=(this.value*ratio).toFixed(2);
-
+heightInput.value=(this.value*ratio).toFixed(2);
 });
 
-document.getElementById("height").addEventListener("input",function(){
-
+heightInput.addEventListener("input",function(){
 if(!document.getElementById("ratio").checked) return;
-
 let ratio = originalWidth/originalHeight;
-document.getElementById("width").value=(this.value*ratio).toFixed(2);
-
+widthInput.value=(this.value*ratio).toFixed(2);
 });
 
-function applyResize(){
+window.applyResize=function(){
 
-let w=document.getElementById("width").value;
-let h=document.getElementById("height").value;
-let dpi=document.getElementById("dpi").value || 300;
+let w=widthInput.value;
+let h=heightInput.value;
+let dpi=dpiInput.value || 300;
 
 if(unit==="mm"){
 w=(w/25.4)*dpi;
@@ -216,7 +171,11 @@ originalHeight=h;
 
 alert("Image Resized Successfully!");
 
-}
+};
+
+});
+
+</script>
 
 </script>
 
