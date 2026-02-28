@@ -44,7 +44,7 @@ cursor:pointer;
 }
 
 .card{
-width:300px;
+width:320px;
 margin:auto;
 background:#49799c;
 color:white;
@@ -137,6 +137,13 @@ Click or Drag Image Here
 <p><strong>Size:</strong> <span id="fileSize"></span></p>
 <p><strong>Width:</strong> <span id="imgWidth"></span></p>
 <p><strong>Height:</strong> <span id="imgHeight"></span></p>
+
+<hr>
+
+DPI: <input type="number" id="dpi" value="300" style="width:70px;"><br><br>
+Width: <input type="number" id="resizeWidth" style="width:80px;">
+Height: <input type="number" id="resizeHeight" style="width:80px;">
+
 </div>
 
 </div>
@@ -146,92 +153,8 @@ Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
 <button class="reduce-btn" onclick="compress()">Reduce Size</button>
 </div>
 
-let resizeUnit="px";
-
-function resizeImage(){
-if(!originalFile){
-alert("Upload image first");
-return;
-}
-document.getElementById("resizeModal").style.display="flex";
-document.getElementById("resizeWidth").value=imgWidthPx;
-document.getElementById("resizeHeight").value=imgHeightPx;
-}
-
-function closeResize(){
-document.getElementById("resizeModal").style.display="none";
-}
-
-function setResizeUnit(unit){
-resizeUnit=unit;
-
-document.getElementById("unitLabelW").innerText=unit.toUpperCase();
-document.getElementById("unitLabelH").innerText=unit.toUpperCase();
-
-document.getElementById("dpiSection").style.display=
-(unit==="px")?"none":"block";
-}
-
-function applyResize(){
-
-let w=parseFloat(document.getElementById("resizeWidth").value);
-let h=parseFloat(document.getElementById("resizeHeight").value);
-let dpi=parseFloat(document.getElementById("dpiInput").value);
-
-if(resizeUnit==="mm"){
-w=(w/25.4)*dpi;
-h=(h/25.4)*dpi;
-}
-
-if(resizeUnit==="cm"){
-w=(w/2.54)*dpi;
-h=(h/2.54)*dpi;
-}
-
-let reader=new FileReader();
-reader.onload=function(e){
-
-let img=new Image();
-img.src=e.target.result;
-
-img.onload=function(){
-
-let canvas=document.createElement("canvas");
-canvas.width=w;
-canvas.height=h;
-
-let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0,w,h);
-
-let resized=canvas.toDataURL("image/jpeg",0.95);
-
-document.getElementById("preview").src=resized;
-
-imgWidthPx=w;
-imgHeightPx=h;
-
-updateDimensions();
-
-closeResize();
-};
-};
-reader.readAsDataURL(originalFile);
-}
-
-/* Maintain Aspect Ratio */
-document.getElementById("resizeWidth").addEventListener("input",function(){
-if(document.getElementById("lockRatio").checked){
-let ratio=imgHeightPx/imgWidthPx;
-document.getElementById("resizeHeight").value=
-(this.value*ratio).toFixed(0);
-}
-});
-
-  
 <script>
 
-
-  
 let originalFile;
 let currentUnit="px";
 let imgWidthPx, imgHeightPx;
@@ -260,6 +183,9 @@ document.getElementById("fileName").innerText=file.name;
 document.getElementById("fileSize").innerText=(file.size/1024).toFixed(2)+" KB";
 
 updateDimensions();
+
+document.getElementById("resizeWidth").value=imgWidthPx;
+document.getElementById("resizeHeight").value=imgHeightPx;
 
 document.getElementById("card").style.display="block";
 };
@@ -297,7 +223,39 @@ fileInput.value="";
 }
 
 function resizeImage(){
-alert("Resize feature UI can be expanded here");
+
+let width=document.getElementById("resizeWidth").value;
+let height=document.getElementById("resizeHeight").value;
+let dpi=document.getElementById("dpi").value;
+
+if(currentUnit==="mm"){
+width=(width/25.4)*dpi;
+height=(height/25.4)*dpi;
+}
+if(currentUnit==="cm"){
+width=(width/2.54)*dpi;
+height=(height/2.54)*dpi;
+}
+
+let img=new Image();
+img.src=document.getElementById("preview").src;
+
+img.onload=function(){
+
+let canvas=document.createElement("canvas");
+canvas.width=width;
+canvas.height=height;
+
+let ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0,width,height);
+
+document.getElementById("preview").src=canvas.toDataURL("image/jpeg",1);
+imgWidthPx=width;
+imgHeightPx=height;
+
+updateDimensions();
+};
+
 }
 
 function cropImage(){
@@ -314,17 +272,15 @@ return;
 let targetKB=document.getElementById("targetSize").value;
 let maxBytes=targetKB*1024;
 
-let reader=new FileReader();
-reader.onload=function(e){
-
 let img=new Image();
-img.src=e.target.result;
+img.src=document.getElementById("preview").src;
 
 img.onload=function(){
 
 let canvas=document.createElement("canvas");
 canvas.width=img.width;
 canvas.height=img.height;
+
 let ctx=canvas.getContext("2d");
 ctx.drawImage(img,0,0);
 
@@ -338,51 +294,9 @@ compressed=canvas.toDataURL("image/jpeg",quality);
 
 document.getElementById("preview").src=compressed;
 };
-};
-reader.readAsDataURL(originalFile);
 }
 
 </script>
-<!-- Resize Modal -->
-<div id="resizeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;">
-<div style="background:#fff;padding:25px;border-radius:10px;width:350px;text-align:center;position:relative;">
 
-<h3>Resize Image In</h3>
-
-<div style="margin-bottom:15px;">
-<button onclick="setResizeUnit('px')" id="btnPx">Pixels</button>
-<button onclick="setResizeUnit('mm')" id="btnMm">MM (Millimeter)</button>
-<button onclick="setResizeUnit('cm')" id="btnCm">CM (Centimeter)</button>
-</div>
-
-<p style="font-size:13px;color:#555;">
-Please enter the width and height of the image you wish to resize
-</p>
-
-<label>
-<input type="checkbox" id="lockRatio" checked> Maintain Aspect Ratio
-</label>
-
-<div id="dpiSection" style="margin-top:10px;">
-DPI: <input type="number" id="dpiInput" value="300" style="width:60px;">
-</div>
-
-<div style="margin-top:15px;">
-Width:
-<input type="number" id="resizeWidth" style="width:70px;">
-<span id="unitLabelW">PX</span>
-
-Height:
-<input type="number" id="resizeHeight" style="width:70px;">
-<span id="unitLabelH">PX</span>
-</div>
-
-<div style="margin-top:20px;">
-<button onclick="applyResize()">Resize Image</button>
-<button onclick="closeResize()" style="background:#d6336c;color:white;">Cancel</button>
-</div>
-
-</div>
-</div>
 </body>
 </html>
