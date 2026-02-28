@@ -2,163 +2,109 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Image Compressor - GET Tools</title>
+<title>Professional Resize Tool</title>
 
 <style>
 body{
 font-family:Arial;
-background:#f3f3f3;
-margin:0;
-padding:20px;
 text-align:center;
+background:#f2f2f2;
+padding:20px;
 }
 
-.dimension-toggle{
-display:inline-block;
-background:#eee;
+.unit-toggle button{
 padding:8px 15px;
-border-radius:20px;
-margin-bottom:20px;
-}
-
-.dimension-toggle button{
 border:none;
-background:none;
-padding:6px 12px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.dimension-toggle .active{
-background:#d6d6d6;
-border-radius:15px;
-}
-
-.upload-area{
-border:3px dashed #8a8ad4;
-border-radius:15px;
-padding:60px;
-margin-bottom:20px;
-background:white;
-cursor:pointer;
-}
-
-.card{
-width:300px;
-margin:auto;
-background:#49799c;
-color:white;
-border-radius:10px;
-display:none;
-overflow:hidden;
-}
-
-.preview-box{
-background:white;
-padding:15px;
-position:relative;
-}
-
-.preview-box img{
-max-width:100%;
-}
-
-.top-btn{
-position:absolute;
-top:10px;
-left:10px;
-}
-
-.top-btn button{
-background:#3b6e90;
-color:white;
-border:none;
-padding:5px 10px;
-margin:3px;
+margin:5px;
 border-radius:20px;
 cursor:pointer;
-font-size:12px;
+background:#ddd;
 }
 
-.close-btn{
-position:absolute;
-top:10px;
-right:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.info{
-padding:15px;
-text-align:left;
+.unit-toggle .active{
+background:#4a56a6;
+color:white;
 }
 
 .controls{
-margin-top:30px;
+margin-top:20px;
 }
 
-.reduce-btn{
-background:#5661b3;
-color:white;
-border:none;
+input{
+padding:6px;
+width:80px;
+}
+
+button{
 padding:10px 20px;
+margin:10px;
+border:none;
 border-radius:6px;
 cursor:pointer;
 }
+
+.resize-btn{
+background:#4a56a6;
+color:white;
+}
+
+.cancel-btn{
+background:#e91e63;
+color:white;
+}
+
+img{
+max-width:300px;
+margin-top:20px;
+}
 </style>
 </head>
+
 <body>
 
-<div class="dimension-toggle">
-Image Dimensions:-
+<h3>Resize Image In</h3>
+
+<div class="unit-toggle">
 <button class="active" onclick="setUnit('px',this)">Pixels</button>
-<button onclick="setUnit('mm',this)">MM</button>
-<button onclick="setUnit('cm',this)">CM</button>
+<button onclick="setUnit('mm',this)">MM (Millimeter)</button>
+<button onclick="setUnit('cm',this)">CM (Centimeter)</button>
 </div>
 
-<div class="upload-area" onclick="fileInput.click()">
-Click or Drag Image Here
-<input type="file" id="fileInput" accept="image/*" hidden>
-</div>
+<br>
 
-<div class="card" id="card">
+<input type="file" id="upload" accept="image/*">
 
-<div class="preview-box">
-<div class="top-btn">
-<button onclick="resizeImage()">Resize Pixel</button>
-<button onclick="cropImage()">Crop</button>
-</div>
-<div class="close-btn" onclick="removeImage()">✖</div>
+<br><br>
+
 <img id="preview">
-</div>
-
-<div class="info">
-<p id="fileName"></p>
-<p><strong>Size:</strong> <span id="fileSize"></span></p>
-<p><strong>Width:</strong> <span id="imgWidth"></span></p>
-<p><strong>Height:</strong> <span id="imgHeight"></span></p>
-</div>
-
-</div>
 
 <div class="controls">
-Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
-<button class="reduce-btn" onclick="compress()">Reduce Size</button>
+
+<p>Maintain Aspect Ratio 
+<input type="checkbox" id="aspect" checked>
+</p>
+
+DPI: <input type="number" id="dpi" value="300">
+
+<br><br>
+
+Width: <input type="number" id="width">
+Height: <input type="number" id="height">
+
+<br>
+
+<button class="resize-btn" onclick="resizeImage()">Resize Image</button>
+<button class="cancel-btn" onclick="resetImage()">Cancel</button>
+
 </div>
 
 <script>
 
-let originalFile;
+let originalImage;
+let originalWidth, originalHeight;
 let currentUnit="px";
-let imgWidthPx, imgHeightPx;
 
-const fileInput=document.getElementById("fileInput");
-
-fileInput.addEventListener("change",function(e){
-let file=e.target.files[0];
-if(!file) return;
-
-originalFile=file;
+document.getElementById("upload").addEventListener("change",function(e){
 
 let reader=new FileReader();
 reader.onload=function(event){
@@ -167,95 +113,96 @@ let img=new Image();
 img.src=event.target.result;
 
 img.onload=function(){
-
-imgWidthPx=img.width;
-imgHeightPx=img.height;
+originalImage=img;
+originalWidth=img.width;
+originalHeight=img.height;
 
 document.getElementById("preview").src=event.target.result;
-document.getElementById("fileName").innerText=file.name;
-document.getElementById("fileSize").innerText=(file.size/1024).toFixed(2)+" KB";
 
-updateDimensions();
+updateInputsFromPx(originalWidth,originalHeight);
+};
 
-document.getElementById("card").style.display="block";
 };
-};
-reader.readAsDataURL(file);
+reader.readAsDataURL(e.target.files[0]);
 });
 
 function setUnit(unit,btn){
+
 currentUnit=unit;
-document.querySelectorAll(".dimension-toggle button").forEach(b=>b.classList.remove("active"));
+
+document.querySelectorAll(".unit-toggle button")
+.forEach(b=>b.classList.remove("active"));
+
 btn.classList.add("active");
-updateDimensions();
+
+updateInputsFromPx(originalWidth,originalHeight);
 }
 
-function updateDimensions(){
-let w=imgWidthPx;
-let h=imgHeightPx;
+function pxToUnit(px){
+let dpi=document.getElementById("dpi").value;
 
-if(currentUnit==="mm"){
-w=(w*0.2646).toFixed(1);
-h=(h*0.2646).toFixed(1);
-}
-if(currentUnit==="cm"){
-w=(w*0.02646).toFixed(2);
-h=(h*0.02646).toFixed(2);
+if(currentUnit==="px") return px;
+
+if(currentUnit==="mm") return (px/dpi*25.4).toFixed(2);
+
+if(currentUnit==="cm") return (px/dpi*2.54).toFixed(2);
 }
 
-document.getElementById("imgWidth").innerText=w+" "+currentUnit.toUpperCase();
-document.getElementById("imgHeight").innerText=h+" "+currentUnit.toUpperCase();
+function unitToPx(value){
+let dpi=document.getElementById("dpi").value;
+
+if(currentUnit==="px") return value;
+
+if(currentUnit==="mm") return (value/25.4*dpi);
+
+if(currentUnit==="cm") return (value/2.54*dpi);
 }
 
-function removeImage(){
-document.getElementById("card").style.display="none";
-fileInput.value="";
+function updateInputsFromPx(w,h){
+document.getElementById("width").value=pxToUnit(w);
+document.getElementById("height").value=pxToUnit(h);
 }
+
+document.getElementById("width").addEventListener("input",function(){
+if(document.getElementById("aspect").checked){
+
+let ratio=originalHeight/originalWidth;
+let newWidthPx=unitToPx(this.value);
+let newHeightPx=newWidthPx*ratio;
+
+document.getElementById("height").value=pxToUnit(newHeightPx);
+}
+});
+
+document.getElementById("height").addEventListener("input",function(){
+if(document.getElementById("aspect").checked){
+
+let ratio=originalWidth/originalHeight;
+let newHeightPx=unitToPx(this.value);
+let newWidthPx=newHeightPx*ratio;
+
+document.getElementById("width").value=pxToUnit(newWidthPx);
+}
+});
 
 function resizeImage(){
-alert("Resize feature UI can be expanded here");
-}
 
-function cropImage(){
-alert("Crop feature can be integrated with canvas crop system");
-}
-
-function compress(){
-
-if(!originalFile){
-alert("Upload image first");
-return;
-}
-
-let targetKB=document.getElementById("targetSize").value;
-let maxBytes=targetKB*1024;
-
-let reader=new FileReader();
-reader.onload=function(e){
-
-let img=new Image();
-img.src=e.target.result;
-
-img.onload=function(){
+let wPx=unitToPx(document.getElementById("width").value);
+let hPx=unitToPx(document.getElementById("height").value);
 
 let canvas=document.createElement("canvas");
-canvas.width=img.width;
-canvas.height=img.height;
+canvas.width=wPx;
+canvas.height=hPx;
+
 let ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0);
+ctx.drawImage(originalImage,0,0,wPx,hPx);
 
-let quality=0.9;
-let compressed=canvas.toDataURL("image/jpeg",quality);
-
-while((compressed.length*3/4)>maxBytes && quality>0.1){
-quality-=0.05;
-compressed=canvas.toDataURL("image/jpeg",quality);
+document.getElementById("preview").src=canvas.toDataURL("image/jpeg",0.9);
 }
 
-document.getElementById("preview").src=compressed;
-};
-};
-reader.readAsDataURL(originalFile);
+function resetImage(){
+updateInputsFromPx(originalWidth,originalHeight);
+document.getElementById("preview").src=originalImage.src;
 }
 
 </script>
