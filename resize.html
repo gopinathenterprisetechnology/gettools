@@ -80,8 +80,61 @@ alert("No image found. Upload again.");
 window.close();
 }
 
-let preview=document.getElementById("preview");
-preview.src=imgSrc;
+document.addEventListener("DOMContentLoaded", function(){
+
+let preview = document.getElementById("preview");
+let imgSrc = localStorage.getItem("resizeImageData");
+let unit = localStorage.getItem("resizeUnit");
+
+if(!preview){
+console.error("Preview image tag not found");
+return;
+}
+
+if(!imgSrc){
+alert("Image not found. Please upload again.");
+return;
+}
+
+preview.src = imgSrc;
+
+let originalWidth, originalHeight;
+
+preview.onload = function(){
+
+originalWidth = preview.naturalWidth;
+originalHeight = preview.naturalHeight;
+
+if(!originalWidth || !originalHeight){
+alert("Image dimension not detected");
+return;
+}
+
+// PX
+if(unit==="px"){
+document.getElementById("width").value = originalWidth;
+document.getElementById("height").value = originalHeight;
+}
+
+// MM
+if(unit==="mm"){
+document.getElementById("dpiBox").style.display="block";
+let dpi=300;
+document.getElementById("width").value=((originalWidth/dpi)*25.4).toFixed(2);
+document.getElementById("height").value=((originalHeight/dpi)*25.4).toFixed(2);
+}
+
+// CM
+if(unit==="cm"){
+document.getElementById("dpiBox").style.display="block";
+let dpi=300;
+document.getElementById("width").value=((originalWidth/dpi)*2.54).toFixed(2);
+document.getElementById("height").value=((originalHeight/dpi)*2.54).toFixed(2);
+}
+
+};
+
+});
 
 let originalWidth, originalHeight;
 
