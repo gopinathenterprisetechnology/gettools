@@ -1,73 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resize Image - GET Tools</title>
-
+<title>Image Resizer</title>
 <style>
 body{
 font-family:Arial;
-background:#f3f3f3;
+background:#111;
+color:white;
 text-align:center;
 padding:20px;
 }
 
-.box{
-background:white;
+.container{
+background:#1e1e1e;
 padding:20px;
 border-radius:10px;
-width:320px;
+max-width:500px;
 margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 input{
-width:80px;
-padding:5px;
+padding:8px;
 margin:5px;
+width:120px;
 }
 
 button{
-background:#5661b3;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:6px;
-cursor:pointer;
+padding:10px 20px;
 margin-top:10px;
+cursor:pointer;
 }
+
+#preview{
+max-width:100%;
+margin-top:20px;
+border-radius:10px;
+}
+
 </style>
 </head>
 <body>
 
+<div class="container">
+
 <h2>Resize Image</h2>
 
-<div class="box">
+<label>Width</label>
+<input type="number" id="width">
 
-<img id="preview" style="max-width:100%;margin-bottom:15px;"><br>
+<label>Height</label>
+<input type="number" id="height">
 
 <div id="dpiBox" style="display:none;">
-DPI: <input type="number" id="dpi" value="300"><br>
+<br>
+<label>DPI</label>
+<input type="number" id="dpi" value="300">
 </div>
 
-Width: <input type="number" id="width">
-Height: <input type="number" id="height"><br>
-
+<br>
 <label>
 <input type="checkbox" id="ratio" checked>
 Maintain Aspect Ratio
 </label>
 
-<br>
+<br><br>
 <button onclick="applyResize()">Resize Now</button>
+
+<img id="preview">
 
 </div>
 
-<script>let unit = localStorage.getItem("resizeUnit");
+<script>
+
+let unit = localStorage.getItem("resizeUnit");
 let imgSrc = localStorage.getItem("resizeImageData");
 
 if(!imgSrc){
-alert("No image found. Please upload again.");
+alert("No image found. Upload again.");
 window.close();
 }
 
@@ -81,43 +90,34 @@ preview.onload=function(){
 originalWidth = preview.naturalWidth;
 originalHeight = preview.naturalHeight;
 
-if(!originalWidth || !originalHeight){
-alert("Image dimension not found");
-return;
-}
-
-// PIXEL MODE
 if(unit==="px"){
 document.getElementById("width").value = originalWidth;
 document.getElementById("height").value = originalHeight;
 }
 
-// MM MODE
 if(unit==="mm"){
 document.getElementById("dpiBox").style.display="block";
 let dpi=300;
-document.getElementById("width").value = ((originalWidth/dpi)*25.4).toFixed(2);
-document.getElementById("height").value = ((originalHeight/dpi)*25.4).toFixed(2);
+document.getElementById("width").value=((originalWidth/dpi)*25.4).toFixed(2);
+document.getElementById("height").value=((originalHeight/dpi)*25.4).toFixed(2);
 }
 
-// CM MODE
 if(unit==="cm"){
 document.getElementById("dpiBox").style.display="block";
 let dpi=300;
-document.getElementById("width").value = ((originalWidth/dpi)*2.54).toFixed(2);
-document.getElementById("height").value = ((originalHeight/dpi)*2.54).toFixed(2);
+document.getElementById("width").value=((originalWidth/dpi)*2.54).toFixed(2);
+document.getElementById("height").value=((originalHeight/dpi)*2.54).toFixed(2);
 }
 
 };
 
-
-// Maintain Aspect Ratio
+// Maintain ratio
 document.getElementById("width").addEventListener("input",function(){
 
 if(!document.getElementById("ratio").checked) return;
 
-let ratio = originalHeight / originalWidth;
-document.getElementById("height").value = (this.value * ratio).toFixed(2);
+let ratio = originalHeight/originalWidth;
+document.getElementById("height").value=(this.value*ratio).toFixed(2);
 
 });
 
@@ -125,8 +125,8 @@ document.getElementById("height").addEventListener("input",function(){
 
 if(!document.getElementById("ratio").checked) return;
 
-let ratio = originalWidth / originalHeight;
-document.getElementById("width").value = (this.value * ratio).toFixed(2);
+let ratio = originalWidth/originalHeight;
+document.getElementById("width").value=(this.value*ratio).toFixed(2);
 
 });
 
@@ -136,11 +136,11 @@ let w=document.getElementById("width").value;
 let h=document.getElementById("height").value;
 let dpi=document.getElementById("dpi").value || 300;
 
-// Convert if needed
 if(unit==="mm"){
 w=(w/25.4)*dpi;
 h=(h/25.4)*dpi;
 }
+
 if(unit==="cm"){
 w=(w/2.54)*dpi;
 h=(h/2.54)*dpi;
@@ -158,11 +158,11 @@ ctx.drawImage(preview,0,0,w,h);
 
 preview.src=canvas.toDataURL("image/jpeg",1);
 
-// Update original values after resize
 originalWidth=w;
 originalHeight=h;
 
 alert("Image Resized Successfully!");
+
 }
 
 </script>
