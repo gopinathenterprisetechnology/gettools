@@ -120,3 +120,21 @@ footer {
   color: #ffffff;
   text-decoration: underline;
 }
+#preview{
+max-width:100%;
+height:auto;
+border-radius:8px;
+}
+
+.resize-controls{
+margin-top:15px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+}
+
+.resize-controls input{
+padding:8px;
+width:120px;
+}
