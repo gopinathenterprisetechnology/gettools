@@ -224,17 +224,20 @@ fileInput.value="";
 
 function resizeImage(){
 
-if(!document.getElementById("preview").src){
+let preview = document.getElementById("preview");
+
+if(!preview || !preview.src){
 alert("Upload image first");
 return;
 }
 
-localStorage.setItem("resizeImageData", document.getElementById("preview").src);
-localStorage.setItem("resizeUnit", currentUnit);
+// IMPORTANT
+localStorage.setItem("resizeImageData", preview.src);
+localStorage.setItem("resizeUnit", currentUnit); // px / mm / cm
 
 window.open("resize.html","_blank");
-}
 
+}
 function cropImage(){
 alert("Crop feature can be integrated with canvas crop system");
 }
