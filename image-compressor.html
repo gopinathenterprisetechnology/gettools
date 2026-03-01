@@ -179,15 +179,29 @@ let originalWidth;
 let originalHeight;
 let compressedBlob;
 
-const dropZone=document.getElementById("dropZone");
-const fileInput=document.getElementById("fileInput");
+const widthInput=document.getElementById("width");
+const heightInput=document.getElementById("height");
+const unitSelect=document.getElementById("unit");
+const dpiInput=document.getElementById("dpi");
 
-dropZone.onclick=()=>fileInput.click();
 
-fileInput.onchange=e=>{
-loadImage(e.target.files[0]);
-};
+// ===== Target KB Input Add =====
+const targetKBInput=document.createElement("input");
+targetKBInput.type="number";
+targetKBInput.placeholder="Target Size (KB)";
+targetKBInput.style.padding="8px";
+document.querySelector(".controls").appendChild(targetKBInput);
 
+
+// ===== Unit Label =====
+const widthLabel=document.createElement("span");
+const heightLabel=document.createElement("span");
+
+widthInput.after(widthLabel);
+heightInput.after(heightLabel);
+
+
+// ===== Load Image =====
 function loadImage(file){
 const reader=new FileReader();
 reader.onload=function(e){
@@ -199,68 +213,130 @@ originalHeight=this.height;
 document.getElementById("originalPreview").src=this.src;
 document.getElementById("originalSize").innerText=(file.size/1024).toFixed(2)+" KB";
 
-document.getElementById("width").value=originalWidth;
-document.getElementById("height").value=originalHeight;
+updateUnitValues("px");
 };
 originalImage.src=e.target.result;
 };
 reader.readAsDataURL(file);
 }
 
-document.getElementById("width").oninput=updateRatio;
-document.getElementById("height").oninput=updateRatio;
+
+// ===== Maintain Ratio =====
+document.getElementById("ratio").onchange=()=>{};
+widthInput.oninput=updateRatio;
+heightInput.oninput=updateRatio;
 
 function updateRatio(){
 if(!document.getElementById("ratio").checked)return;
-
-let w=document.getElementById("width").value;
-let h=(w/originalWidth)*originalHeight;
-document.getElementById("height").value=Math.round(h);
+let w=widthInput.value;
+let ratio=originalHeight/originalWidth;
+heightInput.value=(w*ratio).toFixed(2);
 }
 
+
+// ===== Convert =====
+function pxToMM(px){return (px/dpiInput.value)*25.4;}
+function pxToCM(px){return (px/dpiInput.value)*2.54;}
+function mmToPX(mm){return (mm/25.4)*dpiInput.value;}
+function cmToPX(cm){return (cm/2.54)*dpiInput.value;}
+
+
+// ===== Update Unit =====
+unitSelect.onchange=function(){
+updateUnitValues(this.value);
+};
+
+function updateUnitValues(unit){
+
+if(unit==="px"){
+widthInput.value=originalWidth;
+heightInput.value=originalHeight;
+widthLabel.innerText=" px";
+heightLabel.innerText=" px";
+}
+
+if(unit==="mm"){
+widthInput.value=pxToMM(originalWidth).toFixed(2);
+heightInput.value=pxToMM(originalHeight).toFixed(2);
+widthLabel.innerText=" mm";
+heightLabel.innerText=" mm";
+}
+
+if(unit==="cm"){
+widthInput.value=pxToCM(originalWidth).toFixed(2);
+heightInput.value=pxToCM(originalHeight).toFixed(2);
+widthLabel.innerText=" cm";
+heightLabel.innerText=" cm";
+}
+}
+
+
+// ===== Convert To Pixel For Canvas =====
 function convertToPixel(value){
-let unit=document.getElementById("unit").value;
-let dpi=document.getElementById("dpi").value;
+let unit=unitSelect.value;
 
 if(unit==="px")return value;
-if(unit==="mm")return (value/25.4)*dpi;
-if(unit==="cm")return (value/2.54)*dpi;
+if(unit==="mm")return mmToPX(value);
+if(unit==="cm")return cmToPX(value);
 }
 
-function compressImage(){
+
+// ===== Smart Target KB Compression =====
+async function compressImage(){
+
 let canvas=document.createElement("canvas");
 let ctx=canvas.getContext("2d");
 
-let w=convertToPixel(document.getElementById("width").value);
-let h=convertToPixel(document.getElementById("height").value);
+let w=convertToPixel(widthInput.value);
+let h=convertToPixel(heightInput.value);
 
 canvas.width=w;
 canvas.height=h;
-
 ctx.drawImage(originalImage,0,0,w,h);
 
 let format=document.getElementById("format").value;
-let quality=document.getElementById("quality").value;
+let targetKB=targetKBInput.value;
 
-canvas.toBlob(function(blob){
+let quality=0.9;
+let blob;
+
+if(targetKB){
+
+let targetBytes=targetKB*1024;
+
+for(let q=0.9;q>0.1;q-=0.05){
+
+blob=await new Promise(resolve=>{
+canvas.toBlob(resolve,format,q);
+});
+
+if(blob.size<=targetBytes){
+quality=q;
+break;
+}
+}
+}else{
+
+quality=document.getElementById("quality").value;
+blob=await new Promise(resolve=>{
+canvas.toBlob(resolve,format,quality);
+});
+}
+
 compressedBlob=blob;
 
 document.getElementById("compressedPreview").src=URL.createObjectURL(blob);
 document.getElementById("compressedSize").innerText=(blob.size/1024).toFixed(2)+" KB";
-
-},format,quality);
 }
 
+
+// ===== Download =====
 function downloadImage(){
 if(!compressedBlob)return alert("Compress first!");
 let a=document.createElement("a");
 a.href=URL.createObjectURL(compressedBlob);
 a.download="compressed-image";
 a.click();
-}
-
-function resetAll(){
-location.reload();
 }
 
 </script>
