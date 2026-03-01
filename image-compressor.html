@@ -161,9 +161,12 @@ Click or Drag Image Here
 </select>
 </div>
 <div id="resizeSection" style="display:none; margin-top:15px;">
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; background:#0f172a; padding:15px; border-radius:10px;">
+
 <div>
 <label>Resize Unit</label>
-<select id="unit">
+<select id="unit" style="width:100%;">
 <option value="px">Pixel</option>
 <option value="mm">Millimeter</option>
 <option value="cm">Centimeter</option>
@@ -172,22 +175,28 @@ Click or Drag Image Here
 
 <div>
 <label>DPI (mm/cm only)</label>
-<input type="number" id="dpi" value="300">
+<input type="number" id="dpi" value="300" style="width:100%;">
 </div>
 
 <div>
 <label>Width</label>
-<input type="number" id="width">
+<input type="number" id="width" style="width:100%;">
 </div>
 
 <div>
 <label>Height</label>
-<input type="number" id="height">
+<input type="number" id="height" style="width:100%;">
 </div>
 
-<div>
-<label><input type="checkbox" id="ratio" checked> Maintain Aspect Ratio</label>
+<div style="grid-column:1/3;">
+<label>
+<input type="checkbox" id="ratio" checked>
+Maintain Aspect Ratio
+</label>
 </div>
+
+</div>
+
 </div>
 <div>
  <button type="button" onclick="toggleResize()">Resize</button>
