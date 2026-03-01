@@ -173,7 +173,41 @@ Professional Image Compressor – Upgrade Edition
 </div>
 
 <script>
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
 
+// Click to open file
+dropZone.addEventListener("click", () => {
+    fileInput.click();
+});
+
+// File select
+fileInput.addEventListener("change", function(e){
+    if(e.target.files.length > 0){
+        loadImage(e.target.files[0]);
+    }
+});
+
+// Drag over effect
+dropZone.addEventListener("dragover", function(e){
+    e.preventDefault();
+    dropZone.style.borderColor = "#22c55e";
+});
+
+// Drag leave
+dropZone.addEventListener("dragleave", function(){
+    dropZone.style.borderColor = "#38bdf8";
+});
+
+// Drop file
+dropZone.addEventListener("drop", function(e){
+    e.preventDefault();
+    dropZone.style.borderColor = "#38bdf8";
+
+    if(e.dataTransfer.files.length > 0){
+        loadImage(e.dataTransfer.files[0]);
+    }
+});
 let originalImage;
 let originalWidth;
 let originalHeight;
