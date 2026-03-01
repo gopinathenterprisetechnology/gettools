@@ -55,7 +55,7 @@ text-align:center;
 max-width:100%;
 max-height:250px;
 }
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 .controls{
 margin-top:20px;
 display:grid;
@@ -90,7 +90,34 @@ font-size:14px;
 color:#94a3b8;
 }
 </style>
+  <div id="resizePanel" style="display:none; grid-column:1/3; background:#0f172a; padding:15px; border-radius:10px;">
+
+<h3>Resize Options</h3>
+
+<label>Unit</label>
+<select id="unit">
+<option value="px">Pixel</option>
+<option value="mm">Millimeter</option>
+<option value="cm">Centimeter</option>
+</select>
+
+<label>DPI</label>
+<input type="number" id="dpi" value="300">
+
+<label>Width <span id="unitLabelW">px</span></label>
+<input type="number" id="width">
+
+<label>Height <span id="unitLabelH">px</span></label>
+<input type="number" id="height">
+
+<label>
+<input type="checkbox" id="ratio" checked>
+Maintain Aspect Ratio
+</label>
+
+</div>
 </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <body>
 
 <div class="container">
@@ -120,7 +147,10 @@ Click or Drag Image Here
 <label>Quality (JPG/WEBP)</label>
 <input type="range" id="quality" min="0.1" max="1" step="0.1" value="0.8">
 </div>
-
+<div>
+<label>Target Size (KB)</label>
+<input type="number" id="targetKB" placeholder="Enter KB">
+</div>
 <div>
 <label>Format</label>
 <select id="format">
@@ -159,6 +189,7 @@ Click or Drag Image Here
 </div>
 
 <div>
+ <button onclick="toggleResize()">Resize</button> 
 <button onclick="compressImage()">Compress</button>
 <button onclick="downloadImage()">Download</button>
 <button onclick="downloadAll()">Download All(ZIP)</button>
@@ -182,96 +213,98 @@ const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 fileInput.multiple = true;
 
-// CLICK
-dropZone.addEventListener("click", () => fileInput.click());
+// Toggle Resize Panel
+function toggleResize(){
+let panel=document.getElementById("resizePanel");
+panel.style.display = panel.style.display==="none" ? "block" : "none";
+}
 
-// FILE SELECT
-fileInput.addEventListener("change", function(e){
+// Upload
+dropZone.onclick = () => fileInput.click();
+
+fileInput.onchange = function(e){
 handleFiles(e.target.files);
-});
-
-// DRAG
-dropZone.addEventListener("dragover", e=>{
-e.preventDefault();
-dropZone.style.borderColor="#22c55e";
-});
-
-dropZone.addEventListener("dragleave", ()=>{
-dropZone.style.borderColor="#38bdf8";
-});
-
-dropZone.addEventListener("drop", e=>{
-e.preventDefault();
-dropZone.style.borderColor="#38bdf8";
-handleFiles(e.dataTransfer.files);
-});
-
+};
 
 function handleFiles(files){
+
 images=[];
 compressedImages=[];
-document.getElementById("compressedPreview").innerHTML="";
 document.getElementById("originalPreview").innerHTML="";
+document.getElementById("compressedPreview").innerHTML="";
 
 Array.from(files).forEach(file=>{
-const reader=new FileReader();
+
+let reader=new FileReader();
+
 reader.onload=function(e){
+
 let img=new Image();
+
 img.onload=function(){
-images.push({
-file:file,
-image:img,
-width:img.width,
-height:img.height
-});
-createPreview(img,file);
+
+images.push({file,img});
+
+let preview=document.createElement("img");
+preview.src=img.src;
+preview.style.maxWidth="150px";
+preview.style.margin="5px";
+
+document.getElementById("originalPreview").appendChild(preview);
+
 };
+
 img.src=e.target.result;
 };
+
 reader.readAsDataURL(file);
+
 });
+
 }
 
+// Convert
+function convertToPx(value){
 
-function createPreview(img,file){
+let unit=document.getElementById("unit").value;
+let dpi=document.getElementById("dpi").value;
 
-let container=document.createElement("div");
-container.style.marginBottom="20px";
+if(unit==="px") return value;
+if(unit==="mm") return (value/25.4)*dpi;
+if(unit==="cm") return (value/2.54)*dpi;
 
-let original=document.createElement("img");
-original.src=img.src;
-original.style.maxWidth="200px";
-
-let compressBtn=document.createElement("button");
-compressBtn.innerText="Compress";
-compressBtn.onclick=()=>compressSingle(img,file,container);
-
-container.appendChild(original);
-container.appendChild(document.createElement("br"));
-container.appendChild(compressBtn);
-
-document.querySelector(".preview-area").appendChild(container);
 }
 
+// Compress All
+async function compressImage(){
 
-// SINGLE COMPRESS
-async function compressSingle(img,file,container){
+compressedImages=[];
+document.getElementById("compressedPreview").innerHTML="";
+
+let format=document.getElementById("format").value;
+let quality=document.getElementById("quality").value;
+let targetKB=document.getElementById("targetKB").value;
+
+for(let item of images){
 
 let canvas=document.createElement("canvas");
 let ctx=canvas.getContext("2d");
 
-let unit=document.getElementById("unit").value;
-let dpi=document.getElementById("dpi").value;
-let targetKB=document.querySelector("input[placeholder='Target Size (KB)']").value;
+let w=item.img.width;
+let h=item.img.height;
 
-let w=img.width;
-let h=img.height;
+if(document.getElementById("resizePanel").style.display==="block"){
+
+w=convertToPx(document.getElementById("width").value);
+h=convertToPx(document.getElementById("height").value);
+
+}
 
 canvas.width=w;
 canvas.height=h;
-ctx.drawImage(img,0,0,w,h);
 
-let format=document.getElementById("format").value;
+ctx.drawImage(item.img,0,0,w,h);
+
 let blob;
 
 if(targetKB){
@@ -279,52 +312,52 @@ if(targetKB){
 let targetBytes=targetKB*1024;
 
 for(let q=0.9;q>0.1;q-=0.05){
-blob=await new Promise(resolve=>{
-canvas.toBlob(resolve,format,q);
-});
+
+blob=await new Promise(r=>canvas.toBlob(r,format,q));
+
 if(blob.size<=targetBytes) break;
+
 }
+
 }else{
 
-let quality=document.getElementById("quality").value;
-blob=await new Promise(resolve=>{
-canvas.toBlob(resolve,format,quality);
-});
+blob=await new Promise(r=>canvas.toBlob(r,format,quality));
+
 }
 
-compressedImages.push({
-name:file.name,
-blob:blob
-});
+compressedImages.push({name:item.file.name,blob});
 
-let compressedImg=document.createElement("img");
-compressedImg.src=URL.createObjectURL(blob);
-compressedImg.style.maxWidth="200px";
+let imgPreview=document.createElement("img");
+imgPreview.src=URL.createObjectURL(blob);
+imgPreview.style.maxWidth="150px";
+imgPreview.style.margin="5px";
 
-let downloadBtn=document.createElement("button");
-downloadBtn.innerText="Download";
-downloadBtn.onclick=()=>{
+document.getElementById("compressedPreview").appendChild(imgPreview);
+
+}
+
+}
+
+// Download Single
+function downloadImage(){
+
+if(compressedImages.length===0) return alert("Compress first");
+
+compressedImages.forEach(item=>{
+
 let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="compressed_"+file.name;
+a.href=URL.createObjectURL(item.blob);
+a.download="compressed_"+item.name;
 a.click();
-};
 
-container.appendChild(document.createElement("br"));
-container.appendChild(compressedImg);
-container.appendChild(document.createElement("br"));
-container.appendChild(downloadBtn);
+});
 
 }
 
-
-// DOWNLOAD ALL
+// Download All ZIP
 async function downloadAll(){
 
-if(compressedImages.length===0){
-alert("Compress images first!");
-return;
-}
+if(compressedImages.length===0) return alert("Compress first");
 
 let zip=new JSZip();
 
@@ -338,9 +371,8 @@ let a=document.createElement("a");
 a.href=URL.createObjectURL(content);
 a.download="All_Compressed_Images.zip";
 a.click();
+
 }
-
-
 </script>
 
 </body>
