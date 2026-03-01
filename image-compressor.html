@@ -187,7 +187,39 @@ Click or Drag Image Here
   </div>
 </div>
 
-let originalWidth, originalHeight;
+
+  
+<button onclick="cropImage()">Crop</button>
+</div>
+<div class="close-btn" onclick="removeImage()">✖</div>
+<img id="preview">
+</div>
+
+<div class="info">
+<p id="fileName"></p>
+<p><strong>Size:</strong> <span id="fileSize"></span></p>
+<p><strong>Width:</strong> <span id="imgWidth"></span></p>
+<p><strong>Height:</strong> <span id="imgHeight"></span></p>
+
+<hr>
+
+DPI: <input type="number" id="dpi" value="300" style="width:70px;"><br><br>
+Width: <input type="number" id="resizeWidth" style="width:80px;">
+Height: <input type="number" id="resizeHeight" style="width:80px;">
+
+</div>
+
+</div>
+
+<div class="controls">
+Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
+<button class="reduce-btn" onclick="compress()">Reduce Size</button>
+</div>
+
+<script>
+
+
+  let originalWidth, originalHeight;
 let currentUnit = "px"; // px / mm / cm (তুমি যেটা use করছো)
 
 function openResizeModal(){
@@ -245,36 +277,9 @@ originalHeight=h;
 
 closeResizeModal();
 }
+
+
   
-<button onclick="cropImage()">Crop</button>
-</div>
-<div class="close-btn" onclick="removeImage()">✖</div>
-<img id="preview">
-</div>
-
-<div class="info">
-<p id="fileName"></p>
-<p><strong>Size:</strong> <span id="fileSize"></span></p>
-<p><strong>Width:</strong> <span id="imgWidth"></span></p>
-<p><strong>Height:</strong> <span id="imgHeight"></span></p>
-
-<hr>
-
-DPI: <input type="number" id="dpi" value="300" style="width:70px;"><br><br>
-Width: <input type="number" id="resizeWidth" style="width:80px;">
-Height: <input type="number" id="resizeHeight" style="width:80px;">
-
-</div>
-
-</div>
-
-<div class="controls">
-Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
-<button class="reduce-btn" onclick="compress()">Reduce Size</button>
-</div>
-
-<script>
-
 let originalFile;
 let currentUnit="px";
 let imgWidthPx, imgHeightPx;
