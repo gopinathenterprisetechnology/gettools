@@ -217,68 +217,6 @@ Size: <input type="number" id="targetSize" value="100" style="width:70px;"> KB
 </div>
 
 <script>
-
-
-  let originalWidth, originalHeight;
-let currentUnit = "px"; // px / mm / cm (তুমি যেটা use করছো)
-
-function openResizeModal(){
-
-let preview = document.getElementById("preview");
-
-if(!preview.src){
-alert("Upload image first");
-return;
-}
-
-originalWidth = preview.naturalWidth;
-originalHeight = preview.naturalHeight;
-
-document.getElementById("resizeWidth").value = originalWidth;
-document.getElementById("resizeHeight").value = originalHeight;
-
-document.getElementById("resizeModal").style.display="block";
-}
-
-function closeResizeModal(){
-document.getElementById("resizeModal").style.display="none";
-}
-
-document.getElementById("resizeWidth").addEventListener("input", function(){
-if(!document.getElementById("resizeRatio").checked) return;
-let ratio = originalHeight/originalWidth;
-document.getElementById("resizeHeight").value = (this.value*ratio).toFixed(2);
-});
-
-document.getElementById("resizeHeight").addEventListener("input", function(){
-if(!document.getElementById("resizeRatio").checked) return;
-let ratio = originalWidth/originalHeight;
-document.getElementById("resizeWidth").value = (this.value*ratio).toFixed(2);
-});
-
-function applyResize(){
-
-let preview = document.getElementById("preview");
-
-let w = document.getElementById("resizeWidth").value;
-let h = document.getElementById("resizeHeight").value;
-
-let canvas=document.createElement("canvas");
-canvas.width=w;
-canvas.height=h;
-
-let ctx=canvas.getContext("2d");
-ctx.drawImage(preview,0,0,w,h);
-
-preview.src = canvas.toDataURL("image/jpeg",1);
-
-originalWidth=w;
-originalHeight=h;
-
-closeResizeModal();
-}
-
-
   
 let originalFile;
 let currentUnit="px";
@@ -399,6 +337,65 @@ compressed=canvas.toDataURL("image/jpeg",quality);
 
 document.getElementById("preview").src=compressed;
 };
+}
+
+    let originalWidth, originalHeight;
+let currentUnit = "px"; // px / mm / cm (তুমি যেটা use করছো)
+
+function openResizeModal(){
+
+let preview = document.getElementById("preview");
+
+if(!preview.src){
+alert("Upload image first");
+return;
+}
+
+originalWidth = preview.naturalWidth;
+originalHeight = preview.naturalHeight;
+
+document.getElementById("resizeWidth").value = originalWidth;
+document.getElementById("resizeHeight").value = originalHeight;
+
+document.getElementById("resizeModal").style.display="block";
+}
+
+function closeResizeModal(){
+document.getElementById("resizeModal").style.display="none";
+}
+
+document.getElementById("resizeWidth").addEventListener("input", function(){
+if(!document.getElementById("resizeRatio").checked) return;
+let ratio = originalHeight/originalWidth;
+document.getElementById("resizeHeight").value = (this.value*ratio).toFixed(2);
+});
+
+document.getElementById("resizeHeight").addEventListener("input", function(){
+if(!document.getElementById("resizeRatio").checked) return;
+let ratio = originalWidth/originalHeight;
+document.getElementById("resizeWidth").value = (this.value*ratio).toFixed(2);
+});
+
+function applyResize(){
+
+let preview = document.getElementById("preview");
+
+let w = document.getElementById("resizeWidth").value;
+let h = document.getElementById("resizeHeight").value;
+
+let canvas=document.createElement("canvas");
+canvas.width=w;
+canvas.height=h;
+
+let ctx=canvas.getContext("2d");
+ctx.drawImage(preview,0,0,w,h);
+
+preview.src = canvas.toDataURL("image/jpeg",1);
+
+originalWidth=w;
+originalHeight=h;
+
+closeResizeModal();
 }
 
 </script>
