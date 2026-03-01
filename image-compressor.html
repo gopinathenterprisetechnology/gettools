@@ -52,7 +52,10 @@ border-radius:10px;
 display:none;
 overflow:hidden;
 }
-
+<div class="top-btn">
+<button onclick="openResizeModal()">Resize Pixel</button>
+  <div id="resizeModal" class="modal">
+  
 .preview-box{
 background:white;
 padding:15px;
@@ -158,9 +161,7 @@ Click or Drag Image Here
 <div class="card" id="card">
 
 <div class="preview-box">
-<div class="top-btn">
-<button onclick="openResizeModal()">Resize Pixel</button>
-  <div id="resizeModal" class="modal">
+
   <div class="modal-content">
     <span class="close" onclick="closeResizeModal()">&times;</span>
     <h2>Resize Image</h2>
@@ -204,8 +205,8 @@ Click or Drag Image Here
 <hr>
 
 DPI: <input type="number" id="dpi" value="300" style="width:70px;"><br><br>
-Width: <input type="number" id="resizeWidth" style="width:80px;">
-Height: <input type="number" id="resizeHeight" style="width:80px;">
+Width: <input type="number" id="infoWidth" style="width:80px;">
+Height: <input type="number" id="infoHeight" style="width:80px;">
 
 </div>
 
@@ -340,7 +341,7 @@ document.getElementById("preview").src=compressed;
 }
 
     let originalWidth, originalHeight;
-let currentUnit = "px"; // px / mm / cm (তুমি যেটা use করছো)
+
 
 function openResizeModal(){
 
