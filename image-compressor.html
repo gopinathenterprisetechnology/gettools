@@ -245,6 +245,7 @@ function handleFiles(files){
 
 images=[];
 compressedImages=[];
+
 document.getElementById("originalPreview").innerHTML="";
 document.getElementById("compressedPreview").innerHTML="";
 
@@ -260,16 +261,37 @@ img.onload=function(){
 
 images.push({file,img});
 
+let container=document.createElement("div");
+container.style.background="#1e293b";
+container.style.padding="10px";
+container.style.margin="10px 0";
+container.style.borderRadius="8px";
+
 let preview=document.createElement("img");
 preview.src=img.src;
-preview.style.maxWidth="150px";
-preview.style.margin="5px";
+preview.style.maxWidth="120px";
+preview.style.display="block";
+preview.style.marginBottom="5px";
 
-document.getElementById("originalPreview").appendChild(preview);
+let info=document.createElement("div");
+info.style.fontSize="13px";
+info.innerHTML=`
+<b>Name:</b> ${file.name}<br>
+<b>Width:</b> ${img.width}px<br>
+<b>Height:</b> ${img.height}px<br>
+<b>DPI:</b> ${document.getElementById("dpi").value}<br>
+<b>Size:</b> ${(file.size/1024).toFixed(2)} KB
+`;
+
+container.appendChild(preview);
+container.appendChild(info);
+
+document.getElementById("originalPreview").appendChild(container);
 
 };
 
 img.src=e.target.result;
+
 };
 
 reader.readAsDataURL(file);
@@ -342,13 +364,32 @@ blob=await new Promise(r=>canvas.toBlob(r,format,quality));
 
 compressedImages.push({name:item.file.name,blob});
 
+let container=document.createElement("div");
+container.style.background="#1e293b";
+container.style.padding="10px";
+container.style.margin="10px 0";
+container.style.borderRadius="8px";
+
 let imgPreview=document.createElement("img");
 imgPreview.src=URL.createObjectURL(blob);
-imgPreview.style.maxWidth="150px";
-imgPreview.style.margin="5px";
+imgPreview.style.maxWidth="120px";
+imgPreview.style.display="block";
+imgPreview.style.marginBottom="5px";
 
-document.getElementById("compressedPreview").appendChild(imgPreview);
+let info=document.createElement("div");
+info.style.fontSize="13px";
+info.innerHTML=`
+<b>Name:</b> ${item.file.name}<br>
+<b>Width:</b> ${w}px<br>
+<b>Height:</b> ${h}px<br>
+<b>DPI:</b> ${document.getElementById("dpi").value}<br>
+<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
+`;
 
+container.appendChild(imgPreview);
+container.appendChild(info);
+
+document.getElementById("compressedPreview").appendChild(container);
 }
 
 }
