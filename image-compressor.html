@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Image Compressor Pro v2.0</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 body{
 margin:0;
@@ -117,7 +118,7 @@ Maintain Aspect Ratio
 
 </div>
 </head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  
 <body>
 
 <div class="container">
@@ -131,13 +132,13 @@ Click or Drag Image Here
 <div class="preview-area">
 <div class="preview-box">
 <h3>Original</h3>
-<img id="originalPreview">
+<div id="originalPreview"></div>
 <p id="originalSize"></p>
 </div>
 
 <div class="preview-box">
 <h3>Compressed</h3>
-<img id="compressedPreview">
+<div id="compressedPreview"></div>
 <p id="compressedSize"></p>
 </div>
 </div>
