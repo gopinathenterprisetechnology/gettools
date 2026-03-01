@@ -160,7 +160,7 @@ Click or Drag Image Here
 <option value="image/png">PNG</option>
 </select>
 </div>
-
+<div id="resizeSection" style="display:none; margin-top:15px;">
 <div>
 <label>Resize Unit</label>
 <select id="unit">
@@ -188,9 +188,9 @@ Click or Drag Image Here
 <div>
 <label><input type="checkbox" id="ratio" checked> Maintain Aspect Ratio</label>
 </div>
-
+</div>
 <div>
- <button onclick="toggleResize()">Resize</button> 
+ <button type="button" onclick="toggleResize()">Resize</button>
 <button onclick="compressImage()">Compress</button>
 <button onclick="downloadImage()">Download</button>
 <button onclick="downloadAll()">Download All(ZIP)</button>
@@ -216,8 +216,13 @@ fileInput.multiple = true;
 
 // Toggle Resize Panel
 function toggleResize(){
-let panel=document.getElementById("resizePanel");
-panel.style.display = panel.style.display==="none" ? "block" : "none";
+let section = document.getElementById("resizeSection");
+
+if(section.style.display === "none"){
+section.style.display = "block";
+}else{
+section.style.display = "none";
+}
 }
 
 // Upload
