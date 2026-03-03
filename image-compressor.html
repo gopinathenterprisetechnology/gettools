@@ -178,14 +178,18 @@ Click or Drag Image Here
 <input type="number" id="dpi" value="300" style="width:100%;">
 </div>
 
-<div>
-<label>Width</label>
-<input type="number" id="width" style="width:100%;">
+<div style="display:flex; gap:10px;">
+
+<div style="flex:1;">
+<label>Width (<span id="unitLabelW">px</span>)</label>
+<input type="number" id="width">
 </div>
 
-<div>
-<label>Height</label>
-<input type="number" id="height" style="width:100%;">
+<div style="flex:1;">
+<label>Height (<span id="unitLabelH">px</span>)</label>
+<input type="number" id="height">
+</div>
+
 </div>
 
 <div style="grid-column:1/3;">
@@ -295,11 +299,44 @@ img.src=e.target.result;
 };
 
 reader.readAsDataURL(file);
-
+  
+images.push({file});
+loadImageData(file);  
+  
 });
 
 }
 
+  
+function loadImageData(file){
+
+let img = new Image();
+img.onload = function(){
+
+let dpi = 300; // default dpi
+document.getElementById("dpi").value = dpi;
+
+let unit = document.getElementById("unit").value;
+
+if(unit === "px"){
+document.getElementById("width").value = img.width;
+document.getElementById("height").value = img.height;
+}
+else if(unit === "mm"){
+document.getElementById("width").value = ((img.width/dpi)*25.4).toFixed(2);
+document.getElementById("height").value = ((img.height/dpi)*25.4).toFixed(2);
+}
+else if(unit === "cm"){
+document.getElementById("width").value = ((img.width/dpi)*2.54).toFixed(2);
+document.getElementById("height").value = ((img.height/dpi)*2.54).toFixed(2);
+}
+
+};
+
+img.src = URL.createObjectURL(file);
+}
+
+  
 // Convert
 function convertToPx(value){
 
