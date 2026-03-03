@@ -591,7 +591,7 @@ blob = await new Promise(r=>canvas.toBlob(r,format,quality));
 }
 
 // 🔥 IMPORTANT: compressedImages update করবো
-compressedImages = [];
+
 compressedImages.push({
 name: item.file.name.split('.')[0] + getExtension(format),
 blob: blob
@@ -623,7 +623,6 @@ info.innerHTML=`
 container.appendChild(imgPreview);
 container.appendChild(info);
 
-document.getElementById("compressedPreview").innerHTML="";
 document.getElementById("compressedPreview").appendChild(container);
 
   }
