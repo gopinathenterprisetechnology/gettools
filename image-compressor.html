@@ -204,9 +204,12 @@ Click or Drag Image Here
 Maintain Aspect Ratio
 </label>
 </div>
-
+<label>Target Size (KB)</label>
+<input type="number" id="singleTargetKB" placeholder="Enter KB">
 </div>
-
+<button type="button" onclick="resizeSelectedImage()" style="margin-top:10px; width:100%;">
+Resize Selected Image
+</button>
 </div>
 <div>
  <button type="button" onclick="toggleResize()">Resize</button>
@@ -514,6 +517,87 @@ a.download="All_Compressed_Images.zip";
 a.click();
 
 }
+
+  async function resizeSelectedImage(){
+
+if(selectedIndex === null){
+alert("Select an image first");
+return;
+}
+
+let item = images[selectedIndex];
+
+let canvas=document.createElement("canvas");
+let ctx=canvas.getContext("2d");
+
+let w=item.img.width;
+let h=item.img.height;
+
+if(document.getElementById("resizeSection").style.display==="block"){
+
+w=convertToPx(document.getElementById("width").value);
+h=convertToPx(document.getElementById("height").value);
+
+}
+
+canvas.width=w;
+canvas.height=h;
+
+ctx.drawImage(item.img,0,0,w,h);
+
+let format=document.getElementById("format").value;
+let quality=document.getElementById("quality").value;
+let targetKB=document.getElementById("singleTargetKB").value;
+
+let blob;
+
+if(targetKB){
+
+let targetBytes=targetKB*1024;
+
+for(let q=0.9;q>0.1;q-=0.05){
+
+blob=await new Promise(r=>canvas.toBlob(r,format,q));
+
+if(blob.size<=targetBytes) break;
+
+}
+
+}else{
+
+blob=await new Promise(r=>canvas.toBlob(r,format,quality));
+
+}
+
+let container=document.createElement("div");
+container.style.background="#1e293b";
+container.style.padding="10px";
+container.style.margin="10px 0";
+container.style.borderRadius="8px";
+
+let imgPreview=document.createElement("img");
+imgPreview.src=URL.createObjectURL(blob);
+imgPreview.style.maxWidth="120px";
+imgPreview.style.display="block";
+imgPreview.style.marginBottom="5px";
+
+let info=document.createElement("div");
+info.style.fontSize="13px";
+info.innerHTML=`
+<b>Name:</b> ${item.file.name}<br>
+<b>Width:</b> ${w}px<br>
+<b>Height:</b> ${h}px<br>
+<b>DPI:</b> ${document.getElementById("dpi").value}<br>
+<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
+`;
+
+container.appendChild(imgPreview);
+container.appendChild(info);
+
+document.getElementById("compressedPreview").innerHTML="";
+document.getElementById("compressedPreview").appendChild(container);
+
+  }
 </script>
 
 </body>
