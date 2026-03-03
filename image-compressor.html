@@ -555,14 +555,28 @@ if(targetKB){
 
 let targetBytes=targetKB*1024;
 
-for(let q=0.9;q>0.1;q-=0.05){
+let targetBytes = targetKB * 1024;
 
-blob=await new Promise(r=>canvas.toBlob(r,format,q));
+let minQ = 0.1;
+let maxQ = 1.0;
+let blob;
 
-if(blob.size<=targetBytes) break;
+for(let i=0;i<10;i++){   // 10 iteration precision
+
+let midQ = (minQ + maxQ) / 2;
+
+blob = await new Promise(r=>canvas.toBlob(r,format,midQ));
+
+if(blob.size > targetBytes){
+maxQ = midQ;   // reduce quality
+}else{
+minQ = midQ;   // increase quality
+}
 
 }
 
+// final safety check
+blob = await new Promise(r=>canvas.toBlob(r,format,minQ));
 }else{
 
 blob=await new Promise(r=>canvas.toBlob(r,format,quality));
