@@ -22,10 +22,19 @@ margin:0;
 font-family:Segoe UI;
 background:#0f172a;
 color:white;
+}
+
+.page-wrapper{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+.main-content{
+flex:1;
 display:flex;
 justify-content:center;
-align-items:center;
-min-height:100vh;
+padding:40px 0;
 }
 
 .container{
@@ -93,6 +102,28 @@ padding-left:18px;
 
 .seo-description li{
 margin-bottom:6px;
+}
+
+  .site-footer{
+background:#0b1220;
+padding:25px 15px;
+text-align:center;
+color:#94a3b8;
+}
+
+.footer-links{
+margin-bottom:10px;
+}
+
+.footer-links a{
+color:#38bdf8;
+margin:0 10px;
+text-decoration:none;
+font-size:14px;
+}
+
+.footer-links a:hover{
+text-decoration:underline;
 }
   
 .controls{
@@ -165,6 +196,9 @@ max-height:180px;
   
 <body>
 
+<div class="page-wrapper">
+
+<div class="main-content">
 <div class="container">
 <h1>Image Compressor Pro v2.0</h1>
 <div class="seo-description">
@@ -811,7 +845,10 @@ if(format==="image/png") return ".png";
 }
 
 </script>
-<footer>
+</div>
+</div>
+
+<footer class="site-footer">
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -820,10 +857,12 @@ if(format==="image/png") return ".png";
     <a href="terms.html">Terms & Conditions</a>
   </div>
 
-  <p style="margin-top:10px;">
-© 2026 GET Tools - Gopinath Enterprise Technology.</p>
+  <p>© 2026 GET Tools - Gopinath Enterprise Technology.</p>
   <p>All Rights Reserved.</p>
 </footer>
+
+</div>
   
 </body>
 </html>
+
