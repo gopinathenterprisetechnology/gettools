@@ -37,7 +37,12 @@ cursor:pointer;
 border-radius:10px;
 margin-bottom:20px;
 }
-
+  
+.fade-out{
+opacity:0;
+transition:opacity 0.3s ease;
+}
+  
 .preview-area{
 display:flex;
 gap:20px;
@@ -573,17 +578,26 @@ a.click();
 
 function resetAll(){
 
+// Smooth fade effect
+let original = document.getElementById("originalPreview");
+let compressed = document.getElementById("compressedPreview");
+
+original.classList.add("fade-out");
+compressed.classList.add("fade-out");
+
+setTimeout(()=>{
+
 // Clear arrays
 images = [];
 compressedImages = [];
 selectedIndex = null;
 
 // Clear file input
-document.getElementById("imageInput").value = "";
+document.getElementById("fileInput").value = "";
 
 // Clear previews
-document.getElementById("originalPreview").innerHTML = "";
-document.getElementById("compressedPreview").innerHTML = "";
+original.innerHTML = "";
+compressed.innerHTML = "";
 
 // Reset input fields
 document.getElementById("width").value = "";
@@ -591,16 +605,24 @@ document.getElementById("height").value = "";
 document.getElementById("dpi").value = "300";
 document.getElementById("targetKB").value = "";
 document.getElementById("singleTargetKB").value = "";
-document.getElementById("quality").value = 0.8;
+document.getElementById("quality").value = "0.8";
 document.getElementById("format").value = "image/jpeg";
+document.getElementById("unit").value = "px";
+
+// Reset unit labels
+document.getElementById("unitLabelW").innerText = "px";
+document.getElementById("unitLabelH").innerText = "px";
 
 // Hide resize section
 document.getElementById("resizeSection").style.display = "none";
 
-alert("Reset Successful ✅");
+// Remove fade class after reset
+original.classList.remove("fade-out");
+compressed.classList.remove("fade-out");
+
+},300);
 
 }
-
 
   async function resizeSelectedImage(){
 
