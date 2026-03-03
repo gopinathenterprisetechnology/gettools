@@ -335,7 +335,36 @@ document.getElementById("height").value = ((img.height/dpi)*2.54).toFixed(2);
 
 img.src = URL.createObjectURL(file);
 }
+document.getElementById("unit").addEventListener("change", function(){
 
+let unit = this.value;
+let dpi = parseFloat(document.getElementById("dpi").value);
+
+let w = parseFloat(document.getElementById("width").value);
+let h = parseFloat(document.getElementById("height").value);
+
+let unitLabelW = document.getElementById("unitLabelW");
+let unitLabelH = document.getElementById("unitLabelH");
+
+unitLabelW.innerText = unit;
+unitLabelH.innerText = unit;
+
+if(!w || !h) return;
+
+if(unit === "px"){
+document.getElementById("width").value = Math.round((w/25.4)*dpi);
+document.getElementById("height").value = Math.round((h/25.4)*dpi);
+}
+else if(unit === "mm"){
+document.getElementById("width").value = ((w/dpi)*25.4).toFixed(2);
+document.getElementById("height").value = ((h/dpi)*25.4).toFixed(2);
+}
+else if(unit === "cm"){
+document.getElementById("width").value = ((w/dpi)*2.54).toFixed(2);
+document.getElementById("height").value = ((h/dpi)*2.54).toFixed(2);
+}
+
+});
   
 // Convert
 function convertToPx(value){
