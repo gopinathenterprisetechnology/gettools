@@ -571,6 +571,37 @@ a.click();
 
 }
 
+function resetAll(){
+
+// Clear arrays
+images = [];
+compressedImages = [];
+selectedIndex = null;
+
+// Clear file input
+document.getElementById("imageInput").value = "";
+
+// Clear previews
+document.getElementById("originalPreview").innerHTML = "";
+document.getElementById("compressedPreview").innerHTML = "";
+
+// Reset input fields
+document.getElementById("width").value = "";
+document.getElementById("height").value = "";
+document.getElementById("dpi").value = "300";
+document.getElementById("targetKB").value = "";
+document.getElementById("singleTargetKB").value = "";
+document.getElementById("quality").value = 0.8;
+document.getElementById("format").value = "image/jpeg";
+
+// Hide resize section
+document.getElementById("resizeSection").style.display = "none";
+
+alert("Reset Successful ✅");
+
+}
+
+
   async function resizeSelectedImage(){
 
 if(selectedIndex === null){
