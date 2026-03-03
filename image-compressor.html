@@ -434,16 +434,48 @@ let blob;
 
 if(targetKB){
 
-let targetBytes=targetKB*1024;
+let targetBytes = targetKB * 1024;
 
-for(let q=0.9;q>0.1;q-=0.05){
+let minQ = 0.05;
+let maxQ = 1.0;
+let attempts = 0;
 
-blob=await new Promise(r=>canvas.toBlob(r,format,q));
+// Step 1: Binary Quality Search
+while(attempts < 10){
 
-if(blob.size<=targetBytes) break;
+let midQ = (minQ + maxQ) / 2;
+
+blob = await new Promise(r=>canvas.toBlob(r,format,midQ));
+
+if(blob.size > targetBytes){
+maxQ = midQ;
+}else{
+minQ = midQ;
+}
+
+attempts++;
+}
+
+// Step 2: If still bigger → reduce dimension
+while(blob.size > targetBytes){
+
+w = Math.floor(w * 0.9);
+h = Math.floor(h * 0.9);
+
+canvas.width = w;
+canvas.height = h;
+
+ctx.drawImage(item.img,0,0,w,h);
+
+blob = await new Promise(r=>canvas.toBlob(r,format,minQ));
 
 }
 
+}else{
+
+blob = await new Promise(r=>canvas.toBlob(r,format,quality));
+
+}
 }else{
 
 blob=await new Promise(r=>canvas.toBlob(r,format,quality));
