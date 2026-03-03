@@ -546,35 +546,98 @@ canvas.height=h;
 ctx.drawImage(item.img,0,0,w,h);
 
 let format=document.getElementById("format").value;
-let quality=document.getElementById("quality").value;
 let targetKB=document.getElementById("singleTargetKB").value;
 
 let blob;
 
-if(targetKB){
+// 🔥 PNG হলে quality control লাগবে না
+if(format === "image/png"){
 
-let targetBytes=targetKB*1024;
+blob = await new Promise(r=>canvas.toBlob(r,"image/png"));
+
+}else{
+
+if(targetKB){
 
 let targetBytes = targetKB * 1024;
 
 let minQ = 0.1;
 let maxQ = 1.0;
-let blob;
 
-for(let i=0;i<10;i++){   // 10 iteration precision
+for(let i=0;i<12;i++){   // higher precision
 
 let midQ = (minQ + maxQ) / 2;
 
 blob = await new Promise(r=>canvas.toBlob(r,format,midQ));
 
 if(blob.size > targetBytes){
-maxQ = midQ;   // reduce quality
+maxQ = midQ;
 }else{
-minQ = midQ;   // increase quality
+minQ = midQ;
 }
 
 }
 
+// final ensure under target
+blob = await new Promise(r=>canvas.toBlob(r,format,minQ));
+
+}else{
+
+let quality=document.getElementById("quality").value;
+blob = await new Promise(r=>canvas.toBlob(r,format,quality));
+
+}
+
+}
+
+// 🔥 IMPORTANT: compressedImages update করবো
+compressedImages = [];
+compressedImages.push({
+name: item.file.name.split('.')[0] + getExtension(format),
+blob: blob
+});
+
+// 🔥 Preview update
+let container=document.createElement("div");
+container.style.background="#1e293b";
+container.style.padding="10px";
+container.style.margin="10px 0";
+container.style.borderRadius="8px";
+
+let imgPreview=document.createElement("img");
+imgPreview.src=URL.createObjectURL(blob);
+imgPreview.style.maxWidth="120px";
+imgPreview.style.display="block";
+imgPreview.style.marginBottom="5px";
+
+let info=document.createElement("div");
+info.style.fontSize="13px";
+info.innerHTML=`
+<b>Name:</b> ${compressedImages[0].name}<br>
+<b>Width:</b> ${w}px<br>
+<b>Height:</b> ${h}px<br>
+<b>DPI:</b> ${document.getElementById("dpi").value}<br>
+<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
+`;
+
+container.appendChild(imgPreview);
+container.appendChild(info);
+
+document.getElementById("compressedPreview").innerHTML="";
+document.getElementById("compressedPreview").appendChild(container);
+
+  }
+
+  
+function getExtension(format){
+
+if(format==="image/jpeg") return ".jpg";
+if(format==="image/webp") return ".webp";
+if(format==="image/png") return ".png";
+
+}
+
+  
 // final safety check
 blob = await new Promise(r=>canvas.toBlob(r,format,minQ));
 }else{
