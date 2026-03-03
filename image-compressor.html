@@ -291,7 +291,8 @@ container.appendChild(preview);
 container.appendChild(info);
 
 document.getElementById("originalPreview").appendChild(container);
-
+loadImageData(file);
+  
 };
 
 img.src=e.target.result;
@@ -299,9 +300,6 @@ img.src=e.target.result;
 };
 
 reader.readAsDataURL(file);
-  
-images.push({file});
-loadImageData(file);  
   
 });
 
