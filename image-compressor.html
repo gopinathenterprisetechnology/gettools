@@ -637,38 +637,6 @@ if(format==="image/png") return ".png";
 
 }
 
-  
-
-
-let container=document.createElement("div");
-container.style.background="#1e293b";
-container.style.padding="10px";
-container.style.margin="10px 0";
-container.style.borderRadius="8px";
-
-let imgPreview=document.createElement("img");
-imgPreview.src=URL.createObjectURL(blob);
-imgPreview.style.maxWidth="120px";
-imgPreview.style.display="block";
-imgPreview.style.marginBottom="5px";
-
-let info=document.createElement("div");
-info.style.fontSize="13px";
-info.innerHTML=`
-<b>Name:</b> ${item.file.name}<br>
-<b>Width:</b> ${w}px<br>
-<b>Height:</b> ${h}px<br>
-<b>DPI:</b> ${document.getElementById("dpi").value}<br>
-<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
-`;
-
-container.appendChild(imgPreview);
-container.appendChild(info);
-
-document.getElementById("compressedPreview").innerHTML="";
-document.getElementById("compressedPreview").appendChild(container);
-
-  }
 </script>
 
 </body>
