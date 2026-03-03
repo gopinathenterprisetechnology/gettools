@@ -638,13 +638,7 @@ if(format==="image/png") return ".png";
 }
 
   
-// final safety check
-blob = await new Promise(r=>canvas.toBlob(r,format,minQ));
-}else{
 
-blob=await new Promise(r=>canvas.toBlob(r,format,quality));
-
-}
 
 let container=document.createElement("div");
 container.style.background="#1e293b";
