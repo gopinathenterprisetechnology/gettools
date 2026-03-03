@@ -90,33 +90,39 @@ text-align:center;
 font-size:14px;
 color:#94a3b8;
 }
+
+  @media (max-width:768px){
+
+.container{
+width:95%;
+padding:15px;
+}
+
+.preview-area{
+flex-direction:column;
+}
+
+.controls{
+grid-template-columns:1fr;
+}
+
+button{
+width:100%;
+margin-top:5px;
+}
+
+.drop-zone{
+padding:20px;
+}
+
+.preview-box img{
+max-height:180px;
+}
+
+  }
+  
 </style>
-  <div id="resizePanel" style="display:none; grid-column:1/3; background:#0f172a; padding:15px; border-radius:10px;">
-
-<h3>Resize Options</h3>
-
-<label>Unit</label>
-<select id="unit">
-<option value="px">Pixel</option>
-<option value="mm">Millimeter</option>
-<option value="cm">Centimeter</option>
-</select>
-
-<label>DPI</label>
-<input type="number" id="dpi" value="300">
-
-<label>Width <span id="unitLabelW">px</span></label>
-<input type="number" id="width">
-
-<label>Height <span id="unitLabelH">px</span></label>
-<input type="number" id="height">
-
-<label>
-<input type="checkbox" id="ratio" checked>
-Maintain Aspect Ratio
-</label>
-
-</div>
+  
 </head>
   
 <body>
@@ -292,8 +298,22 @@ container.appendChild(preview);
 container.appendChild(info);
 
 document.getElementById("originalPreview").appendChild(container);
+container.style.cursor="pointer";
+
+container.onclick=function(){
+
+// remove previous selection border
+document.querySelectorAll("#originalPreview div").forEach(d=>{
+d.style.border="none";
+});
+
+container.style.border="2px solid #38bdf8";
+
+selectedIndex = images.findIndex(i=>i.file.name===file.name);
+
 loadImageData(file);
-  
+
+};
 };
 
 img.src=e.target.result;
