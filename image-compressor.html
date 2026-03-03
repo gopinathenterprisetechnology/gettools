@@ -466,12 +466,26 @@ imgPreview.style.marginBottom="5px";
 
 let info=document.createElement("div");
 info.style.fontSize="13px";
+
+let originalFormat = item.file.type.split("/")[1].toUpperCase();
+let compressedFormat = format.split("/")[1].toUpperCase();
+
+let originalSizeKB = item.file.size / 1024;
+let compressedSizeKB = blob.size / 1024;
+
+let savedKB = originalSizeKB - compressedSizeKB;
+let percent = ((savedKB / originalSizeKB) * 100).toFixed(1);
+
 info.innerHTML=`
 <b>Name:</b> ${item.file.name}<br>
+<b>Original Format:</b> ${originalFormat}<br>
+<b>Compressed Format:</b> ${compressedFormat}<br>
 <b>Width:</b> ${w}px<br>
 <b>Height:</b> ${h}px<br>
 <b>DPI:</b> ${document.getElementById("dpi").value}<br>
-<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
+<b>Original Size:</b> ${originalSizeKB.toFixed(2)} KB<br>
+<b>Compressed Size:</b> ${compressedSizeKB.toFixed(2)} KB<br>
+<b>Saved:</b> ${savedKB.toFixed(2)} KB (${percent}% smaller)
 `;
 
 container.appendChild(imgPreview);
@@ -610,14 +624,29 @@ imgPreview.style.maxWidth="120px";
 imgPreview.style.display="block";
 imgPreview.style.marginBottom="5px";
 
+
 let info=document.createElement("div");
 info.style.fontSize="13px";
+    
+let originalFormat = item.file.type.split("/")[1].toUpperCase();
+let compressedFormat = format.split("/")[1].toUpperCase();
+
+let originalSizeKB = item.file.size / 1024;
+let compressedSizeKB = blob.size / 1024;
+
+let savedKB = originalSizeKB - compressedSizeKB;
+let percent = ((savedKB / originalSizeKB) * 100).toFixed(1);
+
 info.innerHTML=`
-<b>Name:</b> ${compressedImages[0].name}<br>
+<b>Name:</b> ${item.file.name}<br>
+<b>Original Format:</b> ${originalFormat}<br>
+<b>Compressed Format:</b> ${compressedFormat}<br>
 <b>Width:</b> ${w}px<br>
 <b>Height:</b> ${h}px<br>
 <b>DPI:</b> ${document.getElementById("dpi").value}<br>
-<b>Size:</b> ${(blob.size/1024).toFixed(2)} KB
+<b>Original Size:</b> ${originalSizeKB.toFixed(2)} KB<br>
+<b>Compressed Size:</b> ${compressedSizeKB.toFixed(2)} KB<br>
+<b>Saved:</b> ${savedKB.toFixed(2)} KB (${percent}% smaller)
 `;
 
 container.appendChild(imgPreview);
