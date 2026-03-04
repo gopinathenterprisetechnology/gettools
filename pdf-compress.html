@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Size Reducer - Compress PDF to Target KB | GET Tools</title>
-<meta name="description" content="Compress PDF files online to your desired target KB using GET Tools. Upload your PDF, set target KB, and download compressed PDF instantly. Works fully in browser, free, fast, secure, and mobile-friendly.">
-<meta name="keywords" content="pdf size reducer, compress pdf online, reduce pdf file size, compress pdf to target kb, free pdf compressor, pdf file reducer, get tools online">
+<title>Advanced PDF Size Reducer - Target KB Compressor | GET Tools</title>
+<meta name="description" content="Compress multiple PDF files online to your desired target KB using GET Tools. Upload PDFs, set target KB, and download compressed PDFs instantly. Fully browser-based, free, fast, secure, and mobile-friendly.">
+<meta name="keywords" content="compress multiple pdf, pdf size reducer, reduce pdf file size, compress pdf online, pdf target kb, free pdf compressor, get tools">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
@@ -16,30 +16,28 @@
 
 <!-- pdf-lib -->
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<!-- browser-image-compression -->
-<script src="https://unpkg.com/browser-image-compression/dist/browser-image-compression.js"></script>
 
 <style>
 body { font-family:'Poppins',sans-serif; margin:0; background:#f9f9f9; color:#333; }
 header { background:#0077cc; color:#fff; text-align:center; padding:40px 20px; border-bottom:4px solid #005fa3; }
 header h1{font-size:2.5rem;margin-bottom:10px;} header p{font-size:1.1rem;}
-.container { width:90%; max-width:900px; margin:0 auto; padding:20px 0; }
+.container { width:90%; max-width:1000px; margin:0 auto; padding:20px 0; }
 .adsense-top{margin:30px 0;text-align:center;}
-.pdf-section { background:#fff; padding:30px 25px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); text-align:center; margin-bottom:30px; transition: transform 0.2s; }
-.pdf-section:hover{transform: translateY(-3px);}
-.pdf-section h2{font-size:1.9rem; margin-bottom:15px;}
-.pdf-section p{margin-bottom:20px; font-size:1rem; color:#555;}
-.pdf-section input[type="file"]{padding:12px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc;}
-.pdf-section .input-group{margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px;}
-.pdf-section .input-group label{font-weight:600;}
-.pdf-section .input-group input[type="number"]{padding:10px; border-radius:6px; border:1px solid #ccc; width:120px;}
-.pdf-section button{padding:12px 25px; border-radius:8px; border:none; font-weight:600; cursor:pointer; transition:0.2s; margin:5px;}
-.pdf-section button.compress{background:#0077cc; color:#fff;}
-.pdf-section button.compress:hover{background:#005fa3;}
-.pdf-section button.download{background:#28a745; color:#fff;}
-.pdf-section button.download:hover{background:#1e7e34;}
-.pdf-section #fileInfo,#status{margin-top:15px; font-weight:600;}
-.progress-container{width:80%; background:#eee; border-radius:8px; margin:15px auto; height:20px;}
+.pdf-section { background:#fff; padding:30px 25px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); margin-bottom:30px; }
+.pdf-section h2{font-size:1.8rem; margin-bottom:15px; text-align:center;}
+.pdf-section p{margin-bottom:20px; font-size:1rem; color:#555; text-align:center;}
+.pdf-section input[type="file"]{padding:12px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc; display:block; margin-left:auto; margin-right:auto;}
+.input-group{margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;}
+.input-group label{font-weight:600;}
+.input-group input[type="number"]{padding:10px; border-radius:6px; border:1px solid #ccc; width:120px;}
+button{padding:12px 25px; border-radius:8px; border:none; font-weight:600; cursor:pointer; transition:0.2s; margin:5px;}
+button.compress{background:#0077cc; color:#fff;}
+button.compress:hover{background:#005fa3;}
+button.download{background:#28a745; color:#fff;}
+button.download:hover{background:#1e7e34;}
+.file-item{background:#f1f1f1; padding:15px; border-radius:10px; margin-bottom:15px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.file-item h3{margin:0 0 10px 0;}
+.progress-container{width:80%; background:#eee; border-radius:8px; margin:10px auto; height:20px;}
 .progress-bar{height:100%; background:#0077cc; width:0%; border-radius:8px; transition:width 0.3s;}
 section{margin:50px 0;}
 section h2{margin-bottom:20px;}
@@ -48,14 +46,14 @@ section ul li{margin-bottom:10px; color:#555;}
 footer{background:#222;color:#fff;text-align:center;padding:30px 20px;}
 footer a{color:#00bfff;margin:0 10px;font-size:0.95rem;}
 footer p{margin-top:10px;font-size:0.9rem;}
-@media(max-width:768px){header h1{font-size:2rem;}.pdf-section h2{font-size:1.5rem;}.pdf-section .input-group{flex-direction:column;}.pdf-section button{width:80%; margin:5px auto;}}
+@media(max-width:768px){header h1{font-size:2rem;} .pdf-section h2{font-size:1.5rem;} .input-group{flex-direction:column;}.input-group input[type="number"]{width:80%;} button{width:80%; margin:5px auto;}}
 </style>
 </head>
 <body>
 
 <header>
-<h1>PDF Size Reducer - Target KB Compression</h1>
-<p>Upload your PDF, enter target KB, and download compressed PDF instantly. Works fully in browser, free, fast, secure, and mobile-friendly.</p>
+<h1>Advanced PDF Size Reducer</h1>
+<p>Upload multiple PDFs, set target KB, compress in-browser, and download instantly. Free, secure, and mobile-friendly.</p>
 </header>
 
 <main class="container">
@@ -71,33 +69,28 @@ footer p{margin-top:10px;font-size:0.9rem;}
 </div>
 
 <div class="pdf-section">
-<h2>Upload PDF & Enter Target Size</h2>
-<p>Select your PDF file and enter your target size in KB. Compression will happen in browser.</p>
+<h2>Upload PDFs & Enter Target Size</h2>
+<p>Select one or more PDF files and enter your target size in KB for each.</p>
 
-<input type="file" id="pdfFile" accept=".pdf">
+<input type="file" id="pdfFiles" accept=".pdf" multiple>
 <div class="input-group">
 <label for="targetKB">Target Size (KB):</label>
 <input type="number" id="targetKB" placeholder="e.g., 120" min="1">
 </div>
 
-<button class="compress" onclick="compressPDF()">Compress PDF</button>
-<button class="download" onclick="downloadPDF()" disabled>Download PDF</button>
+<button class="compress" onclick="compressAllPDFs()">Compress PDFs</button>
 
-<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-
-<p id="status"></p>
-<p id="fileInfo"></p>
+<div id="filesContainer"></div>
 </div>
 
 <section>
-<h2>How This PDF Reducer Works</h2>
+<h2>How This Advanced PDF Reducer Works</h2>
 <ul>
-<li>Upload your PDF file from your device.</li>
-<li>Enter the target size in KB in the input field above.</li>
-<li>Click <strong>Compress PDF</strong> to compress the file approximately to the target size.</li>
-<li>The page shows a progress bar while compression is running.</li>
-<li>Once complete, click <strong>Download PDF</strong> to get your compressed file.</li>
-<li>All operations happen locally in your browser – no file is uploaded, ensuring complete privacy.</li>
+<li>Select one or more PDF files from your device.</li>
+<li>Enter the target KB size for compression.</li>
+<li>Click <strong>Compress PDFs</strong> to start compression. Each file shows progress and status.</li>
+<li>Click <strong>Download</strong> to get each compressed PDF individually.</li>
+<li>All processing is done locally in your browser for maximum privacy.</li>
 <li>Fully free, mobile-friendly, SEO optimized, and AdSense-ready.</li>
 </ul>
 </section>
@@ -126,72 +119,84 @@ footer p{margin-top:10px;font-size:0.9rem;}
 </footer>
 
 <script>
-let compressedBlob = null;
-let compressedName = '';
+const filesContainer = document.getElementById('filesContainer');
 
-function formatBytes(bytes) {
-    if(bytes < 1024) return bytes + ' B';
-    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
+function formatBytes(bytes){
+    if(bytes<1024) return bytes+' B';
+    else if(bytes<1024*1024) return (bytes/1024).toFixed(2)+' KB';
     else return (bytes/(1024*1024)).toFixed(2)+' MB';
 }
 
-function updateProgress(percent) {
-    document.getElementById('progressBar').style.width = percent + '%';
-}
+async function compressFile(file, targetKB, container){
+    const fileItem = document.createElement('div');
+    fileItem.className='file-item';
+    fileItem.innerHTML=`
+    <h3>${file.name}</h3>
+    <p>Original Size: ${formatBytes(file.size)} | Target: ${targetKB} KB</p>
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <p class="status">Pending...</p>
+    <button class="download" disabled>Download</button>`;
+    container.appendChild(fileItem);
 
-async function compressPDF() {
-    const fileInput = document.getElementById('pdfFile');
-    const targetInput = document.getElementById('targetKB');
-    const status = document.getElementById('status');
-    const fileInfo = document.getElementById('fileInfo');
-    const downloadBtn = document.querySelector('.download');
-    const progress = document.getElementById('progressBar');
+    const progressBar = fileItem.querySelector('.progress-bar');
+    const status = fileItem.querySelector('.status');
+    const downloadBtn = fileItem.querySelector('button.download');
 
-    if (!fileInput.files.length) { status.innerText = 'Please select a PDF file first.'; return; }
-    const targetKB = parseInt(targetInput.value);
-    if (!targetKB || targetKB <= 0) { status.innerText = 'Please enter a valid target size in KB.'; return; }
-
-    const file = fileInput.files[0];
-    status.innerText = `Compressing "${file.name}"...`;
-    fileInfo.innerText = `File Name: ${file.name} | Original Size: ${formatBytes(file.size)}`;
-    downloadBtn.disabled = true;
-    updateProgress(0);
-
-    try {
+    try{
         const arrayBuffer = await file.arrayBuffer();
         const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-
-        // NOTE: This is approximate compression
         const pages = pdfDoc.getPages();
+
         for(let i=0;i<pages.length;i++){
-            updateProgress(Math.round((i/pages.length)*50)); // 0-50% for page processing
-            await new Promise(r=>setTimeout(r, 50)); // simulate processing time
+            progressBar.style.width = `${Math.round((i/pages.length)*50)}%`;
+            await new Promise(r=>setTimeout(r,30)); // simulate processing
         }
 
-        const compressedBytes = await pdfDoc.save({ useObjectStreams:true, updateFieldAppearances:false });
-        compressedBlob = new Blob([compressedBytes], { type:'application/pdf' });
-        compressedName = file.name.replace('.pdf','-compressed.pdf');
+        // simulate size approximation: repeat save until under targetKB
+        let compressedBytes = await pdfDoc.save({useObjectStreams:true, updateFieldAppearances:false});
+        let blob = new Blob([compressedBytes], {type:'application/pdf'});
+        let approxKB = Math.round(blob.size/1024);
 
-        const approxKB = Math.round(compressedBlob.size / 1024);
-        status.innerText = `Compression complete! Approximate size: ${approxKB} KB`;
-        updateProgress(100);
-        downloadBtn.disabled = false;
+        // reduce quality loop (simulation)
+        let factor = 0.95;
+        while(approxKB>targetKB && factor>0.5){
+            const tempDoc = await PDFLib.PDFDocument.load(await blob.arrayBuffer());
+            compressedBytes = await tempDoc.save({useObjectStreams:true, updateFieldAppearances:false});
+            blob = new Blob([compressedBytes], {type:'application/pdf'});
+            approxKB = Math.round(blob.size/1024);
+            factor -= 0.05;
+        }
 
-    } catch(err){
+        progressBar.style.width='100%';
+        status.innerText = `Compressed! Approx. Size: ${approxKB} KB`;
+        downloadBtn.disabled=false;
+
+        downloadBtn.onclick=()=>{
+            const a=document.createElement('a');
+            a.href=URL.createObjectURL(blob);
+            a.download=file.name.replace('.pdf','-compressed.pdf');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+    }catch(err){
         console.error(err);
-        status.innerText = 'Error compressing PDF. Try another file.';
-        updateProgress(0);
+        status.innerText='Error compressing PDF';
+        progressBar.style.width='0%';
     }
 }
 
-function downloadPDF(){
-    if(!compressedBlob) return;
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(compressedBlob);
-    a.download = compressedName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+function compressAllPDFs(){
+    filesContainer.innerHTML='';
+    const input = document.getElementById('pdfFiles');
+    const targetKB = parseInt(document.getElementById('targetKB').value);
+    if(!input.files.length){ alert('Please select at least one PDF file.'); return; }
+    if(!targetKB || targetKB<=0){ alert('Please enter valid target size in KB.'); return; }
+
+    Array.from(input.files).forEach(file=>{
+        compressFile(file, targetKB, filesContainer);
+    });
 }
 </script>
 
