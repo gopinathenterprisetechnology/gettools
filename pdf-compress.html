@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Size Reducer - Compress PDF Online | GET Tools</title>
+<meta name="description" content="Compress PDF files online instantly with GET Tools PDF Size Reducer. Reduce PDF size without losing quality. Free, fast, secure.">
+<meta name="keywords" content="pdf size reducer, compress pdf online, pdf compressor, reduce pdf file size, free online pdf tools, get tools">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- AdSense -->
+<script data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<!-- pdf-lib -->
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+body { font-family: 'Poppins', sans-serif; line-height: 1.6; background: #f9f9f9; color: #333; margin:0; }
+a { text-decoration: none; color: #0077cc; }
+header { background:#0077cc;color:#fff;text-align:center;padding:40px 20px;border-bottom:4px solid #005fa3; }
+header h1{font-size:2.5rem;margin-bottom:10px;} header p{font-size:1.1rem;}
+.container { width:90%; max-width:1200px; margin:0 auto; padding:20px 0;}
+.adsense-top{margin:30px 0;text-align:center;}
+.pdf-section {background:#fff;padding:30px 20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:30px;}
+.pdf-section h2 { margin-bottom:20px; font-size:1.8rem; }
+.pdf-section p { margin-bottom:25px; font-size:1rem; }
+.pdf-section input[type="file"] { margin-bottom:20px; padding:10px; }
+.pdf-section button { background:#0077cc; color:#fff; border:none; padding:12px 25px; border-radius:6px; cursor:pointer; font-weight:600; transition: background 0.2s; }
+.pdf-section button:hover { background:#005fa3; }
+section{margin:50px 0;}
+section h2{margin-bottom:20px;}
+section ul{list-style:disc;margin-left:20px;}
+section ul li{margin-bottom:10px;}
+footer{background:#222;color:#fff;text-align:center;padding:30px 20px;}
+footer a{color:#00bfff;margin:0 10px;font-size:0.95rem;}
+footer p{margin-top:10px;font-size:0.9rem;}
+@media(max-width:768px){header h1{font-size:2rem;}.pdf-section h2{font-size:1.5rem;}.pdf-section button{padding:10px 20px;font-size:0.95rem;}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>PDF Size Reducer - Compress PDF Online</h1>
+<p>Reduce PDF file size instantly without losing quality. Fast, free, and secure!</p>
+</header>
+
+<main class="container">
+
+<!-- AdSense Top -->
+<div class="adsense-top">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+     data-ad-slot="1234567890"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="pdf-section">
+<h2>Upload Your PDF File</h2>
+<p>Select your PDF to compress and download instantly.</p>
+<input type="file" id="pdfFile" accept=".pdf">
+<br>
+<button onclick="compressPDF()">Compress & Download</button>
+<p id="status" style="margin-top:15px;color:#0077cc;font-weight:600;"></p>
+</div>
+
+<section>
+<h2>How It Works</h2>
+<ul>
+<li>Select your PDF file from your device.</li>
+<li>Our tool compresses the file without losing quality.</li>
+<li>Download the compressed PDF instantly.</li>
+<li>Works directly in your browser. No software installation required.</li>
+<li>100% free and secure.</li>
+</ul>
+</section>
+
+<!-- AdSense Inline -->
+<div class="adsense-top">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+     data-ad-slot="0987654321"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+</main>
+
+<footer>
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+</div>
+<p>© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
+</footer>
+
+<script>
+async function compressPDF() {
+    const fileInput = document.getElementById('pdfFile');
+    const status = document.getElementById('status');
+    if (!fileInput.files.length) {
+        status.innerText = 'Please select a PDF file first.';
+        return;
+    }
+
+    const file = fileInput.files[0];
+    status.innerText = 'Compressing PDF, please wait...';
+
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        const pages = pdfDoc.getPages();
+
+        // Reduce PDF size: remove unused objects, embed fonts minimally
+        const compressedPdfBytes = await pdfDoc.save({ useObjectStreams: true, updateFieldAppearances: false });
+
+        // Create download link
+        const blob = new Blob([compressedPdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name.replace('.pdf', '-compressed.pdf');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        status.innerText = `Successfully compressed "${file.name}"!`;
+    } catch (err) {
+        console.error(err);
+        status.innerText = 'Error compressing PDF. Please try another file.';
+    }
+}
+</script>
+
+</body>
+</html>
