@@ -1,0 +1,50 @@
+<div class="tool-container" style="max-width: 700px; margin: 30px auto; padding: 25px; background: #ffffff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); font-family: 'Segoe UI', sans-serif;">
+    <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">Professional Code Minifier</h2>
+    <p style="color: #718096; text-align: center; margin-bottom: 20px; font-size: 14px;">Compress your HTML, CSS, or JavaScript code instantly to improve website performance.</p>
+    
+    <textarea id="raw-code" placeholder="Paste your HTML, CSS, or JS code here..." style="width: 100%; height: 150px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; resize: none; font-size: 14px; box-sizing: border-box; font-family: monospace;"></textarea>
+    
+    <button onclick="minifyCode()" style="width: 100%; background: #4f46e5; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; margin-bottom: 15px; transition: 0.2s;">⚡ Minify Code</button>
+    
+    <div style="position: relative;">
+        <textarea id="minified-code" readonly placeholder="Your minified code will appear here..." style="width: 100%; height: 150px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; resize: none; font-size: 14px; box-sizing: border-box; font-family: monospace; background: #f8fafc;"></textarea>
+        <button onclick="copyMinifiedCode()" style="position: absolute; right: 10px; top: 10px; background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;">Copy</button>
+    </div>
+</div>
+
+<script>
+    function minifyCode() {
+        const rawCode = document.getElementById('raw-code').value;
+        if (!rawCode.trim()) {
+            alert('Please paste some code first!');
+            return;
+        }
+        // Basic minification logic (removes comments, line breaks, and extra spaces)
+        let minified = rawCode
+            .replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '$1') // Removes comments
+            .replace(/\s+/g, ' ') // Collapses whitespaces
+            .replace(/\s*([\{\}\:\;\,\=\+\-\*\/\(\)])\s*/g, '$1') // Removes spacing around operators
+            .trim();
+            
+        document.getElementById('minified-code').value = minified;
+    }
+
+    function copyMinifiedCode() {
+        const copyText = document.getElementById('minified-code');
+        if (!copyText.value) return;
+        copyText.select();
+        document.execCommand('copy');
+        alert('Minified code copied to clipboard!');
+    }
+</script>
+<div style="max-width: 700px; margin: 30px auto; font-family: Arial, sans-serif; color: #4a5568; line-height: 1.6; padding: 10px;">
+    <h3 style="color: #2d3748;">Why Choose Our Premium Web Utilities?</h3>
+    <p>Our online tools offer a fast, reliable, and completely secure user experience. Built using modern client-side technology, all data processing happens directly inside your web browser. This means your private files, codes, or text inputs are never uploaded to any remote web server, ensuring 100% data privacy.</p>
+    
+    <h4 style="color: #2d3748; margin-top: 15px;">Key Features and Benefits:</h4>
+    <ul>
+        <li><strong>Zero Registration Required:</strong> Enjoy unlimited access to all professional developer services without paying any subscription fees or logging into an account.</li>
+        <li><strong>Cross-Platform Compatibility:</strong> Optimized to perform flawlessly across all modern electronic devices, including desktop computers, Android mobile devices, and iOS iPhones.</li>
+        <li><strong>Optimized Performance:</strong> Lightweight code architecture ensures the fastest execution speeds, allowing you to complete your technical workflow within seconds.</li>
+    </ul>
+</div>
