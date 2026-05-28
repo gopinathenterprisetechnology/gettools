@@ -1,0 +1,58 @@
+<div class="tool-container" style="max-width: 600px; margin: 30px auto; padding: 25px; background: #ffffff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); font-family: 'Segoe UI', sans-serif;">
+    <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">Advance Color Palette Generator</h2>
+    <p style="color: #718096; text-align: center; margin-bottom: 20px; font-size: 14px;">Click the button below to generate a professional color scheme for your design projects.</p>
+    
+    <div style="display: flex; gap: 10px; justify-content: space-between; margin-bottom: 25px; height: 120px;">
+        <div id="c1" onclick="copyColor('c1-hex')" style="flex: 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; text-align: center; color: white; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: pointer;"><span id="c1-hex">#4F46E5</span></div>
+        <div id="c2" onclick="copyColor('c2-hex')" style="flex: 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; text-align: center; color: white; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: pointer;"><span id="c2-hex">#10B981</span></div>
+        <div id="c3" onclick="copyColor('c3-hex')" style="flex: 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; text-align: center; color: white; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: pointer;"><span id="c3-hex">#F59E0B</span></div>
+        <div id="c4" onclick="copyColor('c4-hex')" style="flex: 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; text-align: center; color: white; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: pointer;"><span id="c4-hex">#EF4444</span></div>
+        <div id="c5" onclick="copyColor('c5-hex')" style="flex: 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; text-align: center; color: white; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); cursor: pointer;"><span id="c5-hex">#EC4899</span></div>
+    </div>
+    
+    <button onclick="generatePalette()" style="width: 100%; background: #1e293b; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;">🎨 Generate New Palette</button>
+</div>
+
+<script>
+    function getRandomHex() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function generatePalette() {
+        for (let i = 1; i <= 5; i++) {
+            const newColor = getRandomHex();
+            document.getElementById(`c${i}`).style.backgroundColor = newColor;
+            document.getElementById(`c${i}-hex`).innerText = newColor;
+        }
+    }
+
+    function copyColor(id) {
+        const colorText = document.getElementById(id).innerText;
+        const el = document.createElement('textarea');
+        el.value = colorText;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        alert('Copied: ' + colorText);
+    }
+    
+    // Run once on load
+    window.onload = generatePalette;
+</script>
+<div style="max-width: 700px; margin: 30px auto; font-family: Arial, sans-serif; color: #4a5568; line-height: 1.6; padding: 10px;">
+    <h3 style="color: #2d3748;">Why Choose Our Premium Web Utilities?</h3>
+    <p>Our online tools offer a fast, reliable, and completely secure user experience. Built using modern client-side technology, all data processing happens directly inside your web browser. This means your private files, codes, or text inputs are never uploaded to any remote web server, ensuring 100% data privacy.</p>
+    
+    <h4 style="color: #2d3748; margin-top: 15px;">Key Features and Benefits:</h4>
+    <ul>
+        <li><strong>Zero Registration Required:</strong> Enjoy unlimited access to all professional developer services without paying any subscription fees or logging into an account.</li>
+        <li><strong>Cross-Platform Compatibility:</strong> Optimized to perform flawlessly across all modern electronic devices, including desktop computers, Android mobile devices, and iOS iPhones.</li>
+        <li><strong>Optimized Performance:</strong> Lightweight code architecture ensures the fastest execution speeds, allowing you to complete your technical workflow within seconds.</li>
+    </ul>
+</div>
