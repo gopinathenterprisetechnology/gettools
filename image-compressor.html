@@ -810,42 +810,68 @@ if(format==="image/png") return ".png";
 }
 </script>
 
-  <div class="ad-container">
+  <div class="ad-container ad-responsive-wrapper">
 
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px auto; max-width: 1000px; font-family: sans-serif;">
-
-    <!-- First Ad Slot (প্রথম বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 1st Adsterra 300x250 code here -->
+    <!-- First Ad Slot -->
+    <div class="ad-slot-box" style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
         <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
-
+            atOptions = {
+                'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
     </div>
 
-    <!-- Second Ad Slot (দ্বিতীয় বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 2nd Adsterra 300x250 code here -->
-       <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
+    <!-- Second Ad Slot -->
+    <div class="ad-slot-box" style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <script>
+            atOptions = {
+                'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
     </div>
 
 </div>
+
+<!-- 📱 স্পেশাল মোবাইল সিএসএস স্টাইল (যা অটোমেটিক মোবাইল স্ক্রিন ফিক্স করবে) -->
+<style>
+    .ad-responsive-wrapper {
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 15px; 
+        justify-content: center; 
+        margin: 25px auto; 
+        max-width: 1000px; 
+        font-family: sans-serif;
+    }
+
+    /* 📱 স্ক্রিন যদি ৭৬৮ পিক্সেলের চেয়ে ছোট (মোবাইল) হয় */
+    @media (max-width: 768px) {
+        .ad-responsive-wrapper {
+            flex-direction: column !important; /* বিজ্ঞাপন একটার নিচে আরেকটা নামাবে */
+            align-items: center !important;
+            gap: 20px !important;
+            padding: 0 10px !important;
+            width: 100% !important;
+        }
+
+        .ad-slot-box {
+            width: 300px !important; /* মোবাইলের ভেতরে সাইজ ৩০০ পিক্সেল লক রাখবে */
+            height: 250px !important;
+            margin: 0 auto !important;
+        }
+    }
+</style>
+
 
 </div>
   <section style="max-width:1000px; margin:auto; padding:0 20px;">
