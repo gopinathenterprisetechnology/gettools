@@ -224,6 +224,69 @@ footer p { margin-top: 10px; font-size: 0.9rem; }
 <!-- 🔥 🛑 END OF TRENDING DEALS SECTION 🛑 🔥 -->
  
  
+
+
+<!-- 🔥 🟢 AUTOMATIC SPREADSHEET TRENDING DEALS 🟢 🔥 -->
+<section style="margin: 50px 0;">
+    <h2 style="text-align: center; color: #222; font-size: 2rem; margin-bottom: 5px; font-weight: 600;">🔥 Top Trending Deals Today</h2>
+    <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.95rem;">Live updated products directly from Flipkart.</p>
+    
+    <!-- যেখানে গুগল শিটের ডেটা অটোমেটিক এসে বক্স তৈরি করবে -->
+    <div class="tools-grid" id="live-deals-container">
+        <p style="text-align: center; grid-column: 1/-1; color: #666;">Loading latest deals...</p>
+    </div>
+</section>
+
+<script>
+// 🔴 শুধু নিচের লাইনে আপনার গুগল শিটের আসল ID টি বসিয়ে দিন
+const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1sJUFEavMfT7xahlx84ib2cmYJwjOdtEAa0Bdu2RoU4w/edit?usp=drivesdk'; 
+const SHEET_TITLE = 'Sheet1'; // আপনার শিটের নিচের নাম (ডিফল্ট Sheet1 থাকে)
+const SHEET_RANGE = 'A2:D4'; // ২ থেকে ৪ নম্বর লাইনের ডেটা পড়ার জন্য
+
+const fullUrl = `https://google.com{SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE}`;
+
+fetch(fullUrl)
+    .then(res => res.text())
+    .then(rep => {
+        // গুগল শিটের ডেটাকে জেসন (JSON) ফরম্যাটে কনভার্ট করা
+        const data = JSON.parse(rep.substr(47).slice(0, -2));
+        const rows = data.table.rows;
+        const container = document.getElementById('live-deals-container');
+        container.innerHTML = ''; // লোডিং টেক্সট মুছে ফেলা
+
+        rows.forEach(row => {
+            const title = row.c[0] ? row.c[0].v : 'Trending Product';
+            const link = row.c[1] ? row.c[1].v : 'https://flipkart.com';
+            const img = row.c[2] ? row.c[2].v : 'placeholder.jpg';
+            const price = row.c[3] ? row.c[3].v : 'Check Price';
+
+            // অটোমেটিক সুন্দর প্রোডাক্ট কার্ড তৈরি হওয়া
+            container.innerHTML += `
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; background: #fff;">
+                    <div>
+                        <img src="${img}" alt="${title}" style="width:100%; max-width:140px; height:auto; margin:0 auto 15px auto; display:block; border-radius:8px;">
+                        <h3 style="font-size: 1.1rem; margin: 10px 0 5px 0; color:#222;">${title}</h3>
+                        <p style="color: #ef4444; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px;">Surprise Price: ${price}</p>
+                    </div>
+                    <a href="${link}" target="_blank" rel="nofollow">
+                        <button style="background: #2874f0; width: 100%; font-size: 0.95rem; border: none; color: #fff; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer;">👉 View on Flipkart</button>
+                    </a>
+                </div>
+            `;
+        });
+    })
+    .catch(err => {
+        document.getElementById('live-deals-container').innerHTML = '<p style="text-align:center; color:red;">Failed to load deals. Please try again later.</p>';
+    });
+</script>
+
+
+
+
+
+
+
+
  
   <section>
     <h2>Our Popular Tools</h2>
