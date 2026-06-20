@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Image Size Increaser | GET Tools</title>
+<meta name="description" content="Increase image file size online to your target KB without losing quality. Fast, secure, browser-based image size expander with batch processing.">
+<meta name="keywords" content="image size increaser, increase image kb, target kb image, multiple image expander, online photo kb increaser">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
+
+<link href="https://googleapis.com" rel="stylesheet">
+
+<!-- AdSense -->
+<script data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" async src="https://googlesyndication.com"></script>
+
+<style>
+body { font-family:'Poppins',sans-serif; margin:0; background:#f9f9f9; color:#333; }
+header { background:#0077cc; color:#fff; text-align:center; padding:40px 20px; border-bottom:4px solid #005fa3; }
+header h1{font-size:2.5rem;margin-bottom:10px;} header p{font-size:1.1rem;}
+.container { width:90%; max-width:950px; margin:0 auto; padding:20px 0; }
+.adsense-top{margin:30px 0;text-align:center;}
+.image-section { background:#fff; padding:30px 25px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); text-align:center; margin-bottom:30px; }
+.image-section h2{font-size:1.9rem; margin-bottom:15px;}
+.image-section p{margin-bottom:20px; font-size:1rem; color:#555;}
+.image-section input[type="file"]{padding:12px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc; width: 100%; max-width: 300px; box-sizing: border-box;}
+.input-group{margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;}
+.input-group label{font-weight:600;}
+.input-group input[type="number"]{padding:10px; border-radius:6px; border:1px solid #ccc; width:130px;}
+.image-section button{padding:12px 25px; border-radius:8px; border:none; font-weight:600; cursor:pointer; transition:0.2s; margin:5px;}
+.image-section button.process{background:#0077cc; color:#fff;}
+.image-section button.process:hover{background:#005fa3;}
+.image-section button.download{background:#28a745; color:#fff;}
+.image-section button.download:hover{background:#1e7e34;}
+.progress-container{width:80%; background:#eee; border-radius:8px; margin:15px auto; height:20px; overflow:hidden;}
+.progress-bar{height:100%; background:#0077cc; width:0%; border-radius:8px; transition:width 0.3s;}
+#fileInfo,#status{margin-top:15px; font-weight:600; color:#222; white-space: pre-line;}
+section{margin:50px 0;}
+section h2{margin-bottom:20px;}
+section ul{list-style:disc; margin-left:20px;}
+section ul li{margin-bottom:10px; color:#555;}
+footer{background:#222;color:#fff;text-align:center;padding:30px 20px;}
+footer a{color:#00bfff;margin:0 10px;font-size:0.95rem;}
+footer p{margin-top:10px;font-size:0.9rem;}
+@media(max-width:768px){header h1{font-size:2rem;}.image-section h2{font-size:1.5rem;}.input-group{flex-direction:column;}.image-section button{width:80%; margin:5px auto;}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Advanced Image Size Increaser</h1>
+<p>Increase the file size (KB) of one or multiple images to your exact target without losing quality.</p>
+</header>
+
+<main class="container">
+
+<div class="adsense-top">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+     data-ad-slot="1234567890"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="image-section">
+<h2>Upload Images & Enter Target KB</h2>
+<p>Select one or more images (JPG/PNG) and enter your desired minimum KB. The quality remains unchanged.</p>
+
+<input type="file" id="imageFiles" accept="image/jpeg, image/png" multiple>
+<div class="input-group">
+<label for="targetKB">Target Size (KB):</label>
+<input type="number" id="targetKB" placeholder="e.g., 200" min="1">
+</div>
+
+<button class="process" onclick="increaseMultipleImages()">Increase Size</button>
+<button class="download" id="downloadBtn" onclick="downloadAllImages()" disabled>Download All Images</button>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<p id="status"></p>
+<p id="fileInfo"></p>
+</div>
+
+<section>
+<h2>How It Works</h2>
+<ul>
+<li>Upload one or multiple images (JPEG, JPG, PNG) from your device.</li>
+<li>Enter your required target size in KB (e.g., for online form submissions).</li>
+<li>Click <strong>Increase Size</strong> to process the images safely to that exact file size.</li>
+<li>The process is instant, keeps your resolution original, and runs 100% locally.</li>
+<li>Click <strong>Download All Images</strong> to save the adjusted photos back to your device.</li>
+</ul>
+</section>
+
+<div class="ad-container">
+<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px auto; max-width: 1000px; font-family: sans-serif;">
+    <!-- First Ad Slot -->
+    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <script>
+          atOptions = {
+            'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script src="https://highperformanceformat.com"></script>
+    </div>
+
+    <!-- Second Ad Slot -->
+    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <script>
+          atOptions = {
+            'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script src="https://highperformanceformat.com"></script>
+    </div>
+</div>
+</div>
+
+</main>
+
+<footer>
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+</div>
+<p>© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
+</footer>
+
+<script>
+let processedFiles = [];
+
+function formatBytes(bytes) {
+    if(bytes < 1024) return bytes + ' B';
+    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
+    else return (bytes/(1024*1024)).toFixed(2)+' MB';
+}
+
+function updateProgress(percent){
+    document.getElementById('progressBar').style.width = percent+'%';
+}
+
+async function increaseImageSize(file, targetKB) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const arrayBuffer = e.target.result;
+            const originalSize = arrayBuffer.byteLength;
+            const targetSizeInBytes = targetKB * 1024;
+
+            if (originalSize >= targetSizeInBytes) {
+                // ফাইল অলরেডি বড় থাকলে অরিজিনালটাই রিটার্ন করবে
+                resolve({
+                    blob: new Blob([arrayBuffer], { type: file.type }),
+                    originalSize: originalSize,
+                    newSize: originalSize,
+                    status: 'Skipped (Already larger than target)'
+                });
+                return;
+            }
+
+            // অতিরিক্ত বাইট ক্যালকুলেশন
+            const bytesToAdd = targetSizeInBytes - originalSize;
+            const paddingArray = new Uint8Array(bytesToAdd);
+            
+            // ডামি প্যাডিং বাইট জেনারেট করা (ফাইলের ক্ষতি না করে সাইজ বাড়ানোর স্ট্যান্ডার্ড নিয়ম)
+            for (let i = 0; i < bytesToAdd; i++) {
+                paddingArray[i] = Math.floor(Math.random() * 256);
+            }
+
+            // অরিজিনাল ডাটা এবং প্যাডিং একসাথে মার্জ করা
+            const combinedBlob = new Blob([arrayBuffer, paddingArray], { type: file.type });
+            
+            resolve({
+                blob: combinedBlob,
+                originalSize: originalSize,
+                newSize: combinedBlob.size,
+                status: 'Successfully Increased'
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+async function increaseMultipleImages() {
+    const fileInput = document.getElementById('imageFiles');
+    const targetInput = document.getElementById('targetKB');
+    const statusText = document.getElementById('status');
+    const fileInfoText = document.getElementById('fileInfo');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    if (fileInput.files.length === 0) {
+        alert('Please select at least one image file.');
+        return;
+    }
+    if (!targetInput.value || targetInput.value <= 0) {
+        alert('Please enter a valid target KB.');
+        return;
+    }
+
+    const targetKB = parseInt(targetInput.value);
+    processedFiles = [];
+    statusText.innerText = 'Processing...';
+    fileInfoText.innerText = '';
+    updateProgress(0);
+    downloadBtn.disabled = true;
+
+    let files = fileInput.files;
+    let infoOutput = "";
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const result = await increaseImageSize(file, targetKB);
+        
+        processedFiles.push({
+            blob: result.blob,
+            name: file.name
+        });
+
+        infoOutput += `${file.name}: ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.newSize)} (${result.status})\n`;
+        
+        let percent = Math.round(((i + 1) / files.length) * 100);
+        updateProgress(percent);
+    }
+
