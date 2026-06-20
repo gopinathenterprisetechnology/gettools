@@ -563,7 +563,64 @@ let info=document.createElement("div");
 info.style.fontSize="13px";
 info.style.color="#e2e8f0";
 
-let originalFormat = item.file.type.split("/")[1].toUpperCase();
+// একটি হেল্পার ফাংশন যা ক্যানভাসের মাধ্যমে ইমেজ কম্প্রেস করবে
+async function compressImageToTarget(file, targetKB) {
+    return new Promise((resolve) => {
+        const targetSizeBytes = targetKB * 1024;
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        
+        img.onload = async () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width = img.width;
+            let height = img.height;
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            let quality = 0.9;
+            let blob = await new Promise(r => canvas.toBlob(r, file.type, quality));
+            
+            // ধাপ ১: লুপের মাধ্যমে সাইজ টার্গেট KB এর নিচে নামানো (যদি বড় থাকে)
+            while (blob.size > targetSizeBytes && quality > 0.1) {
+                quality -= 0.1;
+                blob = await new Promise(r => canvas.toBlob(r, file.type, quality));
+                
+                // কোয়ালিটি কমানোর পরেও বড় থাকলে ইমেজ ডাইমেনশন ১০% করে ছোট করা হবে
+                if (blob.size > targetSizeBytes && quality <= 0.1) {
+                    width *= 0.9;
+                    height *= 0.9;
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    quality = 0.8; // রিসেট কোয়ালিটি
+                }
+            }
+            
+            // ধাপ ২: যদি সাইজ টার্গেট KB এর থেকে কম হয়, তবে এক্সাক্ট বাইট প্যাডিং করা
+            if (blob.size < targetSizeBytes) {
+                const arrayBuffer = await blob.arrayBuffer();
+                const bytesToAdd = targetSizeBytes - blob.size;
+                const paddingArray = new Uint8Array(bytesToAdd);
+                
+                // সেফ ডামি বাইট জেনারেট করা
+                for (let i = 0; i < bytesToAdd; i++) {
+                    paddingArray[i] = Math.floor(Math.random() * 256);
+                }
+                
+                // অরিজিনাল কম্প্রেসড ইমেজ এবং প্যাডিং একসাথে মার্জ করে এক্সাক্ট সাইজ তৈরি
+                blob = new Blob([arrayBuffer, paddingArray], { type: file.type });
+            }
+            
+            resolve({ blob, width, height });
+        };
+    });
+}
+
+  
+  let originalFormat = item.file.type.split("/")[1].toUpperCase();
 let compressedFormat = format.split("/")[1].toUpperCase();
 
 let originalSizeKB = item.file.size / 1024;
