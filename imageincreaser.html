@@ -44,6 +44,119 @@ footer a{color:#00bfff;margin:0 10px;font-size:0.95rem;}
 footer p{margin-top:10px;font-size:0.9rem;}
 @media(max-width:768px){header h1{font-size:2rem;}.image-section h2{font-size:1.5rem;}.input-group{flex-direction:column;}.image-section button{width:80%; margin:5px auto;}}
 </style>
+
+<!-- JS Functions Moved Here to Prevent ReferenceError -->
+<script>
+let processedFiles = [];
+
+function formatBytes(bytes) {
+    if(bytes < 1024) return bytes + ' B';
+    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
+    else return (bytes/(1024*1024)).toFixed(2)+' MB';
+}
+
+function updateProgress(percent){
+    const progressBar = document.getElementById('progressBar');
+    if(progressBar) progressBar.style.width = percent+'%';
+}
+
+async function increaseImageSize(file, targetKB) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const arrayBuffer = e.target.result;
+            const originalSize = arrayBuffer.byteLength;
+            const targetSizeInBytes = targetKB * 1024;
+
+            if (originalSize >= targetSizeInBytes) {
+                resolve({
+                    blob: new Blob([arrayBuffer], { type: file.type }),
+                    originalSize: originalSize,
+                    newSize: originalSize,
+                    status: 'Skipped (Already larger than target)'
+                });
+                return;
+            }
+
+            const bytesToAdd = targetSizeInBytes - originalSize;
+            const paddingArray = new Uint8Array(bytesToAdd);
+            
+            for (let i = 0; i < bytesToAdd; i++) {
+                paddingArray[i] = Math.floor(Math.random() * 256);
+            }
+
+            const combinedBlob = new Blob([arrayBuffer, paddingArray], { type: file.type });
+            
+            resolve({
+                blob: combinedBlob,
+                originalSize: originalSize,
+                newSize: combinedBlob.size,
+                status: 'Successfully Increased'
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+async function increaseMultipleImages() {
+    const fileInput = document.getElementById('imageFiles');
+    const targetInput = document.getElementById('targetKB');
+    const statusText = document.getElementById('status');
+    const fileInfoText = document.getElementById('fileInfo');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    if (!fileInput || fileInput.files.length === 0) {
+        alert('Please select at least one image file.');
+        return;
+    }
+    if (!targetInput || !targetInput.value || targetInput.value <= 0) {
+        alert('Please enter a valid target KB.');
+        return;
+    }
+
+    const targetKB = parseInt(targetInput.value);
+    processedFiles = [];
+    statusText.innerText = 'Processing...';
+    fileInfoText.innerText = '';
+    updateProgress(0);
+    downloadBtn.disabled = true;
+
+    let files = fileInput.files;
+    let infoOutput = "";
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const result = await increaseImageSize(file, targetKB);
+        
+        processedFiles.push({
+            blob: result.blob,
+            name: file.name
+        });
+
+        infoOutput += `${file.name}: ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.newSize)} (${result.status})\n`;
+        
+        let percent = Math.round(((i + 1) / files.length) * 100);
+        updateProgress(percent);
+    }
+
+    statusText.innerText = 'Processing completed successfully!';
+    fileInfoText.innerText = infoOutput;
+    downloadBtn.disabled = false;
+}
+
+function downloadAllImages() {
+    if (processedFiles.length === 0) return;
+
+    processedFiles.forEach(item => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(item.blob);
+        link.download = 'increased_' + item.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+</script>
 </head>
 <body>
 
@@ -122,116 +235,3 @@ footer p{margin-top:10px;font-size:0.9rem;}
           };
         </script>
         <script src="https://highperformanceformat.com"></script>
-    </div>
-</div>
-</div>
-
-</main>
-
-<footer>
-<div class="footer-links">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="privacy-policy.html">Privacy Policy</a>
-<a href="terms.html">Terms & Conditions</a>
-</div>
-<p>© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
-</footer>
-
-<script>
-let processedFiles = [];
-
-function formatBytes(bytes) {
-    if(bytes < 1024) return bytes + ' B';
-    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
-    else return (bytes/(1024*1024)).toFixed(2)+' MB';
-}
-
-function updateProgress(percent){
-    document.getElementById('progressBar').style.width = percent+'%';
-}
-
-async function increaseImageSize(file, targetKB) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const arrayBuffer = e.target.result;
-            const originalSize = arrayBuffer.byteLength;
-            const targetSizeInBytes = targetKB * 1024;
-
-            if (originalSize >= targetSizeInBytes) {
-                // ফাইল অলরেডি বড় থাকলে অরিজিনালটাই রিটার্ন করবে
-                resolve({
-                    blob: new Blob([arrayBuffer], { type: file.type }),
-                    originalSize: originalSize,
-                    newSize: originalSize,
-                    status: 'Skipped (Already larger than target)'
-                });
-                return;
-            }
-
-            // অতিরিক্ত বাইট ক্যালকুলেশন
-            const bytesToAdd = targetSizeInBytes - originalSize;
-            const paddingArray = new Uint8Array(bytesToAdd);
-            
-            // ডামি প্যাডিং বাইট জেনারেট করা (ফাইলের ক্ষতি না করে সাইজ বাড়ানোর স্ট্যান্ডার্ড নিয়ম)
-            for (let i = 0; i < bytesToAdd; i++) {
-                paddingArray[i] = Math.floor(Math.random() * 256);
-            }
-
-            // অরিজিনাল ডাটা এবং প্যাডিং একসাথে মার্জ করা
-            const combinedBlob = new Blob([arrayBuffer, paddingArray], { type: file.type });
-            
-            resolve({
-                blob: combinedBlob,
-                originalSize: originalSize,
-                newSize: combinedBlob.size,
-                status: 'Successfully Increased'
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    });
-}
-
-async function increaseMultipleImages() {
-    const fileInput = document.getElementById('imageFiles');
-    const targetInput = document.getElementById('targetKB');
-    const statusText = document.getElementById('status');
-    const fileInfoText = document.getElementById('fileInfo');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    if (fileInput.files.length === 0) {
-        alert('Please select at least one image file.');
-        return;
-    }
-    if (!targetInput.value || targetInput.value <= 0) {
-        alert('Please enter a valid target KB.');
-        return;
-    }
-
-    const targetKB = parseInt(targetInput.value);
-    processedFiles = [];
-    statusText.innerText = 'Processing...';
-    fileInfoText.innerText = '';
-    updateProgress(0);
-    downloadBtn.disabled = true;
-
-    let files = fileInput.files;
-    let infoOutput = "";
-
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const result = await increaseImageSize(file, targetKB);
-        
-        processedFiles.push({
-            blob: result.blob,
-            name: file.name
-        });
-
-        infoOutput += `${file.name}: ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.newSize)} (${result.status})\n`;
-        
-        let percent = Math.round(((i + 1) / files.length) * 100);
-        updateProgress(percent);
-    }
-
