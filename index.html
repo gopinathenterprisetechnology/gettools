@@ -226,54 +226,57 @@ footer p { margin-top: 10px; font-size: 0.9rem; }
  
 
 
- <!-- 🔥 100% WORKING AUTOMATIC LIVE DEALS 🔥 -->
+<!-- 🔥 100% PERFECT AUTOMATIC GOOGLE SHEET DEALS 🔥 -->
 <section style="margin: 50px 0;">
     <h2 style="text-align: center; color: #222; font-size: 2rem; margin-bottom: 5px; font-weight: 600;">🔥 Top Trending Deals Today</h2>
     <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.95rem;">Live updated products directly from Flipkart.</p>
     
-    <!-- লাইভ প্রোডাক্ট কার্ডগুলো এখানে তৈরি হবে -->
+    <!-- লাইভ প্রোডাক্ট বক্সগুলো ঠিক এইখানে তৈরি হবে -->
     <div class="tools-grid" id="live-deals-container">
-        <p style="text-align: center; grid-column: 1/-1; color: #666;">🔄 Loading latest deals from Google Sheet...</p>
+        <p style="text-align: center; grid-column: 1/-1; color: #666;">🔄 Connecting to Product Sheet and loading live deals...</p>
     </div>
 </section>
 
 <script>
-// আপনার নিজস্ব গুগল শিটের সঠিক আইডি এখানে দেওয়া হয়েছে
-const SHEET_ID = '1sJUFEavMfT7xahlx84ib2cmYJwjOdtEAa0Bdu2RoU4w'; 
-const fullUrl = `https://google.com{SHEET_ID}/gviz/tq?tqx=out:json&tq=select+A,B,C,D`;
+// আপনার প্রদান করা একদম সঠিক ওয়েব পাবলিশ লিঙ্কটি এখানে ব্যবহার করা হয়েছে
+const PUB_URL = 'https://google.com';
 
-fetch(fullUrl)
+fetch(PUB_URL)
     .then(res => res.text())
-    .then(text => {
-        // গুgoler সিকিউর ফরম্যাট থেকে পিওর ডাটা ক্লিয়ার করা
-        const jsonString = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
-        const jsonData = JSON.parse(jsonString);
-        const rows = jsonData.table.rows;
-        
+    .then(csvText => {
+        // CSV ডেটাকে লাইনে লাইনে আলাদা করা
+        const lines = csvText.split('\n');
         const container = document.getElementById('live-deals-container');
-        container.innerHTML = ''; // লোডিং টেক্সট মুছে ফেলা
+        container.innerHTML = ''; // লোডিং টেক্সট ক্লিয়ার করা
 
-        // প্রথম লাইনে Title, Link থাকে, তাই i = 1 (দ্বিতীয় লাইন) থেকে লুপ শুরু হবে
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            if (!row.c || !row.c[0] || row.c[0].v === null) continue; // ফাঁকা লাইন থাকলে বাদ যাবে
+        // প্রথম লাইনে Title, Link থাকে, তাই i = 1 (দ্বিতীয় লাইন) থেকে ডেটা লুপ শুরু হবে
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue; // ফাঁকা লাইন থাকলে স্কিপ করবে
 
-            let title = row.c[0] ? row.c[0].v : 'Trending Product';
-            const link = row.c[1] ? row.c[1].v : 'https://flipkart.com';
-            const img = row.c[2] ? row.c[2].v : 'placeholder.jpg';
-            let price = row.c[3] ? row.c[3].v : 'Check Price';
+            // কমা (,) দিয়ে কলামের ডেটা আলাদা করা
+            const columns = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            if (columns.length < 4) continue;
 
-            // প্রোডাক্টের বড় নামকে কেটে সুন্দর ছোট করার ট্রিক
-            if (title.length > 60) {
-                title = title.substring(0, 57) + '...';
+            // ডেটা ক্লিন করা (আশেপাশের ডাবল কোট থাকলে তা মুছে ফেলা)
+            let title = columns[0].replace(/^"|"$/g, '').trim();
+            const link = columns[1].replace(/^"|"$/g, '').trim();
+            const img = columns[2].replace(/^"|"$/g, '').trim();
+            let price = columns[3].replace(/^"|"$/g, '').trim();
+
+            if (!title) continue;
+
+            // প্রোডাক্টের টাইটেল খুব বড় হলে ছোট করে দেখানোর ট্রিক
+            if (title.length > 55) {
+                title = title.substring(0, 52) + '...';
             }
 
-            // দামের আগে ₹ চিহ্ন অটোমেটিক অ্যাড করা
+            // দামের সংখ্যার আগে রুপি চিহ্ন না থাকলে তা অটোমেটিক বসানো
             if (!String(price).includes('₹')) {
                 price = '₹' + price;
             }
 
-            // রেসপনসিভ ও চমৎকার প্রফেশনাল প্রোডাক্ট কার্ড জেনারেশন
+            // আপনার সাইটের সিএসএস অনুযায়ী চমৎকার রেসপনসিভ প্রোডাক্ট কার্ড জেনারেশন
             container.innerHTML += `
                 <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                     <div>
@@ -284,7 +287,7 @@ fetch(fullUrl)
                         <p style="color: #ef4444; font-weight: bold; font-size: 1.3rem; margin-bottom: 15px; text-align: left;">Offer Price: ${price}</p>
                     </div>
                     <a href="${link}" target="_blank" rel="nofollow">
-                        <button style="background: #2874f0; width: 100%; font-size: 0.95rem; border: none; color: #fff; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer;">👉 View on Flipkart</button>
+                        <button style="background: #2874f0; width: 100%; font-size: 0.95rem; border: none; color: #fff; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;">👉 View on Flipkart</button>
                     </a>
                 </div>
             `;
@@ -295,6 +298,7 @@ fetch(fullUrl)
         document.getElementById('live-deals-container').innerHTML = '<p style="text-align:center; color:#ef4444; grid-column: 1/-1;">⚠️ Connection error. Please refresh the page.</p>';
     });
 </script>
+
 
 
 
