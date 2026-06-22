@@ -18,6 +18,9 @@
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <!-- browser-image-compression -->
 <script src="https://unpkg.com/browser-image-compression/dist/browser-image-compression.js"></script>
+     <!-- browser-image-compression-এর নিচে এটি বসান -->
+<script src="https://cloudflare.com"></script>
+
 
 <style>
 body { font-family:'Poppins',sans-serif; margin:0; background:#f9f9f9; color:#333; }
@@ -164,32 +167,71 @@ function updateProgress(percent){
     document.getElementById('progressBar').style.width = percent+'%';
 }
 
-async function compressSinglePDF(file,targetKB){
+async function compressSinglePDF(file, targetKB) {
     const arrayBuffer = await file.arrayBuffer();
     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-    const pages = pdfDoc.getPages();
+    const targetBytes = targetKB * 1024;
 
-    // Loop approximation: just simulate processing + recompress images
-    for(let i=0;i<pages.length;i++){
-        const images = pages[i].getImages ? pages[i].getImages() : [];
-        for(const img of images){
-            // future: compress images using browser-image-compression
+    if (file.size <= targetBytes) {
+        const cleanBytes = await pdfDoc.save({ useObjectStreams: true });
+        return new Blob([cleanBytes], { type: 'application/pdf' });
+    }
+
+    let quality = Math.max(0.1, Math.min(0.7, targetBytes / file.size));
+    const objects = pdfDoc.context.indirectObjects;
+
+    for (const [ref, pdfObj] of objects.entries()) {
+        if (!(pdfObj instanceof PDFLib.PDFRawStream)) continue;
+
+        const dict = pdfObj.dict;
+        const subtype = dict.get(PDFLib.PDFName.of('Subtype'));
+        if (subtype !== PDFLib.PDFName.of('Image')) continue;
+
+        try {
+            const bytes = pdfObj.getUncompressedContents();
+            const width = dict.get(PDFLib.PDFName.of('Width')).value;
+            const height = dict.get(PDFLib.PDFName.of('Height')).value;
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = Math.round(width * quality);
+            canvas.height = Math.round(height * quality);
+
+            const imgBlob = new Blob([bytes], { type: 'image/jpeg' });
+            const imgUrl = URL.createObjectURL(imgBlob);
+            
+            const img = await new Promise((resolve) => {
+                const i = new Image();
+                i.onload = () => resolve(i);
+                i.src = imgUrl;
+            });
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(imgUrl);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+            const compressedBytes = await fetch(compressedDataUrl).then(r => r.arrayBuffer());
+            const finalImgArray = new Uint8Array(compressedBytes);
+
+            const newStream = pdfDoc.context.flateStream(finalImgArray, {
+                Type: PDFLib.PDFName.of('XObject'),
+                Subtype: PDFLib.PDFName.of('Image'),
+                Width: PDFLib.PDFNumber.of(canvas.width),
+                Height: PDFLib.PDFNumber.of(canvas.height),
+                BitsPerComponent: PDFLib.PDFNumber.of(8),
+                ColorSpace: PDFLib.PDFName.of('DeviceRGB')
+            });
+
+            pdfDoc.context.assign(ref, newStream);
+        } catch (e) {
+            console.warn("Skipping uncompressed element:", e);
         }
-        await new Promise(r=>setTimeout(r,50)); // simulate processing
     }
 
-    let compressedBytes = await pdfDoc.save({ useObjectStreams:true, updateFieldAppearances:false });
-    let blob = new Blob([compressedBytes],{type:'application/pdf'});
-
-    // Approximate loop to target KB
-    let factor = targetKB*1024 / blob.size;
-    if(factor < 1){
-        // reduce quality approx
-        // future enhancement: actual compression loop
-    }
-
-    return blob;
+    const finalBytes = await pdfDoc.save({ useObjectStreams: true });
+    return new Blob([finalBytes], { type: 'application/pdf' });
 }
+
 
 async function compressMultiplePDFs(){
     const fileInput = document.getElementById('pdfFiles');
