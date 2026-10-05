@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Word Document Editor & Typing (MS Word Style) | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/document-typing.html">
+<meta name="description" content="Free online MS Word style document processor. Create, format, and type letters, affidavits, and bio data with tables, photos, rulers, and export to Word (.doc) or print A4 PDF.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/document-typing.html">
+<meta property="og:title" content="Online Word Document Editor & Typing (MS Word Style) | GET Tools">
+<meta property="og:description" content="Free online MS Word style document processor. Create, format, and type letters, affidavits, and bio data with tables, photos, rulers, and export to Word (.doc) or print A4 PDF.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Online Word Document Editor",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/document-typing.html",
+  "description": "Full-featured online Microsoft Word style document editor with A4 canvas, ruler, export to Word, and instant printing.",
+  "applicationCategory": "OfficeApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
+
+<style>
+/* MS Word Style Application Theme */
+.word-app-container {
+  background: #cbd5e1;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="dark"] .word-app-container {
+  background: #0f172a;
+}
+
+/* MS Word Top Blue Ribbon Header */
+.word-title-bar {
+  background: #1e3a8a;
+  color: #ffffff;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #172554;
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.word-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.word-quick-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.word-quick-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.word-doc-name-input {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  text-align: center;
+  width: 220px;
+}
+
+.word-doc-name-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  border-color: #60a5fa;
+}
+
+/* Word Ribbon Tabs */
+.word-ribbon-tabs {
+  background: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 4px;
+}
+
+[data-theme="dark"] .word-ribbon-tabs {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.word-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 16px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .word-tab-btn {
+  color: #94a3b8;
+}
+
+.word-tab-btn:hover {
+  color: #1e3a8a;
+  background: #e2e8f0;
+}
+
+[data-theme="dark"] .word-tab-btn:hover {
+  color: #60a5fa;
+  background: #334155;
+}
+
+.word-tab-btn.active {
+  color: #1e3a8a;
+  border-bottom-color: #1e3a8a;
+  background: #ffffff;
+}
+
+[data-theme="dark"] .word-tab-btn.active {
+  color: #38bdf8;
+  border-bottom-color: #38bdf8;
+  background: #0f172a;
+}
+
+/* Ribbon Toolbar Body */
+.word-ribbon-body {
+  background: #ffffff;
+  border-bottom: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .word-ribbon-body {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.ribbon-panel {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ribbon-panel.active {
+  display: flex;
+}
+
+.ribbon-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 12px;
+  border-right: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .ribbon-group {
+  border-right-color: #334155;
+}
+
+.ribbon-group:last-child {
+  border-right: none;
+}
+
+/* Ribbon Controls */
+.ribbon-select {
+  padding: 5px 8px;
+  font-size: 0.82rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  background: #f8fafc;
+  color: #0f172a;
+  cursor: pointer;
+  height: 30px;
+}
+
+[data-theme="dark"] .ribbon-select {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+.ribbon-btn {
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  min-width: 30px;
+  transition: all 0.1s ease;
+  user-select: none;
+}
+
+[data-theme="dark"] .ribbon-btn {
+  background: #1e293b;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+.ribbon-btn:hover {
+  background: #e2e8f0;
+}
+
+[data-theme="dark"] .ribbon-btn:hover {
+  background: #334155;
+}
+
+.ribbon-btn.active {
+  background: #dbeafe;
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.ribbon-btn-green {
+  background: #15803d !important;
+  color: #ffffff !important;
+  border-color: #15803d !important;
+}
+
+.ribbon-btn-green:hover {
+  background: #166534 !important;
+}
+
+.ribbon-color-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 2px 5px;
+  background: #f8fafc;
+  font-size: 0.78rem;
+  font-weight: 600;
+  height: 30px;
+}
+
+[data-theme="dark"] .ribbon-color-box {
+  background: #1e293b;
+  border-color: #475569;
+}
+
+.ribbon-color-box input[type="color"] {
+  border: none;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+/* Horizontal MS Word Ruler */
+.word-ruler-wrapper {
+  background: #e2e8f0;
+  border-bottom: 1px solid #cbd5e1;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .word-ruler-wrapper {
+  background: #1e293b;
+  border-bottom-color: #334155;
+}
+
+.word-ruler {
+  width: 210mm;
+  height: 18px;
+  background: #f8fafc;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  display: flex;
+  position: relative;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  color: #64748b;
+}
+
+.ruler-inch {
+  flex: 1;
+  border-right: 1px solid #cbd5e1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+  position: relative;
+}
+
+.ruler-inch::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 6px;
+  background: #cbd5e1;
+}
+
+/* Document Workspace & A4 Pages */
+.word-workspace {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px 15px 50px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.word-scale-wrapper {
+  transform-origin: top center;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.a4-sheet {
+  background: #ffffff;
+  color: #0f172a;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 25.4mm 20mm;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  line-height: 1.6;
+  outline: none;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 1px;
+  transition: width 0.2s, min-height 0.2s, padding 0.2s;
+}
+
+.a4-sheet.landscape {
+  width: 297mm;
+  min-height: 210mm;
+}
+
+/* Watermark Overlay */
+.watermark-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 65px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  text-transform: uppercase;
+  user-select: none;
+  white-space: nowrap;
+  letter-spacing: 5px;
+  display: none;
+}
+
+/* Custom Table in Word Sheet */
+.word-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+}
+
+.word-table th, .word-table td {
+  border: 1px solid #1e293b;
+  padding: 6px 10px;
+  min-width: 45px;
+}
+
+.word-table th {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+
+/* Callout Box */
+.word-textbox {
+  border: 1.5px solid #1e293b;
+  background: #f8fafc;
+  padding: 12px 18px;
+  border-radius: 4px;
+  margin: 14px 0;
+}
+
+/* Bottom Word Status Bar */
+.word-status-bar {
+  background: #1e3a8a;
+  color: #ffffff;
+  padding: 4px 16px;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.word-status-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.word-status-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zoom-slider {
+  width: 90px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+/* Page Break Divider */
+.page-divider-tag {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+  user-select: none;
+  margin: -10px 0;
+}
+
+/* Native Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .site-header, .site-footer, .breadcrumb-nav, .adsterra-banner-container,
+  .word-title-bar, .word-ribbon-tabs, .word-ribbon-body, .word-ruler-wrapper,
+  .word-status-bar, .page-divider-tag {
+    display: none !important;
+  }
+  .word-app-container, .word-workspace, .word-scale-wrapper {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    display: block !important;
+  }
+  .a4-sheet, .a4-sheet * {
+    visibility: visible;
+  }
+  .a4-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    page-break-after: always;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+</header>
+
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Online Word Document Editor (MS Word Style)</span>
+</nav>
+
+<!-- Full MS Word Application Interface -->
+<div class="word-app-container">
+
+  <!-- 1. Top Word Title Bar -->
+  <div class="word-title-bar">
+    <div class="word-quick-actions">
+      <span style="font-weight: 700; font-size: 1rem; color: #93c5fd;">W</span>
+      <button type="button" class="word-quick-btn" onclick="exportWordDoc()" title="Save as Word (.doc / .docx)">
+        💾 Save Word
+      </button>
+      <button type="button" class="word-quick-btn" onclick="document.getElementById('wordOpenInput').click()" title="Open Document">
+        📂 Open
+      </button>
+      <input type="file" id="wordOpenInput" accept=".doc,.docx,.html,.txt,.cct" style="display:none;" onchange="handleWordFileOpen(event)">
+      <button type="button" class="word-quick-btn" onclick="formatCmd('undo')" title="Undo (Ctrl+Z)">↩️</button>
+      <button type="button" class="word-quick-btn" onclick="formatCmd('redo')" title="Redo (Ctrl+Y)">↪️</button>
+      <button type="button" class="word-quick-btn" onclick="window.print()" title="Print (Ctrl+P)">🖨️ Print</button>
+    </div>
+
+    <div>
+      <input type="text" id="docFileName" class="word-doc-name-input" value="Document 1 - Word" title="Click to rename document">
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 0.8rem; color: #bfdbfe;">GET Tools Office</span>
+    </div>
+  </div>
+
+  <!-- 2. Ribbon Tabs (Home, Insert, Layout, Language/Tools) -->
+  <div class="word-ribbon-tabs">
+    <button type="button" class="word-tab-btn active" onclick="switchWordTab('tab-home', this)">Home</button>
+    <button type="button" class="word-tab-btn" onclick="switchWordTab('tab-insert', this)">Insert</button>
+    <button type="button" class="word-tab-btn" onclick="switchWordTab('tab-layout', this)">Page Layout</button>
+    <button type="button" class="word-tab-btn" onclick="switchWordTab('tab-tools', this)">Language &amp; Tools</button>
+  </div>
+
+  <!-- 3. Ribbon Toolbar Body -->
+  <div class="word-ribbon-body">
+    
+    <!-- Tab 1: HOME (Font, Paragraph, Styles) -->
+    <div id="tab-home" class="ribbon-panel active">
+      
+      <!-- Font Family & Size -->
+      <div class="ribbon-group">
+        <select id="fontFamilySelect" class="ribbon-select" onchange="applyFontFamily(this.value)">
+          <option value="'Times New Roman', Times, serif" selected>Times New Roman</option>
+          <option value="Arial, Helvetica, sans-serif">Arial</option>
+          <option value="Calibri, sans-serif">Calibri</option>
+          <option value="Poppins, sans-serif">Poppins</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Verdana, sans-serif">Verdana</option>
+          <option value="'Courier New', monospace">Courier New</option>
+          <option value="Impact, Charcoal, sans-serif">Impact</option>
+        </select>
+
+        <select id="fontSizeSelect" class="ribbon-select" onchange="applyFontSize(this.value)">
+          <option value="12px">12</option>
+          <option value="14px">14</option>
+          <option value="16px" selected>16</option>
+          <option value="18px">18</option>
+          <option value="20px">20</option>
+          <option value="22px">22</option>
+          <option value="24px">24</option>
+          <option value="28px">28</option>
+          <option value="32px">32</option>
+          <option value="36px">36</option>
+          <option value="48px">48</option>
+          <option value="72px">72</option>
+        </select>
+
+        <button type="button" class="ribbon-btn" onclick="stepFontSize(1)" title="Grow Font">A+</button>
+        <button type="button" class="ribbon-btn" onclick="stepFontSize(-1)" title="Shrink Font">A-</button>
+      </div>
+
+      <!-- Font Styles (B, I, U, Strike, Sub, Super) -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="formatCmd('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('strikeThrough')" title="Strikethrough"><s>abc</s></button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('subscript')" title="Subscript">x₂</button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('superscript')" title="Superscript">x²</button>
+      </div>
+
+      <!-- Font Colors & Clear -->
+      <div class="ribbon-group">
+        <div class="ribbon-color-box" title="Font Text Color">
+          <span style="color:#ef4444;">A</span>
+          <input type="color" id="foreColorInput" value="#000000" onchange="formatCmd('foreColor', this.value)">
+        </div>
+
+        <div class="ribbon-color-box" title="Highlight Color">
+          🖍️
+          <input type="color" id="hiliteColorInput" value="#fef08a" onchange="formatCmd('hiliteColor', this.value)">
+        </div>
+
+        <button type="button" class="ribbon-btn" onclick="formatCmd('removeFormat')" title="Clear All Formatting">🧹</button>
+      </div>
+
+      <!-- Paragraph Alignment & Lists -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="formatCmd('justifyLeft')" title="Align Left">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+        </button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('justifyCenter')" title="Center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('justifyRight')" title="Align Right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('justifyFull')" title="Justify">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <button type="button" class="ribbon-btn" onclick="formatCmd('insertUnorderedList')" title="Bullets">•≡</button>
+        <button type="button" class="ribbon-btn" onclick="formatCmd('insertOrderedList')" title="Numbering">1.≡</button>
+
+        <select id="lineSpacingSelect" class="ribbon-select" onchange="applyLineSpacing(this.value)">
+          <option value="1.0">1.0 Single</option>
+          <option value="1.15">1.15 Normal</option>
+          <option value="1.5" selected>1.5 Line Spacing</option>
+          <option value="2.0">2.0 Double</option>
+        </select>
+      </div>
+
+      <!-- Quick Styles -->
+      <div class="ribbon-group">
+        <select id="wordHeadingStyle" class="ribbon-select" onchange="applyBlockStyle(this.value)">
+          <option value="p" selected>Normal</option>
+          <option value="h1">Heading 1</option>
+          <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
+          <option value="blockquote">Quote / Callout</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Tab 2: INSERT (Table, Pictures, Shapes, Page Break, Textbox) -->
+    <div id="tab-insert" class="ribbon-panel">
+      
+      <!-- Page Break -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="addPageBreak()">
+          📄 + Page Break
+        </button>
+      </div>
+
+      <!-- Table Tools -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn ribbon-btn-green" onclick="insertWordTable()">
+          📊 Insert Table
+        </button>
+        <button type="button" class="ribbon-btn" onclick="tableAction('addRow')" title="Add Row Below">+ Row</button>
+        <button type="button" class="ribbon-btn" onclick="tableAction('addCol')" title="Add Column Right">+ Col</button>
+        <button type="button" class="ribbon-btn" onclick="tableAction('delRow')" title="Delete Row" style="color:#ef4444;">- Row</button>
+        <button type="button" class="ribbon-btn" onclick="tableAction('delCol')" title="Delete Column" style="color:#ef4444;">- Col</button>
+      </div>
+
+      <!-- Pictures & Photos -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="document.getElementById('wordImgInput').click()">
+          🖼️ Insert Picture
+        </button>
+        <input type="file" id="wordImgInput" accept="image/*" style="display:none;" onchange="insertWordPhoto(event)">
+      </div>
+
+      <!-- Shapes & Text Box -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="insertWordTextBox()">🅰️ Text Box</button>
+        <button type="button" class="ribbon-btn" onclick="insertWordShape('rect')" title="Rectangle">□</button>
+        <button type="button" class="ribbon-btn" onclick="insertWordShape('circle')" title="Circle">○</button>
+        <button type="button" class="ribbon-btn" onclick="insertWordShape('arrow')" title="Arrow">➔</button>
+        <button type="button" class="ribbon-btn" onclick="insertWordShape('line')" title="Horizontal Line">／</button>
+      </div>
+
+      <!-- Header / Date -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn" onclick="insertCurrentDate()">📅 Date</button>
+      </div>
+
+    </div>
+
+    <!-- Tab 3: PAGE LAYOUT (Orientation, Margins, Watermark) -->
+    <div id="tab-layout" class="ribbon-panel">
+      
+      <!-- Orientation -->
+      <div class="ribbon-group">
+        <label style="font-size:0.82rem; font-weight:600;">Orientation:</label>
+        <select id="orientationSelect" class="ribbon-select" onchange="changeOrientation(this.value)">
+          <option value="portrait" selected>📐 Portrait (210 × 297 mm)</option>
+          <option value="landscape">📐 Landscape (297 × 210 mm)</option>
+        </select>
+      </div>
+
+      <!-- Margins -->
+      <div class="ribbon-group">
+        <label style="font-size:0.82rem; font-weight:600;">Margins:</label>
+        <select id="marginSelect" class="ribbon-select" onchange="changeMargins(this.value)">
+          <option value="normal" selected>Normal (1.0 inch / 25.4mm)</option>
+          <option value="narrow">Narrow (0.5 inch / 12.7mm)</option>
+          <option value="moderate">Moderate (0.75 inch / 19mm)</option>
+          <option value="wide">Wide (1.5 inch / 38mm)</option>
+        </select>
+      </div>
+
+      <!-- Watermark -->
+      <div class="ribbon-group">
+        <label style="font-size:0.82rem; font-weight:600;">Watermark:</label>
+        <select id="watermarkSelect" class="ribbon-select" onchange="toggleWatermark(this.value)">
+          <option value="none" selected>None</option>
+          <option value="CONFIDENTIAL">CONFIDENTIAL</option>
+          <option value="DRAFT">DRAFT</option>
+          <option value="SAMPLE">SAMPLE</option>
+          <option value="URGENT">URGENT</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Tab 4: LANGUAGE & TOOLS (Phonetic Transliteration & Export) -->
+    <div id="tab-tools" class="ribbon-panel">
+      
+      <!-- Language Transliteration Selector -->
+      <div class="ribbon-group">
+        <label style="font-size:0.82rem; font-weight:600;">Typing Mode:</label>
+        <select id="typingModeSelect" class="ribbon-select" style="min-width: 170px; font-weight:600; color:#2563eb;">
+          <option value="direct" selected>US Direct English</option>
+          <option value="hi">Hindi (हिन्दी)</option>
+          <option value="bn">Bengali (বাংলা)</option>
+          <option value="mr">Marathi (मराठी)</option>
+          <option value="ta">Tamil (தமிழ்)</option>
+          <option value="te">Telugu (తెలుగు)</option>
+          <option value="gu">Gujarati (ગુજરાતી)</option>
+          <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
+          <option value="kn">Kannada (ಕನ್ನಡ)</option>
+          <option value="ml">Malayalam (മലയാളം)</option>
+          <option value="ur">Urdu (اردو)</option>
+          <option value="or">Odia (ଓଡ଼ିଆ)</option>
+          <option value="as">Assamese (অসমীয়া)</option>
+          <option value="sa">Sanskrit (संस्कृतम्)</option>
+        </select>
+      </div>
+
+      <!-- Word File Export Options -->
+      <div class="ribbon-group">
+        <button type="button" class="ribbon-btn ribbon-btn-green" onclick="exportWordDoc()">
+          📥 Download Word (.doc)
+        </button>
+        <button type="button" class="ribbon-btn" onclick="exportTextFile()">
+          📄 Download Text (.txt)
+        </button>
+        <button type="button" class="ribbon-btn" onclick="window.print()">
+          🖨️ Print / Save as PDF
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 4. Top Horizontal MS Word Ruler -->
+  <div class="word-ruler-wrapper">
+    <div class="word-ruler" id="wordRuler">
+      <div class="ruler-inch">1</div>
+      <div class="ruler-inch">2</div>
+      <div class="ruler-inch">3</div>
+      <div class="ruler-inch">4</div>
+      <div class="ruler-inch">5</div>
+      <div class="ruler-inch">6</div>
+      <div class="ruler-inch">7</div>
+      <div class="ruler-inch">8</div>
+    </div>
+  </div>
+
+  <!-- 5. Word Document Desktop Workspace -->
+  <div class="word-workspace">
+    <div class="word-scale-wrapper" id="wordScaleWrapper">
+      
+      <!-- A4 Page Sheet 1 (Blank Canvas Ready for Typing) -->
+      <div class="a4-sheet" id="sheet1" contenteditable="true" spellcheck="true">
+        <div class="watermark-overlay" id="watermarkSheet1">CONFIDENTIAL</div>
+        <p><br></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6. Bottom MS Word Status Bar -->
+  <div class="word-status-bar">
+    <div class="word-status-left">
+      <span id="statPageCount">Page 1 of 1</span>
+      <span id="statWordCount">0 words</span>
+      <span id="statCharCount">0 characters</span>
+      <span id="statLanguage">English (India)</span>
+    </div>
+
+    <div class="word-status-right">
+      <span>Zoom: <b id="zoomValText">100%</b></span>
+      <input type="range" class="zoom-slider" min="60" max="150" step="10" value="100" oninput="changeZoom(this.value)">
+    </div>
+  </div>
+
+</div>
+
+<!-- Mega Cyber Cafe Footer (Screenshot Design) -->
+<footer class="site-footer">
+  <div class="footer-mega-container">
+    <div class="footer-mega-grid">
+      
+      <!-- Column 1: Brand Info & Legal Policies -->
+      <div>
+        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
+        
+        <div class="footer-social-row">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0f172a"/></svg>
+          </a>
+        </div>
+
+        <h4 class="footer-col-title" style="margin-top: 24px;">Legal Policies</h4>
+        <ul class="footer-links-list">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: PDF Tools -->
+      <div>
+        <h4 class="footer-col-title">PDF Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+          <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+          <li><a href="pdf-merge.html">Merge PDF</a></li>
+          <li><a href="pdf-compress.html">Compress PDF</a></li>
+          <li><a href="pdf-unlock.html">Unlock PDF</a></li>
+          <li><a href="pdf-lock.html">Lock PDF</a></li>
+          <li><a href="word.html">Word Counter</a></li>
+          <li><a href="case-converter.html">Case Converter</a></li>
+          <li><a href="Professional-HTML-CSS-JS-Minifier.html">video Converter</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Image Tools -->
+      <div>
+        <h4 class="footer-col-title">Image Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="signature-crop.html">Background Remove</a></li>
+          <li><a href="resize.html">Resize Image</a></li>
+          <li><a href="signature-crop.html">Signature Crop</a></li>
+          <li><a href="imageincreaser.html">Image Crop</a></li>
+          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="combine-photo-signature.html">Restore Image</a></li>
+          <li><a href="png-to-jpg.html">Image Converter</a></li>
+          <li><a href="watermark-image.html">Face Blur</a></li>
+          <li><a href="image-compressor.html">Compress Image</a></li>
+          <li><a href="black-and-white.html">Black And White Image</a></li>
+          <li><a href="watermark-image.html">Watermark</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Typing Tools -->
+      <div>
+        <h4 class="footer-col-title">Typing Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="document-typing.html">Document Type &amp; Print (MS Word)</a></li>
+          <li><a href="indic-typing.html#hindi">English To Hindi</a></li>
+          <li><a href="indic-typing.html#asamiya">English To Asamiya</a></li>
+          <li><a href="indic-typing.html#bengali">English To Bengali</a></li>
+          <li><a href="indic-typing.html#gujarati">English To Gujarati</a></li>
+          <li><a href="indic-typing.html#kannada">English To Kannada</a></li>
+          <li><a href="indic-typing.html#malayalam">English To Malayalam</a></li>
+          <li><a href="indic-typing.html#marathi">English To Marathi</a></li>
+          <li><a href="indic-typing.html#oriya">English To Oriya</a></li>
+          <li><a href="indic-typing.html#punjabi">English To Punjabi</a></li>
+          <li><a href="indic-typing.html#sanskrit">English To Sanskrit</a></li>
+          <li><a href="indic-typing.html#sinhala">English To Sinhala</a></li>
+          <li><a href="indic-typing.html#tamil">English To Tamil</a></li>
+          <li><a href="indic-typing.html#telugu">English To Telugu</a></li>
+          <li><a href="indic-typing.html#urdu">English To Urdu</a></li>
+          <li><a href="indic-typing.html">English To All Language</a></li>
+          <li><a href="typing-test.html">Typing Test</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Converter Tool -->
+      <div>
+        <h4 class="footer-col-title">Converter Tool</h4>
+        <ul class="footer-links-list">
+          <li><a href="font-converter.html#k2u">Krutidev To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Krutidev</a></li>
+          <li><a href="font-converter.html#k2u">Krutidev To Mangal</a></li>
+          <li><a href="font-converter.html#u2k">Mangal To Krutidev</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Devlys</a></li>
+          <li><a href="font-converter.html#k2u">DevLys To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Preeti</a></li>
+          <li><a href="font-converter.html#k2u">Preeti To Unicode</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 6: Card (Official Indian Portals) -->
+      <div>
+        <h4 class="footer-col-title">Card</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank" rel="noopener">Adhar Card</a></li>
+          <li><a href="https://food.wb.gov.in/" target="_blank" rel="noopener">Ration Card (WB)</a></li>
+          <li><a href="https://onlineservices.proteantech.in/paam/endUserRegisterContact.html" target="_blank" rel="noopener">Pan Card</a></li>
+          <li><a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">Voter Id</a></li>
+          <li><a href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener">PMJAY Swasthya Bima</a></li>
+          <li><a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/" target="_blank" rel="noopener">AgriStack Farmer ID</a></li>
+          <li><a href="https://nrega.nic.in/" target="_blank" rel="noopener">Job Card</a></li>
+          <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
+          <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
+          <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
+          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
+          <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
+          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom-bar">
+      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+    </div>
+  </div>
+</footer>
+
+<script>
+let totalSheets = 1;
+let currentActiveSheet = document.getElementById('sheet1');
+
+// Focus tracking
+document.addEventListener('focusin', function(e) {
+  if (e.target && e.target.classList && e.target.classList.contains('a4-sheet')) {
+    currentActiveSheet = e.target;
+  }
+});
+
+// Switch Ribbon Tabs
+function switchWordTab(panelId, btn) {
+  document.querySelectorAll('.word-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ribbon-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById(panelId);
+  if (panel) panel.classList.add('active');
+}
+
+// Basic Formatting
+function formatCmd(cmd, val = null) {
+  document.execCommand(cmd, false, val);
+  if (currentActiveSheet) currentActiveSheet.focus();
+  updateWordStats();
+}
+
+// Font Family
+function applyFontFamily(fontName) {
+  document.execCommand('fontName', false, fontName);
+  if (currentActiveSheet) currentActiveSheet.focus();
+}
+
+// Font Size
+function applyFontSize(sizePx) {
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) {
+    const span = document.createElement('span');
+    span.style.fontSize = sizePx;
+    try {
+      const range = sel.getRangeAt(0);
+      span.appendChild(range.extractContents());
+      range.insertNode(span);
+    } catch(e) {
+      document.execCommand('fontSize', false, '4');
+    }
+  }
+}
+
+function stepFontSize(dir) {
+  const sel = window.getSelection();
+  if (!sel || !sel.rangeCount) return;
+  const curr = document.queryCommandValue('fontSize') || '3';
+  let num = parseInt(curr, 10);
+  if (isNaN(num)) num = 3;
+  num = Math.max(1, Math.min(7, num + dir));
+  document.execCommand('fontSize', false, num);
+}
+
+// Line Spacing
+function applyLineSpacing(val) {
+  document.querySelectorAll('.a4-sheet').forEach(sheet => {
+    sheet.style.lineHeight = val;
+  });
+}
+
+// Block Styles (Heading 1, 2, Quote)
+function applyBlockStyle(tag) {
+  document.execCommand('formatBlock', false, `<${tag}>`);
+  if (currentActiveSheet) currentActiveSheet.focus();
+}
+
+// Add Page Break (A4 Sheet 2, 3...)
+function addPageBreak() {
+  totalSheets++;
+  const scaleWrapper = document.getElementById('wordScaleWrapper');
+
+  const divTag = document.createElement('div');
+  divTag.className = 'page-divider-tag';
+  divTag.textContent = `— Page ${totalSheets} —`;
+  scaleWrapper.appendChild(divTag);
+
+  const newSheet = document.createElement('div');
+  newSheet.className = 'a4-sheet';
+  newSheet.id = `sheet${totalSheets}`;
+  newSheet.contentEditable = "true";
+  newSheet.spellcheck = true;
+  newSheet.innerHTML = `
+    <div class="watermark-overlay" id="watermarkSheet${totalSheets}">CONFIDENTIAL</div>
+    <p><br></p>
+  `;
+
+  // Inherit orientation and margins
+  const isLandscape = document.getElementById('orientationSelect').value === 'landscape';
+  if (isLandscape) newSheet.classList.add('landscape');
+  changeMargins(document.getElementById('marginSelect').value);
+
+  // Inherit watermark
+  const wmVal = document.getElementById('watermarkSelect').value;
+  const wmEl = newSheet.querySelector('.watermark-overlay');
+  if (wmEl && wmVal !== 'none') {
+    wmEl.textContent = wmVal;
+    wmEl.style.display = 'block';
+  }
+
+  scaleWrapper.appendChild(newSheet);
+  newSheet.focus();
+  currentActiveSheet = newSheet;
+  updateWordStats();
+}
+
+// Table Creation & Controls
+function insertWordTable() {
+  const tblHtml = `
+    <table class="word-table">
+      <thead>
+        <tr>
+          <th>Item No.</th>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Rate (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>01</td><td>Government Application Online Submission</td><td>1</td><td>₹ 100.00</td></tr>
+        <tr><td>02</td><td>A4 Lamination & Color Printing</td><td>2</td><td>₹ 40.00</td></tr>
+      </tbody>
+    </table>
+    <p><br></p>
+  `;
+  document.execCommand('insertHTML', false, tblHtml);
+}
+
+function tableAction(action) {
+  const sel = window.getSelection();
+  if (!sel || !sel.rangeCount) return;
+  const node = sel.anchorNode;
+  const cell = node ? (node.nodeType === 1 ? node.closest('td, th') : node.parentElement.closest('td, th')) : null;
+  if (!cell) {
+    alert('Please click inside a table cell first to use table controls.');
+    return;
+  }
+  const row = cell.closest('tr');
+  const table = cell.closest('table');
+  const colIndex = Array.from(row.children).indexOf(cell);
+
+  if (action === 'addRow') {
+    const newRow = row.cloneNode(true);
+    newRow.querySelectorAll('td, th').forEach(c => c.textContent = '');
+    row.after(newRow);
+  } else if (action === 'delRow') {
+    if (table.querySelectorAll('tr').length > 1) {
+      row.remove();
+    }
+  } else if (action === 'addCol') {
+    table.querySelectorAll('tr').forEach(r => {
+      const newCell = document.createElement(r.parentElement.tagName === 'THEAD' ? 'th' : 'td');
+      newCell.textContent = '';
+      if (r.children.length > colIndex) {
+        r.children[colIndex].after(newCell);
+      } else {
+        r.appendChild(newCell);
+      }
+    });
+  } else if (action === 'delCol') {
+    table.querySelectorAll('tr').forEach(r => {
+      if (r.children.length > 1 && r.children[colIndex]) {
+        r.children[colIndex].remove();
+      }
+    });
+  }
+}
+
+// Insert Photo
+function insertWordPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const imgHtml = `<img src="${evt.target.result}" style="max-width:240px; height:auto; display:inline-block; margin:8px; border:1px solid #cbd5e1; border-radius:3px;">`;
+    document.execCommand('insertHTML', false, imgHtml);
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+// Insert Text Box
+function insertWordTextBox() {
+  const boxHtml = `
+    <div class="word-textbox">
+      <b>NOTE:</b> Please enter special instructions or important notice here.
+    </div>
+    <p><br></p>
+  `;
+  document.execCommand('insertHTML', false, boxHtml);
+}
+
+// Insert Shapes
+function insertWordShape(type) {
+  let shapeHtml = '';
+  if (type === 'rect') {
+    shapeHtml = '<div style="display:inline-block; width:130px; height:60px; border:2px solid #0f172a; margin:4px; vertical-align:middle;"></div> ';
+  } else if (type === 'circle') {
+    shapeHtml = '<div style="display:inline-block; width:65px; height:65px; border:2px solid #0f172a; border-radius:50%; margin:4px; vertical-align:middle;"></div> ';
+  } else if (type === 'arrow') {
+    shapeHtml = ' ➔ ';
+  } else if (type === 'line') {
+    shapeHtml = '<hr style="border:0; border-top:1.5px solid #0f172a; margin:16px 0;">';
+  }
+  document.execCommand('insertHTML', false, shapeHtml);
+}
+
+// Insert Current Date
+function insertCurrentDate() {
+  const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  document.execCommand('insertText', false, today);
+}
+
+// Page Orientation (Portrait / Landscape)
+function changeOrientation(val) {
+  const sheets = document.querySelectorAll('.a4-sheet');
+  const ruler = document.getElementById('wordRuler');
+  sheets.forEach(s => {
+    if (val === 'landscape') {
+      s.classList.add('landscape');
+      if (ruler) ruler.style.width = '297mm';
+    } else {
+      s.classList.remove('landscape');
+      if (ruler) ruler.style.width = '210mm';
+    }
+  });
+}
+
+// Page Margins
+function changeMargins(val) {
+  let pad = '25.4mm 20mm';
+  if (val === 'narrow') pad = '12.7mm 12.7mm';
+  if (val === 'moderate') pad = '19mm 19mm';
+  if (val === 'wide') pad = '38mm 38mm';
+  document.querySelectorAll('.a4-sheet').forEach(s => s.style.padding = pad);
+}
+
+// Watermark Toggle
+function toggleWatermark(text) {
+  document.querySelectorAll('.watermark-overlay').forEach(el => {
+    if (text === 'none') {
+      el.style.display = 'none';
+    } else {
+      el.textContent = text;
+      el.style.display = 'block';
+    }
+  });
+}
+
+// Zoom Slider
+function changeZoom(val) {
+  const scale = val / 100;
+  document.getElementById('wordScaleWrapper').style.transform = `scale(${scale})`;
+  document.getElementById('zoomValText').textContent = `${val}%`;
+}
+
+// Live Status Bar (Word count, Characters, Pages)
+function updateWordStats() {
+  let totalText = '';
+  const sheets = document.querySelectorAll('.a4-sheet');
+  sheets.forEach(s => totalText += ' ' + (s.innerText || ''));
+  
+  const words = totalText.trim().split(/\s+/).filter(w => w.length > 0).length;
+  const chars = totalText.replace(/\s/g, '').length;
+
+  document.getElementById('statPageCount').textContent = `Page 1 of ${sheets.length}`;
+  document.getElementById('statWordCount').textContent = `${words} words`;
+  document.getElementById('statCharCount').textContent = `${chars} characters`;
+}
+
+document.addEventListener('input', function(e) {
+  if (e.target && e.target.classList && e.target.classList.contains('a4-sheet')) {
+    updateWordStats();
+  }
+});
+
+// Export to Microsoft Word (.doc / .docx compatible file)
+function exportWordDoc() {
+  const sheets = document.querySelectorAll('.a4-sheet');
+  let bodyContent = '';
+  sheets.forEach((sheet, idx) => {
+    const clone = sheet.cloneNode(true);
+    const wm = clone.querySelector('.watermark-overlay');
+    if (wm && wm.style.display === 'none') wm.remove();
+    bodyContent += clone.innerHTML;
+    if (idx < sheets.length - 1) {
+      bodyContent += '<br clear="all" style="page-break-before:always;" />';
+    }
+  });
+
+  const orientation = document.getElementById('orientationSelect').value;
+  const isLandscape = orientation === 'landscape';
+  const docTitle = document.getElementById('docFileName').value || 'Document';
+
+  const wordHTML = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office'
+          xmlns:w='urn:schemas-microsoft-com:office:word'
+          xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+      <meta charset='utf-8'>
+      <title>${docTitle}</title>
+      <!--[if gte mso 9]>
+      <xml>
+        <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+      </xml>
+      <![endif]-->
+      <style>
+        @page {
+          size: ${isLandscape ? '29.7cm 21.0cm' : '21.0cm 29.7cm'};
+          margin: 2.54cm 2.0cm 2.54cm 2.0cm;
+          mso-page-orientation: ${orientation};
+        }
+        body {
+          font-family: 'Times New Roman', serif;
+          font-size: 12pt;
+          line-height: 1.5;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 15px 0;
+        }
+        table, th, td {
+          border: 1px solid black;
+          padding: 6px 10px;
+        }
+        th {
+          background-color: #f1f5f9;
+        }
+      </style>
+    </head>
+    <body>
+      ${bodyContent}
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob(['\ufeff', wordHTML], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${docTitle}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Export Text File (.txt)
+function exportTextFile() {
+  let plainText = '';
+  document.querySelectorAll('.a4-sheet').forEach(s => plainText += s.innerText + '\n\n');
+  const docTitle = document.getElementById('docFileName').value || 'Document';
+  const blob = new Blob([plainText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${docTitle}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Open / Import Document (.doc, .docx, .html, .txt)
+function handleWordFileOpen(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const content = evt.target.result;
+    if (currentActiveSheet) {
+      currentActiveSheet.innerHTML = content;
+      updateWordStats();
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// Keyboard Shortcuts (Ctrl+S, Ctrl+P)
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    exportWordDoc();
+  }
+});
+
+// Indian Language Phonetic Transliteration
+const itcMap = {
+  hi: 'hi-t-i0-und',
+  bn: 'bn-t-i0-und',
+  mr: 'mr-t-i0-und',
+  ta: 'ta-t-i0-und',
+  te: 'te-t-i0-und',
+  gu: 'gu-t-i0-und',
+  pa: 'pa-t-i0-und',
+  kn: 'kn-t-i0-und',
+  ml: 'ml-t-i0-und',
+  ur: 'ur-t-i0-und',
+  or: 'or-t-i0-und',
+  as: 'as-t-i0-und',
+  sa: 'sa-t-i0-und'
+};
+
+document.getElementById('wordScaleWrapper').addEventListener('keydown', async function(e) {
+  const mode = document.getElementById('typingModeSelect').value;
+  if (mode === 'direct') return;
+
+  if (e.key === ' ' || e.key === 'Enter') {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    const node = range.startContainer;
+
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      const caretPos = range.startOffset;
+      const beforeCaret = text.slice(0, caretPos);
+      const match = beforeCaret.match(/([a-zA-Z]+)$/);
+
+      if (match) {
+        const engWord = match[1];
+        const itc = itcMap[mode] || 'hi-t-i0-und';
+        const url = `https://inputtools.google.com/request?text=${encodeURIComponent(engWord)}&itc=${itc}&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`;
+
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data && data[0] === 'SUCCESS' && data[1] && data[1][0] && data[1][0][1] && data[1][0][1][0]) {
+            const converted = data[1][0][1][0];
+            const startIdx = caretPos - engWord.length;
+            node.textContent = text.slice(0, startIdx) + converted + text.slice(caretPos);
+
+            const newRange = document.createRange();
+            newRange.setStart(node, startIdx + converted.length);
+            newRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(newRange);
+          }
+        } catch(err) {
+          console.warn('Transliteration offline:', err);
+        }
+      }
+    }
+  }
+});
+
+// Initial stats update
+updateWordStats();
+</script>
+
+<script src="js/ad-manager.js"></script>
+<script src="js/related-tools.js"></script>
+</body>
+</html>

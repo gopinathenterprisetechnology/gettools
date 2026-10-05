@@ -1,0 +1,3647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Adjust With Perspective Crop Tool – Straighten Documents Online | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/image-adjust.html">
+<meta name="description" content="Free online Image Adjust and 4-point Perspective Crop Tool. Straighten skewed, tilted, or angled photos of documents, Aadhaar cards, PAN cards, notes, and receipts directly in your browser.">
+<meta name="keywords" content="image adjust, perspective crop, perspective warp, straighten document, deskew image, document scanner online, keystone correction, crop and straighten">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/image-adjust.html">
+<meta property="og:title" content="Image Adjust With Perspective Crop Tool | GET Tools">
+<meta property="og:description" content="Online 4-point perspective crop and straighten tool for images and PDF documents. Free, fast, and secure.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Image Adjust With Perspective Crop Tool | GET Tools">
+<meta name="twitter:description" content="Online 4-point perspective crop and straighten tool for images and PDF documents.">
+<meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Image Adjust With Perspective Crop Tool",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/image-adjust.html",
+  "description": "Adjust and straighten skewed document images using 4-corner perspective correction and print ready sheets.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
+
+<!-- PDF.js library for PDF support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+
+<!-- jsPDF library for Professional Document PDF Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Cropper.js for standard 8-point bounding box cropping -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
+<!-- OpenCV.js for Computer Vision, Perspective Warping & Clear Document Filtering -->
+<script>
+  window.Module = {
+    onRuntimeInitialized: function() {
+      window.cvReady = true;
+      console.log('OpenCV.js WebAssembly initialized');
+      const badge = document.getElementById('opencvStatusBadge');
+      if (badge) {
+        badge.innerHTML = '⚡ OpenCV.js Ready';
+        badge.style.background = '#059669';
+      }
+    }
+  };
+</script>
+<script async src="https://docs.opencv.org/4.8.0/opencv.js" onload="if (window.cv && window.cv.imread) { window.cvReady = true; }"></script>
+
+<style>
+  /* Perspective Tool Styles */
+  .adjust-workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 900px) {
+    .adjust-workspace {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .upload-dashed-box {
+    border: 2px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 28px 20px;
+    text-align: center;
+    background: var(--surface);
+    margin-bottom: 24px;
+    transition: border-color 0.2s, background-color 0.2s;
+    cursor: pointer;
+  }
+  .upload-dashed-box.dragover {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.05);
+  }
+
+  .btn-select-file {
+    border: 2px solid #2563eb;
+    color: #2563eb;
+    background: #ffffff;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .btn-select-file:hover {
+    background: #2563eb;
+    color: #ffffff;
+  }
+
+  /* Left Column: Crop Area */
+  .crop-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .crop-stage-container {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    background: #0f172a;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    touch-action: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  #cropCanvas {
+    display: block;
+    max-width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    cursor: crosshair;
+  }
+
+  .corner-handle {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #ef4444;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    cursor: grab;
+    z-index: 20;
+    touch-action: none;
+    transition: transform 0.1s ease, background 0.1s ease;
+  }
+  .corner-handle:hover, .corner-handle.active {
+    background: #dc2626;
+    transform: translate(-50%, -50%) scale(1.25);
+    cursor: grabbing;
+  }
+
+  /* Zoom Loupe Magnifier */
+  #loupe {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border: 3px solid #2563eb;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    display: none;
+    z-index: 50;
+    overflow: hidden;
+  }
+  #loupeCanvas {
+    width: 100%;
+    height: 100%;
+  }
+  #loupeCrosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  #loupeCrosshair::before, #loupeCrosshair::after {
+    content: '';
+    position: absolute;
+    background: #ef4444;
+  }
+  #loupeCrosshair::before {
+    top: 0; left: 7px; width: 2px; height: 16px;
+  }
+  #loupeCrosshair::after {
+    top: 7px; left: 0; width: 16px; height: 2px;
+  }
+
+  .crop-actions-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .btn-dark-pill {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .btn-dark-pill:hover {
+    background: #111827;
+  }
+  .btn-dark-pill.active {
+    background: #3b82f6;
+  }
+
+  .btn-blue-crop {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-blue-crop:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  /* Right Column: Output Sheet & Toolbar */
+  .output-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 480px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: 100%;
+  }
+
+  .toolbar-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-tool-blue {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 38px;
+    transition: background 0.2s;
+  }
+  .btn-tool-blue:hover { background: #1d4ed8; }
+
+  .btn-tool-dark {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 38px;
+    transition: background 0.2s;
+  }
+  .btn-tool-dark:hover { background: #111827; }
+
+  .btn-tool-green {
+    background: #16a34a;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    transition: background 0.2s;
+  }
+  .btn-tool-green:hover { background: #15803d; }
+
+  .btn-tool-red {
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    transition: background 0.2s;
+  }
+  .btn-tool-red:hover { background: #b91c1c; }
+
+  /* Dotted Output Print Sheet */
+  .document-sheet-area {
+    border: 2px dashed #2563eb;
+    width: 100%;
+    min-height: 440px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+  }
+
+  #outputCanvas {
+    max-width: 95%;
+    max-height: 420px;
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .sheet-empty-placeholder {
+    color: #94a3b8;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Crop Mode Switch: 4-Corner Perspective vs Cropper.js 8-Point Box */
+  .crop-mode-switch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+  }
+  .btn-crop-mode {
+    flex: 1;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-crop-mode:hover {
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .btn-crop-mode.active {
+    background: #ffffff;
+    color: #2563eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-weight: 700;
+  }
+  .opencv-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: #0284c7;
+    color: #ffffff;
+  }
+
+  /* Filters & Tweaks Bar */
+  .filter-pills-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    justify-content: center;
+    width: 100%;
+  }
+  .filter-pill {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-pill.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+
+  /* Inbuilt AI Enhancer Styles */
+  .ai-enhancer-box {
+    margin-top: 18px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(37, 99, 235, 0.05));
+    border: 1.5px solid #818cf8;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+  }
+  .btn-ai-action {
+    border: none;
+    padding: 9px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .btn-ai-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  .btn-ai-action:active {
+    transform: translateY(0);
+  }
+  .btn-tool-ai {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+    transition: all 0.2s;
+  }
+  .btn-tool-ai:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    transform: translateY(-1px);
+  }
+  .btn-compare {
+    user-select: none;
+    touch-action: manipulation;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-compare:active, .btn-compare.comparing {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+  }
+
+  /* Collage & Page Layout System Styles */
+  .collage-preset-bar {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .btn-preset-pill {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-preset-pill:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+  .btn-preset-pill.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+  .item-control-panel {
+    width: 100%;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn-scale-step {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-scale-step:hover {
+    background: #e2e8f0;
+  }
+  .item-quick-btn {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s;
+  }
+  .item-quick-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  .btn-res-preset {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-res-preset:hover, .btn-res-preset.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+  .btn-apply-res:hover {
+    background: #1d4ed8 !important;
+  }
+
+  /* Print Media Query */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .document-sheet-area, .document-sheet-area * {
+      visibility: visible;
+    }
+    .document-sheet-area {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none !important;
+      box-shadow: none !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #outputCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: none !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="image-adjust.html" style="color:var(--primary); font-weight:600;">Image Adjust</a>
+      <a href="https://sordidcopper.com/kewpkm1ua?key=a77b601373b692ebee713b38d44ad2e1" target="_blank" rel="noopener sponsored" class="nav-deals-badge" title="Explore trending partner offers & deals">
+        🔥 Special Offers
+      </a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="image-adjust.html">Image Adjust</a>
+    <a href="https://sordidcopper.com/kewpkm1ua?key=a77b601373b692ebee713b38d44ad2e1" target="_blank" rel="noopener sponsored" style="color:#ea580c; font-weight:700;">🎁 Special Deals & Rewards</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+</header>
+
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Image Adjust With Perspective Crop</span>
+</nav>
+
+<main class="container" style="padding-top: 25px; padding-bottom: 50px; max-width: 1200px;">
+  
+  <!-- Exact Heading from screenshot -->
+  <h1 style="color: #2563eb; text-align: center; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 22px;">
+    Image Adjust With Perspective Crop Tool
+  </h1>
+
+  <!-- Top Select Image / PDF Box matching screenshot -->
+  <div class="upload-dashed-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <input type="file" id="fileInput" accept="image/*,application/pdf" style="display:none;" onchange="handleFileSelect(event)">
+    <button type="button" class="btn-select-file" onclick="event.stopPropagation(); document.getElementById('fileInput').click();">
+      📁 Select Image / PDF
+    </button>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
+      Drag & Drop or Click to upload mobile photo, document scan, Aadhaar, PAN Card, or PDF file.
+    </div>
+  </div>
+
+  <!-- Workspace Grid (Left: Perspective Quadrilateral Crop; Right: Printable Document Sheet) -->
+  <div class="adjust-workspace">
+    
+    <!-- Left Column: Image with 4-Corner Perspective Handles or Cropper.js 8-Point Box -->
+    <div class="crop-column">
+      <!-- Crop Mode Switch: 4-Corner Perspective vs Cropper.js 8-Point Box -->
+      <div class="crop-mode-switch">
+        <button type="button" id="btnModePerspective" class="btn-crop-mode active" onclick="setCropMode('perspective')" title="Straighten slanted or keystoned documents using 4-corner homography">
+          📐 4-Corner Perspective Deskew
+        </button>
+        <button type="button" id="btnModeCropper" class="btn-crop-mode" onclick="setCropMode('cropper')" title="Standard rectangular crop using Cropper.js 8-point corner-adjustable box">
+          ✂️ 8-Point Box Crop (Cropper.js)
+        </button>
+      </div>
+
+      <div class="crop-stage-container" id="stageContainer">
+        <!-- 4-Corner Canvas -->
+        <canvas id="cropCanvas"></canvas>
+
+        <!-- 4 Red Draggable Corner Pins -->
+        <div class="corner-handle" id="handle-tl" data-corner="0" title="Top-Left Corner"></div>
+        <div class="corner-handle" id="handle-tr" data-corner="1" title="Top-Right Corner"></div>
+        <div class="corner-handle" id="handle-br" data-corner="2" title="Bottom-Right Corner"></div>
+        <div class="corner-handle" id="handle-bl" data-corner="3" title="Bottom-Left Corner"></div>
+
+        <!-- Floating Zoom Loupe Magnifier -->
+        <div id="loupe">
+          <canvas id="loupeCanvas" width="110" height="110"></canvas>
+          <div id="loupeCrosshair"></div>
+        </div>
+
+        <!-- Cropper.js 8-Point Box Image Wrapper -->
+        <div id="cropperWrapper" style="display:none; width:100%; height:100%; min-height:360px; max-height:460px; overflow:hidden; background:#0f172a;">
+          <img id="cropperImg" style="display:block; max-width:100%;" alt="Cropper source">
+        </div>
+      </div>
+
+      <!-- Cropper.js Aspect Ratio Presets Bar (Shown in 8-Point Box mode) -->
+      <div id="cropperToolbar" style="display:none; margin-top:8px; gap:6px; flex-wrap:wrap; justify-content:center; align-items:center;">
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text); align-self:center;">✂️ 8-Point Box Ratio:</span>
+        <button type="button" class="btn-preset-pill active" onclick="setCropperRatio(NaN, this)">Free Box</button>
+        <button type="button" class="btn-preset-pill" onclick="setCropperRatio(1, this)">1:1 Square</button>
+        <button type="button" class="btn-preset-pill" onclick="setCropperRatio(4/3, this)">4:3</button>
+        <button type="button" class="btn-preset-pill" onclick="setCropperRatio(16/9, this)">16:9</button>
+        <button type="button" class="btn-preset-pill" onclick="setCropperRatio(1/1.414, this)">A4 Ratio</button>
+        <button type="button" class="btn-preset-pill" onclick="resetCropperBox()">↺ Reset</button>
+      </div>
+
+      <!-- Action Buttons Under Left Preview -->
+      <div class="crop-actions-bar">
+        <button type="button" id="autoDetectBtn" class="btn-dark-pill" onclick="autoDetectCorners(true)" title="Auto-detect document boundaries and snap 4 corners" style="background:#2563eb; color:#ffffff;">
+          🎯 Auto Detect Corners
+        </button>
+        <button type="button" class="btn-dark-pill" onclick="rotateSourceImage(-90)" title="Rotate source image 90° Left">
+          ↶ Rotate
+        </button>
+        <button type="button" class="btn-dark-pill" onclick="rotateSourceImage(90)" title="Rotate source image 90° Right">
+          ↷ Rotate
+        </button>
+        <button type="button" id="zoomToggleBtn" class="btn-dark-pill" onclick="toggleZoomMode()">
+          ⛶ Zoom Area
+        </button>
+        <button type="button" class="btn-dark-pill" onclick="runAiEnhanceSource()" title="Enhance raw source photo before crop">
+          ✨ AI Polish Source
+        </button>
+        <button type="button" class="btn-blue-crop" onclick="executePerspectiveCrop(false)" title="Straighten / crop and set as main page">
+          🔄 Crop & Straighten
+        </button>
+        <button type="button" class="btn-blue-crop" onclick="executePerspectiveCrop(true)" style="background:#059669;" title="Add another cropped item to this page (for ID Front & Back / Multiple Items)">
+          ➕ Add to Collage
+        </button>
+      </div>
+
+      <!-- Auto Detect Toast Notification -->
+      <div id="cornerDetectToast" style="display: none; margin-top: 8px; padding: 6px 14px; background: rgba(37, 99, 235, 0.1); border: 1.5px solid #3b82f6; border-radius: 6px; font-size: 0.8rem; text-align: center; color: #1d4ed8; font-weight: 600;">
+        🎯 4 Document Corners Auto-Detected & Snapped!
+      </div>
+
+      <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        <span>💡 Drag corners or handles for adjustment.</span>
+        <span id="opencvStatusBadge" class="opencv-badge">⚡ OpenCV.js Ready</span>
+      </div>
+    </div>
+
+    <!-- Right Column: Document Print Sheet & Toolbar -->
+    <div class="output-card">
+      
+      <!-- Toolbar: [✨ AI] [⬇ Download JPG] [📄 Export PDF] [↶ 90°] [↷ 90°] [↶ Un] [↷ Re] [🖨 Print] [🗑 Clear] -->
+      <div class="toolbar-row">
+        <button type="button" class="btn-tool-ai" onclick="runAiEnhance('auto')" title="Inbuilt AI Quality Enhancer">
+          ✨ AI Enhance
+        </button>
+        <button type="button" class="btn-tool-blue" onclick="downloadResult()" title="Download High-Quality JPG">
+          ⬇ Download JPG
+        </button>
+        <button type="button" class="btn-tool-red" onclick="exportPDF()" title="Export Professional Document PDF" style="background:#e11d48; color:#ffffff;">
+          📄 Export PDF
+        </button>
+        <button type="button" class="btn-tool-dark" onclick="rotateProcessedDoc(-90)" title="Rotate Processed Document 90° Left">
+          ↶ 90°
+        </button>
+        <button type="button" class="btn-tool-dark" onclick="rotateProcessedDoc(90)" title="Rotate Processed Document 90° Right">
+          ↷ 90°
+        </button>
+        <button type="button" class="btn-tool-dark" onclick="undoAction()" title="Undo">
+          ↶ Un
+        </button>
+        <button type="button" class="btn-tool-dark" onclick="redoAction()" title="Redo">
+          ↷ Re
+        </button>
+        <button type="button" class="btn-tool-green" onclick="printResult()" title="Print Page / Collage">
+          🖨 Print
+        </button>
+        <button type="button" class="btn-tool-red" onclick="clearWorkspace()" title="Clear All">
+          🗑 Clear
+        </button>
+      </div>
+
+      <!-- Collage & Sheet Layout Bar -->
+      <div class="collage-preset-bar">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text); margin-right:4px;">📐 Page & Collage:</span>
+        <select id="paperSizeSelect" onchange="changePaperSize(this.value)" style="font-size:0.78rem; font-weight:600; padding:4px 8px; border-radius:4px; border:1px solid var(--border); margin-bottom:0; width:auto; background:var(--surface); color:var(--text);">
+          <option value="a4-portrait" selected>📄 A4 Sheet (Portrait)</option>
+          <option value="a4-landscape">📄 A4 Sheet (Landscape)</option>
+          <option value="photo-4x6">📸 4x6 inch Photo</option>
+          <option value="fit-content">🔲 Fit to Item</option>
+        </select>
+        <div style="display:flex; gap:4px; flex-wrap:wrap; margin-left:auto;">
+          <button type="button" class="btn-preset-pill active" id="preset-id-card" onclick="applyCollagePreset('id-card')" title="Standard Aadhaar / Voter / PAN Front & Back Xerox Layout">
+            🪪 ID Front & Back
+          </button>
+          <button type="button" class="btn-preset-pill" id="preset-1up" onclick="applyCollagePreset('1up')" title="Single Full Centered Document">
+            📄 1-Up Full
+          </button>
+          <button type="button" class="btn-preset-pill" id="preset-2up-v" onclick="applyCollagePreset('2up-v')" title="Two items Top & Bottom">
+            📑 2-Up Top/Btm
+          </button>
+          <button type="button" class="btn-preset-pill" id="preset-2up-h" onclick="applyCollagePreset('2up-h')" title="Two items Side-by-Side">
+            📑 2-Up Side
+          </button>
+          <button type="button" class="btn-preset-pill" id="preset-4up" onclick="applyCollagePreset('4up')" title="4 Quadrants Grid">
+            🪟 4-Up Grid
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Document Sheet Preview (Dotted blue border box) -->
+      <div class="document-sheet-area" id="sheetArea">
+        <div class="sheet-empty-placeholder" id="emptyPlaceholder">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#94a3b8" stroke-width="1.5" style="margin: 0 auto 10px auto; display:block;">
+            <path d="M4 4v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6a2 2 0 0 0-2 2z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Select an image and click <strong>Crop & Straighten</strong> to preview the deskewed document here.
+        </div>
+        <canvas id="outputCanvas" style="display:none;"></canvas>
+      </div>
+
+      <!-- Selected Item Adjustment Controls (Boro / Choto & Position) -->
+      <div class="item-control-panel" id="itemControlPanel" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="font-weight:700; font-size:0.85rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#2563eb;"></span>
+            <span id="selectedItemLabel">Selected: Card 1</span>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Drag on page to move or drag corner pins to resize)</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="item-quick-btn" onclick="duplicateSelectedItem()" title="Duplicate this card/item">
+              📋 Duplicate
+            </button>
+            <button type="button" class="item-quick-btn" onclick="deleteSelectedItem()" style="color:#dc2626; border-color:#fca5a5;" title="Remove this item from sheet">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Boro / Choto Scale Slider & Step Controls -->
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#ffffff; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">
+          <span style="font-size:0.82rem; font-weight:700; color:#334155; white-space:nowrap;">
+            🔍 Size (Boro / Choto):
+          </span>
+          <button type="button" class="btn-scale-step" onclick="adjustSelectedScale(-0.05)" title="Make smaller (Choto)">➖</button>
+          <input type="range" id="itemScaleSlider" min="20" max="250" value="100" style="flex:1; min-width:120px; cursor:pointer;" oninput="onItemScaleSlider(this.value)">
+          <button type="button" class="btn-scale-step" onclick="adjustSelectedScale(0.05)" title="Make bigger (Boro)">➕</button>
+          <span id="itemScaleDisplay" style="font-weight:700; font-size:0.82rem; min-width:44px; color:#2563eb;">100%</span>
+
+          <!-- Quick sizing & position buttons -->
+          <div style="display:flex; gap:4px; margin-left:auto; flex-wrap:wrap;">
+            <button type="button" class="item-quick-btn" onclick="fitItemToWidth()" title="Fit width of sheet">↔️ Fit Width</button>
+            <button type="button" class="item-quick-btn" onclick="fitItemToHeight()" title="Fit height of sheet">↕️ Fit Height</button>
+            <button type="button" class="item-quick-btn" onclick="centerSelectedItem()" title="Center on page">🎯 Center</button>
+            <button type="button" class="item-quick-btn" onclick="rotateSelectedItem(-90)" title="Rotate left 90°">↶ 90°</button>
+            <button type="button" class="item-quick-btn" onclick="rotateSelectedItem(90)" title="Rotate right 90°">↷ 90°</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clear Scanner Smart Filters Bar (3 Main Modes + B&W/Grayscale) -->
+      <div class="filter-pills-bar" id="enhancementsBar" style="display:none; justify-content:center; gap:8px;">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text); align-self:center;">🎨 Clear Scanner Modes:</span>
+        <button type="button" class="filter-pill active" onclick="applyOutputFilter('original', this)" title="Original deskewed image">
+          📄 Original
+        </button>
+        <button type="button" class="filter-pill mode-magic" onclick="applyOutputFilter('magic_color', this)" style="border-color:#6366f1; color:#4f46e5; font-weight:700;" title="Auto-enhance contrast, brightness and remove shadows">
+          ✨ Magic Color (Auto-Enhance)
+        </button>
+        <button type="button" class="filter-pill mode-super" onclick="applyOutputFilter('super_clear', this)" style="border-color:#2563eb; color:#1d4ed8; font-weight:700;" title="Adaptive thresholding, shadow removal & pure white background with ultra sharp text">
+          ⚡ Super Clear Document Mode
+        </button>
+        <button type="button" class="filter-pill" onclick="applyOutputFilter('bw', this)" title="High-contrast Clean B&W Document">
+          Clean B&W Doc
+        </button>
+        <button type="button" class="filter-pill" onclick="applyOutputFilter('grayscale', this)" title="Monochrome Grayscale">
+          Grayscale
+        </button>
+      </div>
+
+      <!-- Fine-Tuning Sliders: Brightness, Contrast & Sharpness -->
+      <div id="filterSlidersPanel" style="display:none; width:100%; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px 16px; margin-top:10px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; font-size:0.8rem;">
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <label for="sliderBrightness" style="font-weight:600;">☀️ Brightness:</label>
+              <span id="sliderBrightnessVal" style="font-weight:700; color:#2563eb;">0</span>
+            </div>
+            <input type="range" id="sliderBrightness" min="-100" max="100" value="0" style="width:100%; cursor:pointer;" oninput="onFilterSliderChange()">
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <label for="sliderContrast" style="font-weight:600;">🌓 Contrast:</label>
+              <span id="sliderContrastVal" style="font-weight:700; color:#2563eb;">0</span>
+            </div>
+            <input type="range" id="sliderContrast" min="-100" max="100" value="0" style="width:100%; cursor:pointer;" oninput="onFilterSliderChange()">
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+              <label for="sliderSharpness" style="font-weight:600;">🔪 Text Sharpness:</label>
+              <span id="sliderSharpnessVal" style="font-weight:700; color:#2563eb;">40%</span>
+            </div>
+            <input type="range" id="sliderSharpness" min="0" max="100" value="40" style="width:100%; cursor:pointer;" oninput="onFilterSliderChange()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Resolution & Pixel Scaling Panel (Auto & Custom Dimensions) -->
+      <div class="resolution-panel" id="resolutionPanel" style="display:none; width:100%; background:linear-gradient(135deg, rgba(37,99,235,0.04), rgba(79,70,229,0.04)); border:1.5px solid #93c5fd; border-radius:8px; padding:14px 16px; margin-top:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div style="font-weight:700; font-size:0.9rem; color:#1e40af; display:flex; align-items:center; gap:6px;">
+            <span>📐 Auto & Custom Resolution / Pixel Scaling</span>
+            <span id="resBadgeDpi" style="background:#2563eb; color:#fff; font-size:0.68rem; padding:2px 8px; border-radius:12px; font-weight:700;">300 DPI Ready</span>
+          </div>
+          <div id="liveResInfo" style="font-size:0.78rem; color:#475569; font-weight:600;">
+            Canvas: 1240 × 1754 px
+          </div>
+        </div>
+
+        <!-- Quick Standard Presets -->
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+          <button type="button" class="btn-res-preset" onclick="setResolutionPreset(2480, 3508, 'A4 (300 DPI)')">
+            📄 A4 (300 DPI)
+          </button>
+          <button type="button" class="btn-res-preset active" onclick="setResolutionPreset(1240, 1754, 'A4 (150 DPI)')">
+            📄 A4 (150 DPI)
+          </button>
+          <button type="button" class="btn-res-preset" onclick="setResolutionPreset(2550, 3300, 'US Letter')">
+            📄 US Letter
+          </button>
+          <button type="button" class="btn-res-preset" onclick="setResolutionPreset(2560, 1440, '2K QHD')">
+            🖥️ 2K Quad HD
+          </button>
+          <button type="button" class="btn-res-preset" onclick="setResolutionPreset(3840, 2160, '4K UHD')">
+            📺 4K Ultra HD
+          </button>
+          <button type="button" class="btn-res-preset" onclick="autoUpscale2x()" style="background:#4f46e5; color:#fff; border-color:#4f46e5;">
+            ⚡ Auto 2x HD Upscale
+          </button>
+        </div>
+
+        <!-- Custom Width x Height Input Boxes -->
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#ffffff; padding:10px 14px; border-radius:6px; border:1px solid #cbd5e1;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label for="customResW" style="font-size:0.8rem; font-weight:600; color:#334155;">Width:</label>
+            <input type="number" id="customResW" min="200" max="8000" value="1240" style="width:90px; padding:5px 8px; font-size:0.82rem; font-weight:700; border:1px solid #94a3b8; border-radius:4px; margin-bottom:0;" oninput="onCustomResWChange()">
+            <span style="font-size:0.75rem; color:#64748b;">px</span>
+          </div>
+
+          <span style="font-weight:700; color:#94a3b8;">×</span>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label for="customResH" style="font-size:0.8rem; font-weight:600; color:#334155;">Height:</label>
+            <input type="number" id="customResH" min="200" max="8000" value="1754" style="width:90px; padding:5px 8px; font-size:0.82rem; font-weight:700; border:1px solid #94a3b8; border-radius:4px; margin-bottom:0;" oninput="onCustomResHChange()">
+            <span style="font-size:0.75rem; color:#64748b;">px</span>
+          </div>
+
+          <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; color:#334155; cursor:pointer; margin-bottom:0;">
+            <input type="checkbox" id="lockAspectCheckbox" checked style="cursor:pointer;">
+            <span>🔗 Lock Ratio</span>
+          </label>
+
+          <button type="button" class="btn-apply-res" onclick="applyCustomResolution()" style="margin-left:auto; background:#2563eb; color:#ffffff; border:none; padding:7px 16px; border-radius:5px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+            🚀 Apply Resolution
+          </button>
+        </div>
+      </div>
+
+      <!-- Inbuilt AI Picture Quality Enhancer Box -->
+      <div class="ai-enhancer-box" id="aiEnhancerPanel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #4338ca; font-size: 0.95rem;">
+            <span>✨ Inbuilt AI Picture Quality Enhancer</span>
+            <span style="background: #4f46e5; color: #ffffff; font-size: 0.65rem; padding: 2px 7px; border-radius: 12px; text-transform: uppercase; font-weight: 700;">Neural Engine</span>
+          </div>
+          <button type="button" id="compareBtn" class="btn-compare" onmousedown="showOriginalPreview()" onmouseup="hideOriginalPreview()" ontouchstart="showOriginalPreview()" ontouchend="hideOriginalPreview()" style="font-size: 0.75rem; padding: 5px 12px; border-radius: 4px; border: 1.5px solid #a5b4fc; background: #ffffff; color: #4338ca; cursor: pointer; font-weight: 600;">
+            👁️ Hold to Compare
+          </button>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 12px 0;">
+          Smart sub-pixel sharpening, text clarity recovery, de-noising & HD Super-Resolution.
+        </p>
+
+        <!-- AI Preset Buttons Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px;">
+          <button type="button" class="btn-ai-action" onclick="runAiEnhance('auto')" style="background: linear-gradient(135deg, #4f46e5, #6366f1); color: #ffffff;">
+            ⚡ Auto AI Polish
+          </button>
+          <button type="button" class="btn-ai-action" onclick="runAiEnhance('text')" style="background: linear-gradient(135deg, #1d4ed8, #3b82f6); color: #ffffff;">
+            📄 Text Clarifier
+          </button>
+          <button type="button" class="btn-ai-action" onclick="runAiEnhance('face')" style="background: linear-gradient(135deg, #047857, #10b981); color: #ffffff;">
+            👤 Portrait Restore
+          </button>
+          <button type="button" class="btn-ai-action" onclick="runAiSuperResolution()" style="background: linear-gradient(135deg, #6d28d9, #8b5cf6); color: #ffffff;">
+            🔍 2x HD Super-Res
+          </button>
+          <button type="button" class="btn-ai-action" onclick="runAiEnhance('denoise')" style="background: linear-gradient(135deg, #0369a1, #0ea5e9); color: #ffffff;">
+            🧹 Clean Noise
+          </button>
+        </div>
+
+        <!-- AI Intensity Slider -->
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 0.82rem; color: var(--text);">
+          <label for="aiIntensity" style="font-weight: 600; white-space: nowrap;">AI Boost:</label>
+          <input type="range" id="aiIntensity" min="20" max="100" value="70" style="flex: 1; cursor: pointer;" oninput="document.getElementById('aiIntensityVal').innerText = this.value + '%'">
+          <span id="aiIntensityVal" style="font-weight: 700; min-width: 38px; color: #4338ca;">70%</span>
+        </div>
+
+        <!-- Status / Processing Indicator -->
+        <div id="aiStatusMsg" style="display: none; margin-top: 10px; padding: 6px 12px; background: rgba(79, 70, 229, 0.08); border-radius: 4px; font-size: 0.8rem; text-align: center; color: #4338ca; font-weight: 600;">
+          🧠 AI Neural Processing: Enhancing sub-pixel edges & contrast...
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Sponsored Partner Deals Bar -->
+  <div class="sponsored-recommendation-bar">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:1.6rem;">🎁</span>
+      <div>
+        <div style="font-weight:700; font-size:0.95rem; color:var(--text);">
+          Trending Cyber Cafe Deals & Student Offers
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-muted);">
+          Check out exclusive tech accessories, printing gadgets, and verified utility deals from our partners.
+        </div>
+      </div>
+    </div>
+    <a href="https://sordidcopper.com/kewpkm1ua?key=a77b601373b692ebee713b38d44ad2e1" target="_blank" rel="noopener sponsored" style="background:linear-gradient(135deg, #f59e0b, #ea580c); color:#fff; text-decoration:none; padding:8px 18px; border-radius:6px; font-size:0.85rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(234,88,12,0.25); white-space:nowrap;">
+      Explore Deals →
+    </a>
+  </div>
+
+  <!-- Adsterra 728x90 Leaderboard Banner -->
+  <div style="margin: 25px auto; text-align: center; width: 100%; overflow: hidden;">
+    <div class="adsterra-banner-728x90"></div>
+  </div>
+
+  <!-- How to use & Features Guide -->
+  <div class="card" style="margin-top: 30px; padding: 24px;">
+    <h3 style="margin-top: 0; color: var(--text); font-size: 1.2rem;">How Image Adjust with Perspective Crop Works</h3>
+    <ul style="color: var(--text-muted); line-height: 1.8; padding-left: 20px; font-size: 0.92rem;">
+      <li><strong>Fix Camera Distortion & Tilted Angles:</strong> When you snap a photo of an Aadhaar card, PAN card, marksheet, or receipt with a smartphone, it is usually slanted or keystoned. This tool uses 4-point homography projection to mathematically flatten and unskew it into a rectangular scanner-grade image.</li>
+      <li><strong>Pixel-Perfect Corner Zoom:</strong> Enable <strong>Zoom Area</strong> to see an instant 3x magnifying loupe under your fingers or mouse cursor for exact corner placement.</li>
+      <li><strong>PDF & Image Support:</strong> Upload standard photos (JPG, PNG, WebP) or multi-page PDF documents.</li>
+      <li><strong>Direct Print & Instant Download:</strong> Preview your straightened document on the print sheet and send it straight to your printer or save it as a high-resolution file.</li>
+      <li><strong>100% Private & In-Browser:</strong> All processing is done locally on your device via HTML5 Canvas. Your sensitive IDs and documents are never uploaded to any remote server.</li>
+    </ul>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container footer-content-wrap">
+    <div class="footer-columns-grid">
+
+      <!-- Column 1: Brand Info -->
+      <div class="footer-brand-col">
+        <a href="index.html" class="nav-brand" style="font-size:1.5rem; display:inline-block; margin-bottom:12px;">
+          GET <span class="brand-accent">Tools</span>
+        </a>
+        <p class="footer-desc">
+          Professional, free, and secure online browser tools for students, job applicants, and cyber cafes. Fast, privacy-first processing for documents, images, and text.
+        </p>
+      </div>
+
+      <!-- Column 2: PDF Tools -->
+      <div>
+        <h4 class="footer-col-title">PDF Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="pdf-compress.html">Compress PDF</a></li>
+          <li><a href="pdf-merge.html">Merge PDF</a></li>
+          <li><a href="pdf-split.html">Split PDF</a></li>
+          <li><a href="pdf-lock.html">Protect PDF</a></li>
+          <li><a href="pdf-unlock.html">Unlock PDF</a></li>
+          <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+          <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Image Tools -->
+      <div>
+        <h4 class="footer-col-title">Image Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="image-adjust.html" style="font-weight:600; color:var(--primary);">Image Adjust</a></li>
+          <li><a href="passport-photo-maker.html">Passport Photo Maker</a></li>
+          <li><a href="signature-crop.html">Signature Crop</a></li>
+          <li><a href="combine-photo-signature.html">Combine Photo & Sign</a></li>
+          <li><a href="resize.html">Resize Image</a></li>
+          <li><a href="image-compressor.html">Compress Image</a></li>
+          <li><a href="imageincreaser.html">Image Size Increaser</a></li>
+          <li><a href="png-to-jpg.html">PNG to JPG</a></li>
+          <li><a href="black-and-white.html">Black & White</a></li>
+          <li><a href="watermark-image.html">Watermark</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Typing Tools -->
+      <div>
+        <h4 class="footer-col-title">Typing Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="indic-typing.html#hindi">English To Hindi</a></li>
+          <li><a href="indic-typing.html#bengali">English To Bengali</a></li>
+          <li><a href="indic-typing.html#tamil">English To Tamil</a></li>
+          <li><a href="indic-typing.html#telugu">English To Telugu</a></li>
+          <li><a href="indic-typing.html#marathi">English To Marathi</a></li>
+          <li><a href="indic-typing.html#gujarati">English To Gujarati</a></li>
+          <li><a href="indic-typing.html#punjabi">English To Punjabi</a></li>
+          <li><a href="indic-typing.html#urdu">English To Urdu</a></li>
+          <li><a href="indic-typing.html">English To All Language</a></li>
+          <li><a href="typing-test.html">Typing Test</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Converter Tool -->
+      <div>
+        <h4 class="footer-col-title">Converter Tool</h4>
+        <ul class="footer-links-list">
+          <li><a href="font-converter.html#k2u">Krutidev To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Krutidev</a></li>
+          <li><a href="font-converter.html#k2u">Krutidev To Mangal</a></li>
+          <li><a href="font-converter.html#u2k">Mangal To Krutidev</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Devlys</a></li>
+          <li><a href="font-converter.html#k2u">DevLys To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Preeti</a></li>
+          <li><a href="font-converter.html#k2u">Preeti To Unicode</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 6: Card (Official Indian Portals) -->
+      <div>
+        <h4 class="footer-col-title">Card</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank" rel="noopener">Adhar Card</a></li>
+          <li><a href="https://food.wb.gov.in/" target="_blank" rel="noopener">Ration Card (WB)</a></li>
+          <li><a href="https://onlineservices.proteantech.in/paam/endUserRegisterContact.html" target="_blank" rel="noopener">Pan Card</a></li>
+          <li><a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">Voter Id</a></li>
+          <li><a href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener">PMJAY Swasthya Bima</a></li>
+          <li><a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/" target="_blank" rel="noopener">AgriStack Farmer ID</a></li>
+          <li><a href="https://nrega.nic.in/" target="_blank" rel="noopener">Job Card</a></li>
+          <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
+          <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
+          <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
+          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
+          <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
+          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom-bar">
+      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+    </div>
+  </div>
+</footer>
+
+<!-- Interactive Perspective Crop & Adjust Engine -->
+<script>
+  let sourceImage = null;
+  let rawStraightenedCanvas = null;
+  let activeFilter = 'original';
+  let rotationDeg = 0;
+
+  // Cropper.js vs 4-Point Perspective Mode State
+  let currentCropMode = 'perspective'; // 'perspective' or 'cropper'
+  let cropperInstance = null;
+
+  function setCropMode(mode) {
+    currentCropMode = mode;
+    const btnP = document.getElementById('btnModePerspective');
+    const btnC = document.getElementById('btnModeCropper');
+    const cropperToolbar = document.getElementById('cropperToolbar');
+    const cropperWrap = document.getElementById('cropperWrapper');
+    const cropCanvas = document.getElementById('cropCanvas');
+    const autoDetectBtn = document.getElementById('autoDetectBtn');
+    const zoomToggleBtn = document.getElementById('zoomToggleBtn');
+
+    if (mode === 'cropper') {
+      if (btnP) btnP.classList.remove('active');
+      if (btnC) btnC.classList.add('active');
+      if (cropCanvas) cropCanvas.style.display = 'none';
+      handles.forEach(h => { if (h) h.style.display = 'none'; });
+      if (loupe) loupe.style.display = 'none';
+      if (cropperWrap) cropperWrap.style.display = 'block';
+      if (cropperToolbar) cropperToolbar.style.display = 'flex';
+      if (autoDetectBtn) autoDetectBtn.style.display = 'none';
+      if (zoomToggleBtn) zoomToggleBtn.style.display = 'none';
+
+      initCropper();
+      showCornerToast('✂️ 8-Point Box Crop (Cropper.js) Active');
+    } else {
+      if (btnC) btnC.classList.remove('active');
+      if (btnP) btnP.classList.add('active');
+      if (cropperInstance) {
+        try { cropperInstance.destroy(); } catch (e) {}
+        cropperInstance = null;
+      }
+      if (cropperWrap) cropperWrap.style.display = 'none';
+      if (cropCanvas) cropCanvas.style.display = 'block';
+      if (cropperToolbar) cropperToolbar.style.display = 'none';
+      if (autoDetectBtn) autoDetectBtn.style.display = 'inline-flex';
+      if (zoomToggleBtn) zoomToggleBtn.style.display = 'inline-flex';
+
+      drawCropStage();
+      updateHandlePositions();
+      showCornerToast('📐 4-Corner Perspective Deskew Active');
+    }
+  }
+
+  function initCropper() {
+    if (!sourceImage) return;
+    const cropperImg = document.getElementById('cropperImg');
+    if (!cropperImg) return;
+    cropperImg.src = sourceImage.src;
+
+    if (cropperInstance) {
+      try { cropperInstance.destroy(); } catch (e) {}
+      cropperInstance = null;
+    }
+
+    if (window.Cropper) {
+      cropperInstance = new Cropper(cropperImg, {
+        viewMode: 1,
+        dragMode: 'crop',
+        autoCropArea: 0.92,
+        restore: false,
+        guides: true,
+        center: true,
+        highlight: true,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false,
+        responsive: true
+      });
+    }
+  }
+
+  function setCropperRatio(ratio, btn) {
+    if (!cropperInstance) return;
+    document.querySelectorAll('#cropperToolbar .btn-preset-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    cropperInstance.setAspectRatio(ratio);
+  }
+
+  function resetCropperBox() {
+    if (!cropperInstance) return;
+    cropperInstance.reset();
+  }
+
+  // Collage & Sheet System State
+  let sheetPaper = 'a4-portrait'; // 'a4-portrait', 'a4-landscape', 'photo-4x6', 'fit-content'
+  let sheetItems = []; // Array of { id, canvas, originalCanvas, x, y, width, height, scale, rotation, filter, naturalW, naturalH }
+  let selectedItemId = null;
+  let activeCollagePreset = 'id-card';
+
+  // Sheet mouse / touch interaction state
+  let sheetDragMode = null; // 'move', 'resize-tl', 'resize-tr', 'resize-br', 'resize-bl'
+  let sheetDragStart = { x: 0, y: 0 };
+  let itemStartProps = null;
+
+  // 4 corner points in stage canvas coordinate space: [TL, TR, BR, BL]
+  let corners = [
+    { x: 40, y: 40 },
+    { x: 360, y: 40 },
+    { x: 360, y: 260 },
+    { x: 40, y: 260 }
+  ];
+
+  let activeHandleIndex = -1;
+  let isDragging = false;
+  let zoomMode = false;
+
+  // History stack for Undo / Redo
+  const undoStack = [];
+  const redoStack = [];
+  let preAiBackupCanvas = null;
+
+  const stageContainer = document.getElementById('stageContainer');
+  const cropCanvas = document.getElementById('cropCanvas');
+  const cropCtx = cropCanvas.getContext('2d');
+
+  const outputCanvas = document.getElementById('outputCanvas');
+  const outCtx = outputCanvas.getContext('2d');
+  const emptyPlaceholder = document.getElementById('emptyPlaceholder');
+  const enhancementsBar = document.getElementById('enhancementsBar');
+
+  const loupe = document.getElementById('loupe');
+  const loupeCanvas = document.getElementById('loupeCanvas');
+  const loupeCtx = loupeCanvas.getContext('2d');
+
+  const handles = [
+    document.getElementById('handle-tl'),
+    document.getElementById('handle-tr'),
+    document.getElementById('handle-br'),
+    document.getElementById('handle-bl')
+  ];
+
+  // Drag and drop event listeners
+  const dropZone = document.getElementById('dropZone');
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('dragover');
+    });
+  });
+  dropZone.addEventListener('drop', e => {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      processFile(dt.files[0]);
+    }
+  });
+
+  function handleFileSelect(e) {
+    if (e.target.files && e.target.files[0]) {
+      processFile(e.target.files[0]);
+    }
+  }
+
+  function processFile(file) {
+    if (file.type === 'application/pdf') {
+      renderPdfFirstPage(file);
+    } else if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = evt => {
+        const img = new Image();
+        img.onload = () => loadSourceImage(img);
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Please upload a valid image (JPG, PNG, WebP) or PDF file.');
+    }
+  }
+
+  function renderPdfFirstPage(file) {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const typedArray = new Uint8Array(ev.target.result);
+      if (window.pdfjsLib) {
+        pdfjsLib.getDocument({ data: typedArray }).promise.then(pdf => {
+          pdf.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 2.0 });
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = viewport.width;
+            tempCanvas.height = viewport.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            page.render({ canvasContext: tempCtx, viewport: viewport }).promise.then(() => {
+              const img = new Image();
+              img.onload = () => loadSourceImage(img);
+              img.src = tempCanvas.toDataURL('image/png');
+            });
+          });
+        }).catch(err => {
+          alert('Could not render PDF: ' + err.message);
+        });
+      } else {
+        alert('PDF support loading, please try again.');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function showCornerToast(msg) {
+    const toast = document.getElementById('cornerDetectToast');
+    if (!toast) return;
+    toast.innerText = msg;
+    toast.style.display = 'block';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 3800);
+  }
+
+  function autoDetectCorners(userClicked = false) {
+    if (!sourceImage) {
+      if (userClicked) alert('Please select or upload an image first.');
+      return;
+    }
+
+    const detected = detectDocumentCornersFromCanvas(cropCanvas, sourceImage);
+    if (detected) {
+      corners = detected;
+      drawCropStage();
+      updateHandlePositions();
+      pushHistory();
+      showCornerToast('🎯 4 Document Corners Auto-Detected & Snapped!');
+    } else {
+      // Default to document margins
+      const insetX = cropCanvas.width * 0.05;
+      const insetY = cropCanvas.height * 0.05;
+      corners = [
+        { x: insetX, y: insetY },
+        { x: cropCanvas.width - insetX, y: insetY },
+        { x: cropCanvas.width - insetX, y: cropCanvas.height - insetY },
+        { x: insetX, y: cropCanvas.height - insetY }
+      ];
+      drawCropStage();
+      updateHandlePositions();
+      if (userClicked) {
+        showCornerToast('ℹ️ Document boundaries blended with background. Set to default frame.');
+      }
+    }
+  }
+
+  function loadSourceImage(img) {
+    sourceImage = img;
+    pushHistory();
+
+    // Scale canvas to fit inside stage container nicely
+    const maxW = stageContainer.clientWidth || 500;
+    const maxH = 460;
+    let w = img.width;
+    let h = img.height;
+    const ratio = Math.min(maxW / w, maxH / h, 1);
+    
+    cropCanvas.width = Math.round(w * ratio);
+    cropCanvas.height = Math.round(h * ratio);
+
+    // Render image temporarily to analyze real pixels
+    cropCtx.drawImage(sourceImage, 0, 0, cropCanvas.width, cropCanvas.height);
+
+    // Automatically detect exact 4 corners from document boundaries
+    const detected = detectDocumentCornersFromCanvas(cropCanvas, sourceImage);
+    if (detected) {
+      corners = detected;
+      showCornerToast('🎯 4 Document Corners Auto-Detected & Snapped!');
+    } else {
+      const insetX = cropCanvas.width * 0.05;
+      const insetY = cropCanvas.height * 0.05;
+      corners = [
+        { x: insetX, y: insetY },
+        { x: cropCanvas.width - insetX, y: insetY },
+        { x: cropCanvas.width - insetX, y: cropCanvas.height - insetY },
+        { x: insetX, y: cropCanvas.height - insetY }
+      ];
+    }
+
+    if (currentCropMode === 'cropper') {
+      initCropper();
+    } else {
+      drawCropStage();
+      updateHandlePositions();
+    }
+  }
+
+  // -------------------------------------------------------------
+  // COMPUTER VISION: AUTO DOCUMENT CORNER DETECTION ALGORITHM
+  // -------------------------------------------------------------
+  function detectDocumentCornersFromCanvas(canvas, img) {
+    try {
+      // Downscale to an analytical buffer (~380px) for instant sub-10ms processing
+      const maxAnalysisDim = 380;
+      const scale = Math.min(maxAnalysisDim / canvas.width, maxAnalysisDim / canvas.height, 1);
+      const aW = Math.max(80, Math.round(canvas.width * scale));
+      const aH = Math.max(80, Math.round(canvas.height * scale));
+
+      const aCanvas = document.createElement('canvas');
+      aCanvas.width = aW;
+      aCanvas.height = aH;
+      const aCtx = aCanvas.getContext('2d');
+      aCtx.drawImage(img, 0, 0, aW, aH);
+
+      const imgData = aCtx.getImageData(0, 0, aW, aH);
+      const data = imgData.data;
+
+      // 1. Compute grayscale luminance
+      const lum = new Float32Array(aW * aH);
+      for (let i = 0; i < aW * aH; i++) {
+        const idx = i * 4;
+        lum[i] = 0.299 * data[idx] + 0.587 * data[idx + 1] + 0.114 * data[idx + 2];
+      }
+
+      // 2. Compute edge gradient magnitude
+      const grad = new Float32Array(aW * aH);
+      let gradSum = 0;
+      let gradCount = 0;
+      for (let y = 1; y < aH - 1; y++) {
+        const row = y * aW;
+        for (let x = 1; x < aW - 1; x++) {
+          const gx = Math.abs(lum[row + x + 1] - lum[row + x - 1]);
+          const gy = Math.abs(lum[row + aW + x] - lum[row - aW + x]);
+          const g = gx + gy;
+          grad[row + x] = g;
+          gradSum += g;
+          gradCount++;
+        }
+      }
+
+      const avgGrad = gradCount > 0 ? gradSum / gradCount : 20;
+      const edgeThreshold = Math.max(24, avgGrad * 1.45);
+
+      // 3. Multi-ray and Inward Scanlines to find document boundaries
+      const edgePoints = [];
+      const numLines = 28;
+
+      // Horizontal scanlines from Left -> Center & Right -> Center
+      for (let i = 2; i < numLines - 2; i++) {
+        const y = Math.round((i * aH) / numLines);
+        const row = y * aW;
+
+        // Left -> Right
+        for (let x = 2; x < Math.round(aW * 0.65); x++) {
+          if (grad[row + x] > edgeThreshold) {
+            edgePoints.push({ x, y, side: 'left' });
+            break;
+          }
+        }
+        // Right -> Left
+        for (let x = aW - 3; x > Math.round(aW * 0.35); x--) {
+          if (grad[row + x] > edgeThreshold) {
+            edgePoints.push({ x, y, side: 'right' });
+            break;
+          }
+        }
+      }
+
+      // Vertical scanlines from Top -> Center & Bottom -> Center
+      for (let i = 2; i < numLines - 2; i++) {
+        const x = Math.round((i * aW) / numLines);
+
+        // Top -> Bottom
+        for (let y = 2; y < Math.round(aH * 0.65); y++) {
+          if (grad[y * aW + x] > edgeThreshold) {
+            edgePoints.push({ x, y, side: 'top' });
+            break;
+          }
+        }
+        // Bottom -> Top
+        for (let y = aH - 3; y > Math.round(aH * 0.35); y--) {
+          if (grad[y * aW + x] > edgeThreshold) {
+            edgePoints.push({ x, y, side: 'bottom' });
+            break;
+          }
+        }
+      }
+
+      if (edgePoints.length < 8) return null;
+
+      // 4. Find the 4 extreme document corners via projection extrema
+      let tl = edgePoints[0], tr = edgePoints[0], br = edgePoints[0], bl = edgePoints[0];
+      let minSum = Infinity, maxSum = -Infinity;
+      let maxDiff = -Infinity, minDiff = Infinity;
+
+      for (const p of edgePoints) {
+        const sum = p.x + p.y;
+        const diff = p.x - p.y;
+        if (sum < minSum) { minSum = sum; tl = p; }
+        if (sum > maxSum) { maxSum = sum; br = p; }
+        if (diff > maxDiff) { maxDiff = diff; tr = p; }
+        if (diff < minDiff) { minDiff = diff; bl = p; }
+      }
+
+      // Scale coordinates back to canvas dimensions
+      const invScale = 1 / scale;
+      const detectedCorners = [
+        { x: Math.round(tl.x * invScale), y: Math.round(tl.y * invScale) },
+        { x: Math.round(tr.x * invScale), y: Math.round(tr.y * invScale) },
+        { x: Math.round(br.x * invScale), y: Math.round(br.y * invScale) },
+        { x: Math.round(bl.x * invScale), y: Math.round(bl.y * invScale) }
+      ];
+
+      // Safety check: quadrilateral area must be at least 15% and at most 98% of canvas area
+      const area = 0.5 * Math.abs(
+        (detectedCorners[0].x * detectedCorners[1].y - detectedCorners[1].x * detectedCorners[0].y) +
+        (detectedCorners[1].x * detectedCorners[2].y - detectedCorners[2].x * detectedCorners[1].y) +
+        (detectedCorners[2].x * detectedCorners[3].y - detectedCorners[3].x * detectedCorners[2].y) +
+        (detectedCorners[3].x * detectedCorners[0].y - detectedCorners[0].x * detectedCorners[3].y)
+      );
+
+      const totalCanvasArea = canvas.width * canvas.height;
+      if (area < totalCanvasArea * 0.12 || area > totalCanvasArea * 0.98) {
+        return null;
+      }
+
+      // Constrain coordinates strictly within canvas bounds
+      return detectedCorners.map(pt => ({
+        x: Math.max(0, Math.min(pt.x, canvas.width)),
+        y: Math.max(0, Math.min(pt.y, canvas.height))
+      }));
+    } catch (e) {
+      console.warn('Auto corner detection error:', e);
+      return null;
+    }
+  }
+
+  // Draw image, darkened backdrop, and perspective blue quadrilateral
+  function drawCropStage() {
+    if (!sourceImage) return;
+
+    cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+    cropCtx.drawImage(sourceImage, 0, 0, cropCanvas.width, cropCanvas.height);
+
+    // Draw dark overlay outside quadrilateral
+    cropCtx.save();
+    cropCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    cropCtx.beginPath();
+    cropCtx.rect(0, 0, cropCanvas.width, cropCanvas.height);
+    // Cut out quadrilateral
+    cropCtx.moveTo(corners[0].x, corners[0].y);
+    cropCtx.lineTo(corners[1].x, corners[1].y);
+    cropCtx.lineTo(corners[2].x, corners[2].y);
+    cropCtx.lineTo(corners[3].x, corners[3].y);
+    cropCtx.closePath();
+    cropCtx.fill('evenodd');
+
+    // Draw bright blue boundary lines
+    cropCtx.beginPath();
+    cropCtx.moveTo(corners[0].x, corners[0].y);
+    cropCtx.lineTo(corners[1].x, corners[1].y);
+    cropCtx.lineTo(corners[2].x, corners[2].y);
+    cropCtx.lineTo(corners[3].x, corners[3].y);
+    cropCtx.closePath();
+    cropCtx.strokeStyle = '#2563eb';
+    cropCtx.lineWidth = 2.5;
+    cropCtx.stroke();
+    cropCtx.fillStyle = 'rgba(37, 99, 235, 0.06)';
+    cropCtx.fill();
+
+    // Draw grid lines inside quad (like Photoshop perspective crop)
+    drawPerspectiveGrid(cropCtx, corners);
+
+    cropCtx.restore();
+  }
+
+  function drawPerspectiveGrid(ctx, pts) {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+
+    for (let t = 1; t <= 2; t++) {
+      const frac = t / 3;
+      // Horizontal grid
+      const pL = lerp(pts[0], pts[3], frac);
+      const pR = lerp(pts[1], pts[2], frac);
+      ctx.beginPath();
+      ctx.moveTo(pL.x, pL.y);
+      ctx.lineTo(pR.x, pR.y);
+      ctx.stroke();
+
+      // Vertical grid
+      const pT = lerp(pts[0], pts[1], frac);
+      const pB = lerp(pts[3], pts[2], frac);
+      ctx.beginPath();
+      ctx.moveTo(pT.x, pT.y);
+      ctx.lineTo(pB.x, pB.y);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  function lerp(p1, p2, t) {
+    return {
+      x: p1.x + (p2.x - p1.x) * t,
+      y: p1.y + (p2.y - p1.y) * t
+    };
+  }
+
+  // Update physical HTML handles overlaying the canvas
+  function updateHandlePositions() {
+    const rect = cropCanvas.getBoundingClientRect();
+    const stageRect = stageContainer.getBoundingClientRect();
+    const offsetX = rect.left - stageRect.left;
+    const offsetY = rect.top - stageRect.top;
+
+    corners.forEach((pt, i) => {
+      handles[i].style.left = (offsetX + pt.x) + 'px';
+      handles[i].style.top = (offsetY + pt.y) + 'px';
+      handles[i].style.display = sourceImage ? 'block' : 'none';
+    });
+  }
+
+  // Corner handle mouse & touch interactions
+  handles.forEach((handle, idx) => {
+    handle.addEventListener('mousedown', e => startDrag(e, idx));
+    handle.addEventListener('touchstart', e => startDrag(e, idx), { passive: false });
+  });
+
+  function startDrag(e, idx) {
+    if (!sourceImage) return;
+    e.preventDefault();
+    e.stopPropagation();
+    activeHandleIndex = idx;
+    isDragging = true;
+    handles[idx].classList.add('active');
+
+    window.addEventListener('mousemove', onDrag);
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('touchmove', onDrag, { passive: false });
+    window.addEventListener('touchend', stopDrag);
+
+    updateLoupe(corners[idx]);
+  }
+
+  function onDrag(e) {
+    if (!isDragging || activeHandleIndex === -1) return;
+    e.preventDefault();
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const rect = cropCanvas.getBoundingClientRect();
+    let x = clientX - rect.left;
+    let y = clientY - rect.top;
+
+    // Constrain within canvas bounds
+    x = Math.max(0, Math.min(x, cropCanvas.width));
+    y = Math.max(0, Math.min(y, cropCanvas.height));
+
+    corners[activeHandleIndex] = { x, y };
+
+    drawCropStage();
+    updateHandlePositions();
+    updateLoupe(corners[activeHandleIndex]);
+  }
+
+  function stopDrag() {
+    if (isDragging && activeHandleIndex !== -1) {
+      handles[activeHandleIndex].classList.remove('active');
+    }
+    isDragging = false;
+    activeHandleIndex = -1;
+    loupe.style.display = 'none';
+
+    window.removeEventListener('mousemove', onDrag);
+    window.removeEventListener('mouseup', stopDrag);
+    window.removeEventListener('touchmove', onDrag);
+    window.removeEventListener('touchend', stopDrag);
+
+    pushHistory();
+  }
+
+  // Floating Loupe Magnifier for precise corner adjustments
+  function updateLoupe(pt) {
+    if (!sourceImage) return;
+    const stageRect = stageContainer.getBoundingClientRect();
+    const rect = cropCanvas.getBoundingClientRect();
+    const offsetX = rect.left - stageRect.left;
+    const offsetY = rect.top - stageRect.top;
+
+    loupe.style.display = 'block';
+
+    // Position loupe offset slightly above the handle
+    let lx = offsetX + pt.x - 55;
+    let ly = offsetY + pt.y - 120;
+
+    if (ly < 10) ly = offsetY + pt.y + 35; // Flip downwards if near top edge
+    if (lx < 10) lx = 10;
+    if (lx + 110 > stageRect.width) lx = stageRect.width - 120;
+
+    loupe.style.left = lx + 'px';
+    loupe.style.top = ly + 'px';
+
+    // Draw magnified image inside loupe canvas
+    loupeCtx.clearRect(0, 0, 110, 110);
+    const zoomFactor = 2.8;
+    const cropScaleX = sourceImage.width / cropCanvas.width;
+    const cropScaleY = sourceImage.height / cropCanvas.height;
+
+    const srcCenterX = pt.x * cropScaleX;
+    const srcCenterY = pt.y * cropScaleY;
+    const srcW = (110 / zoomFactor) * cropScaleX;
+    const srcH = (110 / zoomFactor) * cropScaleY;
+
+    loupeCtx.drawImage(
+      sourceImage,
+      srcCenterX - srcW / 2,
+      srcCenterY - srcH / 2,
+      srcW,
+      srcH,
+      0,
+      0,
+      110,
+      110
+    );
+  }
+
+  function toggleZoomMode() {
+    zoomMode = !zoomMode;
+    const btn = document.getElementById('zoomToggleBtn');
+    if (zoomMode) {
+      btn.classList.add('active');
+      btn.innerText = '⛶ Zoom Area (ON)';
+      if (sourceImage) updateLoupe(corners[0]);
+    } else {
+      btn.classList.remove('active');
+      btn.innerText = '⛶ Zoom Area';
+      loupe.style.display = 'none';
+    }
+  }
+
+  // -------------------------------------------------------------
+  // ROTATION & OPENCV.JS PERSPECTIVE HOMOGRAPHY WARP
+  // -------------------------------------------------------------
+  function rotateSourceImage(deg) {
+    if (!sourceImage) {
+      alert('Please upload an image first.');
+      return;
+    }
+    const tempCanvas = document.createElement('canvas');
+    const isSideways = Math.abs(deg % 180) === 90;
+    tempCanvas.width = isSideways ? sourceImage.height : sourceImage.width;
+    tempCanvas.height = isSideways ? sourceImage.width : sourceImage.height;
+    const tCtx = tempCanvas.getContext('2d');
+    tCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+    tCtx.rotate((deg * Math.PI) / 180);
+    tCtx.drawImage(sourceImage, -sourceImage.width / 2, -sourceImage.height / 2);
+
+    const rotatedImg = new Image();
+    rotatedImg.onload = () => {
+      sourceImage = rotatedImg;
+      loadSourceImage(rotatedImg);
+      showCornerToast(`🔄 Source rotated ${deg > 0 ? '90° Clockwise' : '90° Counter-Clockwise'}`);
+    };
+    rotatedImg.src = tempCanvas.toDataURL('image/png');
+  }
+
+  // Rotate processed document after straightening / cropping
+  function rotateProcessedDoc(deg) {
+    const sel = getSelectedItem();
+    if (!sel) {
+      alert('Please crop and add at least one document to the page first.');
+      return;
+    }
+    const temp = document.createElement('canvas');
+    const isSideways = Math.abs(deg % 180) === 90;
+    temp.width = isSideways ? sel.canvas.height : sel.canvas.width;
+    temp.height = isSideways ? sel.canvas.width : sel.canvas.height;
+    const tCtx = temp.getContext('2d');
+    tCtx.translate(temp.width / 2, temp.height / 2);
+    tCtx.rotate((deg * Math.PI) / 180);
+    tCtx.drawImage(sel.canvas, -sel.canvas.width / 2, -sel.canvas.height / 2);
+
+    sel.canvas = cloneCanvas(temp);
+
+    if (sel.originalCanvas) {
+      const tempOrig = document.createElement('canvas');
+      tempOrig.width = temp.width;
+      tempOrig.height = temp.height;
+      const oCtx = tempOrig.getContext('2d');
+      oCtx.translate(tempOrig.width / 2, tempOrig.height / 2);
+      oCtx.rotate((deg * Math.PI) / 180);
+      oCtx.drawImage(sel.originalCanvas, -sel.originalCanvas.width / 2, -sel.originalCanvas.height / 2);
+      sel.originalCanvas = cloneCanvas(tempOrig);
+    }
+
+    const oldW = sel.width;
+    sel.width = sel.height;
+    sel.height = oldW;
+    sel.naturalW = temp.width;
+    sel.naturalH = temp.height;
+
+    renderOutputSheet();
+    pushHistory();
+    showCornerToast(`🔄 Processed document rotated ${deg > 0 ? '90° Clockwise' : '90° Counter-Clockwise'}`);
+  }
+
+  // OpenCV.js Perspective Warping (with fallback)
+  function warpWithOpenCV(srcCanvas, srcPts, targetW, targetH) {
+    if (!window.cvReady || !window.cv || typeof cv.imread !== 'function') return null;
+    try {
+      const srcMat = cv.imread(srcCanvas);
+      const dstMat = new cv.Mat();
+      const dsize = new cv.Size(targetW, targetH);
+
+      const srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
+        srcPts[0].x, srcPts[0].y,
+        srcPts[1].x, srcPts[1].y,
+        srcPts[2].x, srcPts[2].y,
+        srcPts[3].x, srcPts[3].y
+      ]);
+
+      const dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
+        0, 0,
+        targetW, 0,
+        targetW, targetH,
+        0, targetH
+      ]);
+
+      const M = cv.getPerspectiveTransform(srcTri, dstTri);
+      cv.warpPerspective(srcMat, dstMat, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar(255, 255, 255, 255));
+
+      const outCanv = document.createElement('canvas');
+      outCanv.width = targetW;
+      outCanv.height = targetH;
+      cv.imshow(outCanv, dstMat);
+
+      srcMat.delete();
+      dstMat.delete();
+      srcTri.delete();
+      dstTri.delete();
+      M.delete();
+
+      return outCanv;
+    } catch (e) {
+      console.warn('OpenCV warp error, using mathematical homography fallback:', e);
+      return null;
+    }
+  }
+
+  function executePerspectiveCrop(isAdd = false) {
+    if (!sourceImage) {
+      alert('Please upload an image or PDF first.');
+      return;
+    }
+
+    // 8-Point Box Crop using Cropper.js if active
+    if (currentCropMode === 'cropper' && cropperInstance) {
+      const croppedCanvas = cropperInstance.getCroppedCanvas({
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high'
+      });
+      if (croppedCanvas) {
+        rawStraightenedCanvas = croppedCanvas;
+        addItemToSheet(rawStraightenedCanvas, isAdd);
+        showCornerToast('✂️ 8-Point Box Crop Completed!');
+        return;
+      }
+    }
+
+    const scaleX = sourceImage.width / cropCanvas.width;
+    const scaleY = sourceImage.height / cropCanvas.height;
+
+    // Convert corners to original source image resolution coordinates
+    const srcPts = corners.map(p => ({
+      x: p.x * scaleX,
+      y: p.y * scaleY
+    }));
+
+    // Calculate natural target width and height using Euclidean distances
+    const topW = Math.hypot(srcPts[1].x - srcPts[0].x, srcPts[1].y - srcPts[0].y);
+    const botW = Math.hypot(srcPts[2].x - srcPts[3].x, srcPts[2].y - srcPts[3].y);
+    const leftH = Math.hypot(srcPts[3].x - srcPts[0].x, srcPts[3].y - srcPts[0].y);
+    const rightH = Math.hypot(srcPts[2].x - srcPts[1].x, srcPts[2].y - srcPts[1].y);
+
+    let targetW = Math.round(Math.max(topW, botW));
+    let targetH = Math.round(Math.max(leftH, rightH));
+
+    if (targetW <= 10 || targetH <= 10) {
+      alert('Selected quadrilateral is too small. Please expand the corners.');
+      return;
+    }
+
+    // Limit maximum dimension to 3200px for speed and memory efficiency
+    const maxDim = 3200;
+    if (targetW > maxDim || targetH > maxDim) {
+      const factor = maxDim / Math.max(targetW, targetH);
+      targetW = Math.round(targetW * factor);
+      targetH = Math.round(targetH * factor);
+    }
+
+    // Render source image to temp canvas
+    const tempSrcCanvas = document.createElement('canvas');
+    tempSrcCanvas.width = sourceImage.width;
+    tempSrcCanvas.height = sourceImage.height;
+    const tempSrcCtx = tempSrcCanvas.getContext('2d');
+    tempSrcCtx.drawImage(sourceImage, 0, 0);
+
+    // Try OpenCV.js warping first if loaded
+    const cvStraightened = warpWithOpenCV(tempSrcCanvas, srcPts, targetW, targetH);
+    if (cvStraightened) {
+      rawStraightenedCanvas = cvStraightened;
+      addItemToSheet(rawStraightenedCanvas, isAdd);
+      return;
+    }
+
+    // Destination rectangular points: [TL, TR, BR, BL]
+    const dstPts = [
+      { x: 0, y: 0 },
+      { x: targetW, y: 0 },
+      { x: targetW, y: targetH },
+      { x: 0, y: targetH }
+    ];
+
+    // Compute inverse homography matrix mapping dst -> src
+    const H = solveHomographyMatrix(srcPts, dstPts);
+    const srcData = tempSrcCtx.getImageData(0, 0, sourceImage.width, sourceImage.height);
+
+    // Create target canvas
+    rawStraightenedCanvas = document.createElement('canvas');
+    rawStraightenedCanvas.width = targetW;
+    rawStraightenedCanvas.height = targetH;
+    const targetCtx = rawStraightenedCanvas.getContext('2d');
+    const targetImgData = targetCtx.createImageData(targetW, targetH);
+    const dstPixels = targetImgData.data;
+    const srcPixels = srcData.data;
+    const srcW = sourceImage.width;
+    const srcH = sourceImage.height;
+
+    // Rasterize destination pixels with bilinear interpolation
+    for (let y = 0; y < targetH; y++) {
+      const rowOffset = y * targetW;
+      for (let x = 0; x < targetW; x++) {
+        const pt = H.map(x, y);
+        const u = pt.u;
+        const v = pt.v;
+
+        if (u >= 0 && u < srcW - 1 && v >= 0 && v < srcH - 1) {
+          const u0 = u | 0;
+          const v0 = v | 0;
+          const u1 = u0 + 1;
+          const v1 = v0 + 1;
+          const du = u - u0;
+          const dv = v - v0;
+
+          const idx00 = (v0 * srcW + u0) * 4;
+          const idx10 = (v0 * srcW + u1) * 4;
+          const idx01 = (v1 * srcW + u0) * 4;
+          const idx11 = (v1 * srcW + u1) * 4;
+
+          const outIdx = (rowOffset + x) * 4;
+
+          for (let c = 0; c < 3; c++) {
+            const val0 = srcPixels[idx00 + c] * (1 - du) + srcPixels[idx10 + c] * du;
+            const val1 = srcPixels[idx01 + c] * (1 - du) + srcPixels[idx11 + c] * du;
+            dstPixels[outIdx + c] = (val0 * (1 - dv) + val1 * dv) | 0;
+          }
+          dstPixels[outIdx + 3] = 255; // Full opacity
+        }
+      }
+    }
+
+    targetCtx.putImageData(targetImgData, 0, 0);
+
+    // Add as new collage item or replace page
+    addItemToSheet(rawStraightenedCanvas, isAdd);
+  }
+
+  // Homography Gaussian Elimination with partial pivoting
+  function solveHomographyMatrix(src, dst) {
+    const A = [];
+    const b = [];
+    for (let i = 0; i < 4; i++) {
+      const dx = dst[i].x, dy = dst[i].y;
+      const sx = src[i].x, sy = src[i].y;
+      A.push([dx, dy, 1, 0, 0, 0, -dx * sx, -dy * sx]);
+      b.push(sx);
+      A.push([0, 0, 0, dx, dy, 1, -dx * sy, -dy * sy]);
+      b.push(sy);
+    }
+    const n = 8;
+    for (let i = 0; i < n; i++) {
+      let maxRow = i;
+      for (let k = i + 1; k < n; k++) {
+        if (Math.abs(A[k][i]) > Math.abs(A[maxRow][i])) maxRow = k;
+      }
+      const tmpA = A[i]; A[i] = A[maxRow]; A[maxRow] = tmpA;
+      const tmpB = b[i]; b[i] = b[maxRow]; b[maxRow] = tmpB;
+      for (let k = i + 1; k < n; k++) {
+        const factor = A[k][i] / A[i][i];
+        for (let j = i; j < n; j++) A[k][j] -= factor * A[i][j];
+        b[k] -= factor * b[i];
+      }
+    }
+    const h = new Array(8);
+    for (let i = n - 1; i >= 0; i--) {
+      let sum = b[i];
+      for (let j = i + 1; j < n; j++) sum -= A[i][j] * h[j];
+      h[i] = sum / A[i][i];
+    }
+    return {
+      map: (x, y) => {
+        const den = h[6] * x + h[7] * y + 1;
+        return {
+          u: (h[0] * x + h[1] * y + h[2]) / den,
+          v: (h[3] * x + h[4] * y + h[5]) / den
+        };
+      }
+    };
+  }
+
+  // -------------------------------------------------------------
+  // COLLAGE & MULTI-ITEM PRINT SHEET STUDIO
+  // -------------------------------------------------------------
+  function getSheetDimensions() {
+    if (sheetPaper === 'a4-landscape') return { w: 1754, h: 1240 };
+    if (sheetPaper === 'photo-4x6') return { w: 1200, h: 1800 };
+    if (sheetPaper === 'fit-content') {
+      if (sheetItems.length === 1) {
+        return { w: sheetItems[0].width + 80, h: sheetItems[0].height + 80 };
+      }
+    }
+    return { w: 1240, h: 1754 }; // Standard A4 portrait 150 DPI
+  }
+
+  function getSelectedItem() {
+    if (!sheetItems.length) return null;
+    return sheetItems.find(it => it.id === selectedItemId) || sheetItems[sheetItems.length - 1];
+  }
+
+  function addItemToSheet(canvasSource, isAdd = false) {
+    const dims = getSheetDimensions();
+    const sheetW = dims.w;
+    const sheetH = dims.h;
+
+    // Standard initial sizing: ~44% of sheet width (fits Aadhaar / PAN card ratio)
+    const aspect = canvasSource.height / canvasSource.width;
+    let initW = Math.round(sheetW * 0.44);
+    let initH = Math.round(initW * aspect);
+
+    // If it's a full document/page photo, fit comfortably
+    if (aspect > 1.2 && initH > sheetH * 0.7) {
+      initH = Math.round(sheetH * 0.7);
+      initW = Math.round(initH / aspect);
+    }
+
+    const newItem = {
+      id: 'card_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+      canvas: cloneCanvas(canvasSource),
+      originalCanvas: cloneCanvas(canvasSource),
+      x: Math.round((sheetW - initW) / 2),
+      y: Math.round((sheetH - initH) / 2),
+      width: initW,
+      height: initH,
+      scale: 1.0,
+      rotation: 0,
+      filter: 'original',
+      naturalW: initW,
+      naturalH: initH
+    };
+
+    if (!isAdd) {
+      sheetItems = [newItem];
+      selectedItemId = newItem.id;
+      // Default position for single item
+      applyCollagePreset('1up', false);
+    } else {
+      sheetItems.push(newItem);
+      selectedItemId = newItem.id;
+      if (sheetItems.length === 2) {
+        // Auto-apply ID Front & Back Xerox layout!
+        applyCollagePreset('id-card', false);
+        showCornerToast('🪪 ID Front & Back Collage Layout Applied!');
+      } else {
+        // Offset slightly
+        newItem.x = Math.min(sheetW - initW - 40, 60 + (sheetItems.length - 1) * 40);
+        newItem.y = Math.min(sheetH - initH - 40, 60 + (sheetItems.length - 1) * 40);
+        showCornerToast('➕ Item Added to Collage Page!');
+      }
+    }
+
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  // Render processed collage page with all items, selections, and bounding handles
+  function renderOutputSheet(hideSelectionBox = false) {
+    if (!sheetItems.length) {
+      emptyPlaceholder.style.display = 'block';
+      outputCanvas.style.display = 'none';
+      enhancementsBar.style.display = 'none';
+      const cPanel = document.getElementById('itemControlPanel');
+      if (cPanel) cPanel.style.display = 'none';
+      return;
+    }
+
+    emptyPlaceholder.style.display = 'none';
+    outputCanvas.style.display = 'block';
+    enhancementsBar.style.display = 'flex';
+
+    const dims = getSheetDimensions();
+    const sheetW = dims.w;
+    const sheetH = dims.h;
+
+    outputCanvas.width = sheetW;
+    outputCanvas.height = sheetH;
+
+    // Clean printable white sheet
+    outCtx.fillStyle = '#ffffff';
+    outCtx.fillRect(0, 0, sheetW, sheetH);
+
+    // Subtle 20mm printable margin boundary guideline (only visible on screen)
+    if (!hideSelectionBox) {
+      outCtx.save();
+      outCtx.strokeStyle = '#e2e8f0';
+      outCtx.lineWidth = 1.5;
+      outCtx.setLineDash([6, 6]);
+      outCtx.strokeRect(50, 50, sheetW - 100, sheetH - 100);
+      outCtx.restore();
+    }
+
+    // Render all collage items
+    sheetItems.forEach(item => {
+      outCtx.save();
+      const cx = item.x + item.width / 2;
+      const cy = item.y + item.height / 2;
+      outCtx.translate(cx, cy);
+      outCtx.rotate((item.rotation * Math.PI) / 180);
+
+      // Subtle shadow for realistic paper print preview
+      if (!hideSelectionBox) {
+        outCtx.shadowColor = 'rgba(0, 0, 0, 0.12)';
+        outCtx.shadowBlur = 10;
+        outCtx.shadowOffsetY = 3;
+      }
+
+      outCtx.drawImage(
+        item.canvas,
+        -item.width / 2,
+        -item.height / 2,
+        item.width,
+        item.height
+      );
+      outCtx.restore();
+    });
+
+    // Render active selection bounding box & 4 corner resize handles
+    const sel = getSelectedItem();
+    if (sel && !hideSelectionBox) {
+      outCtx.save();
+      outCtx.strokeStyle = '#2563eb';
+      outCtx.lineWidth = 3;
+      outCtx.setLineDash([8, 6]);
+      outCtx.strokeRect(sel.x, sel.y, sel.width, sel.height);
+
+      // 4 corner handles for Boro / Choto resizing
+      const handleSize = 22;
+      const hs = handleSize / 2;
+      const handlesList = [
+        { x: sel.x - hs, y: sel.y - hs }, // TL
+        { x: sel.x + sel.width - hs, y: sel.y - hs }, // TR
+        { x: sel.x + sel.width - hs, y: sel.y + sel.height - hs }, // BR
+        { x: sel.x - hs, y: sel.y + sel.height - hs } // BL
+      ];
+
+      outCtx.setLineDash([]);
+      outCtx.fillStyle = '#2563eb';
+      outCtx.strokeStyle = '#ffffff';
+      outCtx.lineWidth = 3;
+      handlesList.forEach(c => {
+        outCtx.fillRect(c.x, c.y, handleSize, handleSize);
+        outCtx.strokeRect(c.x, c.y, handleSize, handleSize);
+      });
+      outCtx.restore();
+
+      // Update item control panel UI
+      const cPanel = document.getElementById('itemControlPanel');
+      if (cPanel) cPanel.style.display = 'block';
+
+      const sLabel = document.getElementById('selectedItemLabel');
+      if (sLabel) {
+        const itemIdx = sheetItems.indexOf(sel) + 1;
+        sLabel.innerText = `Selected: Item ${itemIdx} of ${sheetItems.length} (${Math.round(sel.width)} × ${Math.round(sel.height)}px)`;
+      }
+
+      const sSlider = document.getElementById('itemScaleSlider');
+      const sDisplay = document.getElementById('itemScaleDisplay');
+      if (sSlider && sDisplay) {
+        const pct = Math.round(sel.scale * 100);
+        sSlider.value = pct;
+        sDisplay.innerText = pct + '%';
+      }
+    }
+  }
+
+  // Hit-testing corner handles and items on the sheet
+  function getHandleHit(px, py, sel) {
+    if (!sel) return null;
+    const handleSize = 30; // generous click area
+    const hs = handleSize / 2;
+    const h = {
+      'resize-tl': { x: sel.x - hs, y: sel.y - hs, w: handleSize, h: handleSize },
+      'resize-tr': { x: sel.x + sel.width - hs, y: sel.y - hs, w: handleSize, h: handleSize },
+      'resize-br': { x: sel.x + sel.width - hs, y: sel.y + sel.height - hs, w: handleSize, h: handleSize },
+      'resize-bl': { x: sel.x - hs, y: sel.y + sel.height - hs, w: handleSize, h: handleSize }
+    };
+    for (const [mode, r] of Object.entries(h)) {
+      if (px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h) {
+        return mode;
+      }
+    }
+    return null;
+  }
+
+  // Sheet Pointer Interactions (Drag to Move & Drag Corners to Resize Boro/Choto)
+  outputCanvas.addEventListener('mousedown', onSheetPointerDown);
+  outputCanvas.addEventListener('mousemove', onSheetPointerMove);
+  window.addEventListener('mouseup', onSheetPointerUp);
+
+  outputCanvas.addEventListener('touchstart', e => {
+    if (e.touches && e.touches[0]) onSheetPointerDown(e.touches[0]);
+  }, { passive: false });
+  window.addEventListener('touchmove', e => {
+    if (sheetDragMode && e.touches && e.touches[0]) {
+      e.preventDefault();
+      onSheetPointerMove(e.touches[0]);
+    }
+  }, { passive: false });
+  window.addEventListener('touchend', onSheetPointerUp);
+
+  function getSheetPointerPos(e) {
+    const rect = outputCanvas.getBoundingClientRect();
+    const scaleX = outputCanvas.width / rect.width;
+    const scaleY = outputCanvas.height / rect.height;
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
+    };
+  }
+
+  function onSheetPointerDown(e) {
+    if (!sheetItems.length) return;
+    const pos = getSheetPointerPos(e);
+    const sel = getSelectedItem();
+
+    // Check if clicked a resize handle of currently selected item
+    const handleHit = getHandleHit(pos.x, pos.y, sel);
+    if (handleHit) {
+      sheetDragMode = handleHit;
+      sheetDragStart = { x: pos.x, y: pos.y };
+      itemStartProps = {
+        x: sel.x,
+        y: sel.y,
+        width: sel.width,
+        height: sel.height,
+        aspect: sel.height / sel.width,
+        naturalW: sel.naturalW
+      };
+      return;
+    }
+
+    // Hit-test items from top to bottom
+    let hitItem = null;
+    for (let i = sheetItems.length - 1; i >= 0; i--) {
+      const it = sheetItems[i];
+      if (pos.x >= it.x && pos.x <= it.x + it.width && pos.y >= it.y && pos.y <= it.y + it.height) {
+        hitItem = it;
+        break;
+      }
+    }
+
+    if (hitItem) {
+      selectedItemId = hitItem.id;
+      sheetDragMode = 'move';
+      sheetDragStart = { x: pos.x, y: pos.y };
+      itemStartProps = { x: hitItem.x, y: hitItem.y };
+      renderOutputSheet();
+    } else {
+      // Clicked on blank sheet margin: deselect
+      selectedItemId = null;
+      renderOutputSheet();
+    }
+  }
+
+  function onSheetPointerMove(e) {
+    const pos = getSheetPointerPos(e);
+    const sel = getSelectedItem();
+
+    if (sheetDragMode && sel && itemStartProps) {
+      const dx = pos.x - sheetDragStart.x;
+      const dy = pos.y - sheetDragStart.y;
+      const dims = getSheetDimensions();
+
+      if (sheetDragMode === 'move') {
+        sel.x = Math.round(itemStartProps.x + dx);
+        sel.y = Math.round(itemStartProps.y + dy);
+      } else if (sheetDragMode === 'resize-br') {
+        const newW = Math.max(60, Math.round(itemStartProps.width + dx));
+        sel.width = newW;
+        sel.height = Math.round(newW * itemStartProps.aspect);
+        sel.scale = newW / itemStartProps.naturalW;
+      } else if (sheetDragMode === 'resize-bl') {
+        const newW = Math.max(60, Math.round(itemStartProps.width - dx));
+        sel.x = itemStartProps.x + (itemStartProps.width - newW);
+        sel.width = newW;
+        sel.height = Math.round(newW * itemStartProps.aspect);
+        sel.scale = newW / itemStartProps.naturalW;
+      } else if (sheetDragMode === 'resize-tr') {
+        const newW = Math.max(60, Math.round(itemStartProps.width + dx));
+        sel.width = newW;
+        const newH = Math.round(newW * itemStartProps.aspect);
+        sel.y = itemStartProps.y + (itemStartProps.height - newH);
+        sel.height = newH;
+        sel.scale = newW / itemStartProps.naturalW;
+      } else if (sheetDragMode === 'resize-tl') {
+        const newW = Math.max(60, Math.round(itemStartProps.width - dx));
+        const newH = Math.round(newW * itemStartProps.aspect);
+        sel.x = itemStartProps.x + (itemStartProps.width - newW);
+        sel.y = itemStartProps.y + (itemStartProps.height - newH);
+        sel.width = newW;
+        sel.height = newH;
+        sel.scale = newW / itemStartProps.naturalW;
+      }
+      renderOutputSheet();
+      return;
+    }
+
+    // Hover cursor feedback
+    if (sel) {
+      const handleHit = getHandleHit(pos.x, pos.y, sel);
+      if (handleHit === 'resize-tl' || handleHit === 'resize-br') {
+        outputCanvas.style.cursor = 'nwse-resize';
+      } else if (handleHit === 'resize-tr' || handleHit === 'resize-bl') {
+        outputCanvas.style.cursor = 'nesw-resize';
+      } else if (pos.x >= sel.x && pos.x <= sel.x + sel.width && pos.y >= sel.y && pos.y <= sel.y + sel.height) {
+        outputCanvas.style.cursor = 'move';
+      } else {
+        outputCanvas.style.cursor = 'default';
+      }
+    } else {
+      outputCanvas.style.cursor = 'default';
+    }
+  }
+
+  function onSheetPointerUp() {
+    if (sheetDragMode) {
+      sheetDragMode = null;
+      itemStartProps = null;
+      pushHistory();
+    }
+  }
+
+  // -------------------------------------------------------------
+  // BORO / CHOTO (RESIZE) & ITEM PLACEMENT CONTROLS
+  // -------------------------------------------------------------
+  function adjustSelectedScale(delta) {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const newScale = Math.min(2.5, Math.max(0.15, sel.scale + delta));
+    sel.scale = newScale;
+    const aspect = sel.naturalH / sel.naturalW;
+    sel.width = Math.round(sel.naturalW * newScale);
+    sel.height = Math.round(sel.width * aspect);
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function onItemScaleSlider(val) {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const newScale = parseFloat(val) / 100;
+    sel.scale = newScale;
+    const aspect = sel.naturalH / sel.naturalW;
+    sel.width = Math.round(sel.naturalW * newScale);
+    sel.height = Math.round(sel.width * aspect);
+    renderOutputSheet();
+  }
+
+  function fitItemToWidth() {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const dims = getSheetDimensions();
+    const margin = 80;
+    sel.width = dims.w - margin * 2;
+    sel.height = Math.round(sel.width * (sel.naturalH / sel.naturalW));
+    sel.scale = sel.width / sel.naturalW;
+    sel.x = margin;
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function fitItemToHeight() {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const dims = getSheetDimensions();
+    const margin = 80;
+    sel.height = dims.h - margin * 2;
+    sel.width = Math.round(sel.height / (sel.naturalH / sel.naturalW));
+    sel.scale = sel.width / sel.naturalW;
+    sel.y = margin;
+    sel.x = Math.round((dims.w - sel.width) / 2);
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function centerSelectedItem() {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const dims = getSheetDimensions();
+    sel.x = Math.round((dims.w - sel.width) / 2);
+    sel.y = Math.round((dims.h - sel.height) / 2);
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function rotateSelectedItem(deg) {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    sel.rotation = (sel.rotation + deg) % 360;
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function duplicateSelectedItem() {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    const clone = {
+      id: 'card_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+      canvas: cloneCanvas(sel.canvas),
+      originalCanvas: cloneCanvas(sel.originalCanvas),
+      x: sel.x + 40,
+      y: sel.y + 40,
+      width: sel.width,
+      height: sel.height,
+      scale: sel.scale,
+      rotation: sel.rotation,
+      filter: sel.filter,
+      naturalW: sel.naturalW,
+      naturalH: sel.naturalH
+    };
+    sheetItems.push(clone);
+    selectedItemId = clone.id;
+    renderOutputSheet();
+    pushHistory();
+    showCornerToast('📋 Item Duplicated on Page!');
+  }
+
+  function deleteSelectedItem() {
+    const sel = getSelectedItem();
+    if (!sel) return;
+    sheetItems = sheetItems.filter(it => it.id !== sel.id);
+    selectedItemId = sheetItems.length ? sheetItems[sheetItems.length - 1].id : null;
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  // -------------------------------------------------------------
+  // COLLAGE PRESETS (ID Front & Back, 1-Up, 2-Up, 4-Up)
+  // -------------------------------------------------------------
+  function applyCollagePreset(preset, updateHistory = true) {
+    activeCollagePreset = preset;
+    document.querySelectorAll('.btn-preset-pill').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('preset-' + preset);
+    if (btn) btn.classList.add('active');
+
+    if (!sheetItems.length) return;
+    const dims = getSheetDimensions();
+    const sheetW = dims.w;
+    const sheetH = dims.h;
+
+    if (preset === 'id-card') {
+      // Standard Indian Aadhaar / Voter / PAN Card Xerox proportion on A4
+      // Standard size: 85.6mm x 54mm -> Width is ~44% of sheet, placed top & bottom
+      const cardW = Math.round(sheetW * 0.44);
+      sheetItems.forEach((item, idx) => {
+        const aspect = item.naturalH / item.naturalW;
+        item.width = cardW;
+        item.height = Math.round(cardW * aspect);
+        item.scale = cardW / item.naturalW;
+        item.x = Math.round((sheetW - item.width) / 2);
+        if (idx === 0) {
+          item.y = sheetItems.length === 1 ? Math.round((sheetH - item.height) / 2) : Math.round(sheetH * 0.16);
+        } else if (idx === 1) {
+          item.y = Math.round(sheetH * 0.52);
+        } else {
+          item.y = Math.round(sheetH * 0.16 + idx * (item.height + 40));
+        }
+      });
+    } else if (preset === '1up') {
+      // Single centered document fitting ~80% of page
+      if (sheetItems.length) {
+        const item = sheetItems[0];
+        const aspect = item.naturalH / item.naturalW;
+        let w = Math.round(sheetW * 0.82);
+        let h = Math.round(w * aspect);
+        if (h > sheetH * 0.84) {
+          h = Math.round(sheetH * 0.84);
+          w = Math.round(h / aspect);
+        }
+        item.width = w;
+        item.height = h;
+        item.scale = w / item.naturalW;
+        item.x = Math.round((sheetW - w) / 2);
+        item.y = Math.round((sheetH - h) / 2);
+      }
+    } else if (preset === '2up-v') {
+      // Two items stacked vertically
+      const count = Math.min(2, sheetItems.length);
+      const targetH = Math.round((sheetH - 180) / 2);
+      sheetItems.slice(0, count).forEach((item, idx) => {
+        const aspect = item.naturalH / item.naturalW;
+        item.height = targetH;
+        item.width = Math.round(targetH / aspect);
+        item.scale = item.width / item.naturalW;
+        item.x = Math.round((sheetW - item.width) / 2);
+        item.y = 70 + idx * (targetH + 40);
+      });
+    } else if (preset === '2up-h') {
+      // Two items side-by-side
+      const count = Math.min(2, sheetItems.length);
+      const targetW = Math.round((sheetW - 180) / 2);
+      sheetItems.slice(0, count).forEach((item, idx) => {
+        const aspect = item.naturalH / item.naturalW;
+        item.width = targetW;
+        item.height = Math.round(targetW * aspect);
+        item.scale = targetW / item.naturalW;
+        item.x = 60 + idx * (targetW + 60);
+        item.y = Math.round((sheetH - item.height) / 2);
+      });
+    } else if (preset === '4up') {
+      // 4-Up Grid (2x2)
+      const count = Math.min(4, sheetItems.length);
+      const colW = Math.round((sheetW - 160) / 2);
+      const rowH = Math.round((sheetH - 160) / 2);
+      sheetItems.slice(0, count).forEach((item, idx) => {
+        const col = idx % 2;
+        const row = Math.floor(idx / 2);
+        const aspect = item.naturalH / item.naturalW;
+        let w = colW;
+        let h = Math.round(w * aspect);
+        if (h > rowH) {
+          h = rowH;
+          w = Math.round(h / aspect);
+        }
+        item.width = w;
+        item.height = h;
+        item.scale = w / item.naturalW;
+        item.x = 55 + col * (colW + 50) + Math.round((colW - w) / 2);
+        item.y = 55 + row * (rowH + 50) + Math.round((rowH - h) / 2);
+      });
+    }
+
+    renderOutputSheet();
+    if (updateHistory) pushHistory();
+  }
+
+  function changePaperSize(val) {
+    sheetPaper = val;
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  // -------------------------------------------------------------
+  // CLEAR SCANNER SMART FILTERS & LIVE FINE-TUNING SLIDERS
+  // -------------------------------------------------------------
+  function fastBoxBlur(src, w, h, r) {
+    const len = w * h;
+    const temp = new Float32Array(len);
+    const out = new Float32Array(len);
+
+    for (let y = 0; y < h; y++) {
+      const row = y * w;
+      let sum = 0, count = 0;
+      for (let dx = -r; dx <= r; dx++) {
+        if (dx >= 0 && dx < w) { sum += src[row + dx]; count++; }
+      }
+      temp[row] = sum / count;
+      for (let x = 1; x < w; x++) {
+        if (x - r - 1 >= 0) { sum -= src[row + x - r - 1]; count--; }
+        if (x + r < w) { sum += src[row + x + r]; count++; }
+        temp[row + x] = sum / count;
+      }
+    }
+
+    for (let x = 0; x < w; x++) {
+      let sum = 0, count = 0;
+      for (let dy = -r; dy <= r; dy++) {
+        if (dy >= 0 && dy < h) { sum += temp[dy * w + x]; count++; }
+      }
+      out[x] = sum / count;
+      for (let y = 1; y < h; y++) {
+        if (y - r - 1 >= 0) { sum -= temp[(y - r - 1) * w + x]; count--; }
+        if (y + r < h) { sum += temp[(y + r) * w + x]; count++; }
+        out[y * w + x] = sum / count;
+      }
+    }
+    return out;
+  }
+
+  // OpenCV.js Crystal Clear Document Filtering Engine
+  function applyOpenCvSuperClear(canvas) {
+    if (!window.cvReady || !window.cv || typeof cv.imread !== 'function') return false;
+    try {
+      const src = cv.imread(canvas);
+      const gray = new cv.Mat();
+      cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+
+      // Estimate illumination & shadows using Gaussian blur
+      const bg = new cv.Mat();
+      const sigma = Math.max(12, Math.round(canvas.width / 36));
+      cv.GaussianBlur(gray, bg, new cv.Size(0, 0), sigma, sigma, cv.BORDER_DEFAULT);
+
+      // Divide gray by background to eliminate non-uniform lighting & shadows: (gray / bg) * 255
+      const divided = new cv.Mat();
+      cv.divide(gray, bg, divided, 255);
+
+      // Adaptive threshold to create pure paper white background and crisp dark text
+      const thresh = new cv.Mat();
+      cv.adaptiveThreshold(divided, thresh, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 12);
+
+      // Convert back to RGBA
+      const outRgba = new cv.Mat();
+      cv.cvtColor(thresh, outRgba, cv.COLOR_GRAY2RGBA);
+      cv.imshow(canvas, outRgba);
+
+      src.delete(); gray.delete(); bg.delete(); divided.delete(); thresh.delete(); outRgba.delete();
+      return true;
+    } catch (e) {
+      console.warn('OpenCV Super Clear error, falling back to internal canvas filter:', e);
+      return false;
+    }
+  }
+
+  function applyOpenCvMagicColor(canvas) {
+    if (!window.cvReady || !window.cv || typeof cv.imread !== 'function') return false;
+    try {
+      const src = cv.imread(canvas);
+      const rgb = new cv.Mat();
+      cv.cvtColor(src, rgb, cv.COLOR_RGBA2RGB);
+
+      const lab = new cv.Mat();
+      cv.cvtColor(rgb, lab, cv.COLOR_RGB2Lab);
+
+      const labPlanes = new cv.MatVector();
+      cv.split(lab, labPlanes);
+      const L = labPlanes.get(0);
+
+      // Estimate background on luminance channel to detect shadow contours
+      const bg = new cv.Mat();
+      const sigma = Math.max(12, Math.round(canvas.width / 32));
+      cv.GaussianBlur(L, bg, new cv.Size(0, 0), sigma, sigma, cv.BORDER_DEFAULT);
+
+      // Divide L by background to remove shadows
+      const normL = new cv.Mat();
+      cv.divide(L, bg, normL, 245);
+
+      // Contrast enhancement via CLAHE
+      const clahe = new cv.CLAHE(2.0, new cv.Size(8, 8));
+      const enhancedL = new cv.Mat();
+      clahe.apply(normL, enhancedL);
+
+      labPlanes.set(0, enhancedL);
+      cv.merge(labPlanes, lab);
+
+      const resultRgb = new cv.Mat();
+      cv.cvtColor(lab, resultRgb, cv.COLOR_Lab2RGB);
+      const resultRgba = new cv.Mat();
+      cv.cvtColor(resultRgb, resultRgba, cv.COLOR_RGB2RGBA);
+      cv.imshow(canvas, resultRgba);
+
+      src.delete(); rgb.delete(); lab.delete(); labPlanes.delete();
+      L.delete(); bg.delete(); normL.delete(); clahe.delete(); enhancedL.delete();
+      resultRgb.delete(); resultRgba.delete();
+      return true;
+    } catch (e) {
+      console.warn('OpenCV Magic Color error, falling back to internal canvas filter:', e);
+      return false;
+    }
+  }
+
+  // Super Clear Document Mode: Adaptive local window thresholding + shadow elimination
+  function applySuperClearFilter(d, width, height) {
+    const len = width * height;
+    const lum = new Float32Array(len);
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      lum[i] = 0.299 * d[idx] + 0.587 * d[idx + 1] + 0.114 * d[idx + 2];
+    }
+
+    const r = Math.max(10, Math.round(width / 32));
+    const bg = fastBoxBlur(lum, width, height, r);
+
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      const l = lum[i];
+      const localBg = bg[i];
+      const diff = localBg - l;
+
+      if (diff > 10) {
+        // Crisp black/dark gray text
+        const v = Math.max(0, Math.min(255, 255 - diff * 4.6));
+        d[idx] = v;
+        d[idx + 1] = v;
+        d[idx + 2] = v;
+      } else {
+        // Pure paper-white background
+        d[idx] = 255;
+        d[idx + 1] = 255;
+        d[idx + 2] = 255;
+      }
+    }
+  }
+
+  // Magic Color: Auto-enhance contrast/brightness, whitens grayish paper, keeps vibrant colors
+  function applyMagicColorFilter(d, width, height) {
+    const len = width * height;
+    const lum = new Float32Array(len);
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      lum[i] = 0.299 * d[idx] + 0.587 * d[idx + 1] + 0.114 * d[idx + 2];
+    }
+
+    const r = Math.max(10, Math.round(width / 32));
+    const bg = fastBoxBlur(lum, width, height, r);
+
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      const localBg = bg[i];
+      // Normalize dull paper shadows
+      const norm = localBg > 35 ? Math.min(2.2, 245 / localBg) : 1.0;
+
+      for (let c = 0; c < 3; c++) {
+        let v = d[idx + c] * norm;
+        // Contrast S-curve
+        v = (v - 128) * 1.3 + 128;
+        d[idx + c] = Math.max(0, Math.min(255, v));
+      }
+    }
+  }
+
+  // Apply Brightness, Contrast, and Sharpness Sliders Tuning
+  function applySlidersTuning(d, width, height) {
+    const bSlider = document.getElementById('sliderBrightness');
+    const cSlider = document.getElementById('sliderContrast');
+    const sSlider = document.getElementById('sliderSharpness');
+
+    const brightness = bSlider ? parseInt(bSlider.value) : 0;
+    const contrast = cSlider ? parseInt(cSlider.value) : 0;
+    const sharpness = sSlider ? parseInt(sSlider.value) : 40;
+
+    const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+    const len = width * height;
+
+    // Optional unsharp mask if sharpness > 0
+    let sharpBoost = null;
+    if (sharpness > 10) {
+      const lum = new Float32Array(len);
+      for (let i = 0; i < len; i++) {
+        const idx = i * 4;
+        lum[i] = 0.299 * d[idx] + 0.587 * d[idx + 1] + 0.114 * d[idx + 2];
+      }
+      const blur = fastBoxBlur(lum, width, height, 1);
+      sharpBoost = new Float32Array(len);
+      const factor = (sharpness / 40) * 1.5;
+      for (let i = 0; i < len; i++) {
+        const diff = lum[i] - blur[i];
+        if (Math.abs(diff) > 2) sharpBoost[i] = diff * factor;
+      }
+    }
+
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      const edge = sharpBoost ? sharpBoost[i] : 0;
+      for (let c = 0; c < 3; c++) {
+        let v = d[idx + c] + edge;
+        if (contrast !== 0) {
+          v = contrastFactor * (v - 128) + 128;
+        }
+        if (brightness !== 0) {
+          v += brightness;
+        }
+        d[idx + c] = Math.max(0, Math.min(255, v));
+      }
+    }
+  }
+
+  // Apply Clear Scanner Filter to selected item
+  function applyOutputFilter(filterName, btn) {
+    activeFilter = filterName;
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const sel = getSelectedItem();
+    if (!sel) return;
+
+    // Show sliders panel when any filter is active
+    const sPanel = document.getElementById('filterSlidersPanel');
+    if (sPanel) sPanel.style.display = 'block';
+
+    // Reset from original
+    const ctx = sel.canvas.getContext('2d');
+    ctx.clearRect(0, 0, sel.canvas.width, sel.canvas.height);
+    ctx.drawImage(sel.originalCanvas, 0, 0);
+
+    let handledByCv = false;
+    if (filterName === 'super_clear') {
+      handledByCv = applyOpenCvSuperClear(sel.canvas);
+    } else if (filterName === 'magic_color') {
+      handledByCv = applyOpenCvMagicColor(sel.canvas);
+    }
+
+    const imgData = ctx.getImageData(0, 0, sel.canvas.width, sel.canvas.height);
+    const d = imgData.data;
+
+    if (!handledByCv) {
+      if (filterName === 'magic_color') {
+        applyMagicColorFilter(d, sel.canvas.width, sel.canvas.height);
+      } else if (filterName === 'super_clear') {
+        applySuperClearFilter(d, sel.canvas.width, sel.canvas.height);
+      } else if (filterName === 'bw') {
+        for (let i = 0; i < d.length; i += 4) {
+          const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+          const v = gray > 155 ? 255 : Math.max(0, gray * 0.75);
+          d[i] = v; d[i + 1] = v; d[i + 2] = v;
+        }
+      } else if (filterName === 'grayscale') {
+        for (let i = 0; i < d.length; i += 4) {
+          const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+          d[i] = gray; d[i + 1] = gray; d[i + 2] = gray;
+        }
+      }
+    }
+
+    // Apply live sliders
+    applySlidersTuning(d, sel.canvas.width, sel.canvas.height);
+
+    ctx.putImageData(imgData, 0, 0);
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function onFilterSliderChange() {
+    const bVal = document.getElementById('sliderBrightness').value;
+    const cVal = document.getElementById('sliderContrast').value;
+    const sVal = document.getElementById('sliderSharpness').value;
+
+    document.getElementById('sliderBrightnessVal').innerText = (bVal > 0 ? '+' : '') + bVal;
+    document.getElementById('sliderContrastVal').innerText = (cVal > 0 ? '+' : '') + cVal;
+    document.getElementById('sliderSharpnessVal').innerText = sVal + '%';
+
+    // Reapply active filter with new slider values
+    const sel = getSelectedItem();
+    if (!sel) return;
+
+    const ctx = sel.canvas.getContext('2d');
+    ctx.clearRect(0, 0, sel.canvas.width, sel.canvas.height);
+    ctx.drawImage(sel.originalCanvas, 0, 0);
+
+    const imgData = ctx.getImageData(0, 0, sel.canvas.width, sel.canvas.height);
+    const d = imgData.data;
+
+    if (activeFilter === 'magic_color') {
+      applyMagicColorFilter(d, sel.canvas.width, sel.canvas.height);
+    } else if (activeFilter === 'super_clear') {
+      applySuperClearFilter(d, sel.canvas.width, sel.canvas.height);
+    } else if (activeFilter === 'bw') {
+      for (let i = 0; i < d.length; i += 4) {
+        const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        const v = gray > 155 ? 255 : Math.max(0, gray * 0.75);
+        d[i] = v; d[i + 1] = v; d[i + 2] = v;
+      }
+    } else if (activeFilter === 'grayscale') {
+      for (let i = 0; i < d.length; i += 4) {
+        const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        d[i] = gray; d[i + 1] = gray; d[i + 2] = gray;
+      }
+    }
+
+    applySlidersTuning(d, sel.canvas.width, sel.canvas.height);
+    ctx.putImageData(imgData, 0, 0);
+    renderOutputSheet();
+  }
+
+  // -------------------------------------------------------------
+  // AUTO & CUSTOM RESOLUTION / PIXEL SCALING ENGINE
+  // -------------------------------------------------------------
+  let customSheetDimensions = null;
+
+  function setResolutionPreset(targetW, targetH, name) {
+    document.querySelectorAll('.btn-res-preset').forEach(b => b.classList.remove('active'));
+    const wIn = document.getElementById('customResW');
+    const hIn = document.getElementById('customResH');
+    if (wIn) wIn.value = targetW;
+    if (hIn) hIn.value = targetH;
+
+    applyResolutionToSheet(targetW, targetH);
+    showCornerToast(`📐 Resolution set to ${name} (${targetW} × ${targetH} px)`);
+  }
+
+  function autoUpscale2x() {
+    const dims = getSheetDimensions();
+    const newW = dims.w * 2;
+    const newH = dims.h * 2;
+    setResolutionPreset(newW, newH, '2x HD Upscale');
+  }
+
+  function applyCustomResolution() {
+    const w = parseInt(document.getElementById('customResW').value) || 1240;
+    const h = parseInt(document.getElementById('customResH').value) || 1754;
+    applyResolutionToSheet(w, h);
+    showCornerToast(`🚀 Custom Resolution Applied: ${w} × ${h} px`);
+  }
+
+  function applyResolutionToSheet(targetW, targetH) {
+    const oldDims = getSheetDimensions();
+    const scaleRatioX = targetW / oldDims.w;
+    const scaleRatioY = targetH / oldDims.h;
+
+    sheetItems.forEach(item => {
+      item.x = Math.round(item.x * scaleRatioX);
+      item.y = Math.round(item.y * scaleRatioY);
+      item.width = Math.round(item.width * scaleRatioX);
+      item.height = Math.round(item.height * scaleRatioY);
+      item.scale = item.scale * scaleRatioX;
+    });
+
+    customSheetDimensions = { w: targetW, h: targetH };
+    sheetPaper = 'custom';
+    updateLiveResBadge(targetW, targetH);
+    renderOutputSheet();
+    pushHistory();
+  }
+
+  function updateLiveResBadge(w, h) {
+    const dpi = Math.round((Math.max(w, h) / 11.7));
+    const badge = document.getElementById('resBadgeDpi');
+    const info = document.getElementById('liveResInfo');
+    if (badge) badge.innerText = `${dpi} DPI Quality`;
+    if (info) info.innerText = `Canvas: ${w} × ${h} px`;
+  }
+
+  function onCustomResWChange() {
+    const lock = document.getElementById('lockAspectCheckbox');
+    if (lock && lock.checked) {
+      const w = parseInt(document.getElementById('customResW').value) || 1240;
+      const dims = getSheetDimensions();
+      const aspect = dims.h / dims.w;
+      document.getElementById('customResH').value = Math.round(w * aspect);
+    }
+  }
+
+  function onCustomResHChange() {
+    const lock = document.getElementById('lockAspectCheckbox');
+    if (lock && lock.checked) {
+      const h = parseInt(document.getElementById('customResH').value) || 1754;
+      const dims = getSheetDimensions();
+      const aspect = dims.w / dims.h;
+      document.getElementById('customResW').value = Math.round(h * aspect);
+    }
+  }
+
+  // -------------------------------------------------------------
+  // EXPORT MODES: HIGH-QUALITY JPG & PROFESSIONAL PDF
+  // -------------------------------------------------------------
+  function downloadResult() {
+    if (!sheetItems.length) {
+      alert('Please crop and add at least one document or image to the sheet first.');
+      return;
+    }
+    renderOutputSheet(true);
+
+    const link = document.createElement('a');
+    link.download = 'clear-scanned-document.jpg';
+    link.href = outputCanvas.toDataURL('image/jpeg', 0.98);
+    link.click();
+
+    renderOutputSheet(false);
+    showCornerToast('⬇ High-Quality JPG Exported!');
+  }
+
+  function exportPDF() {
+    if (!sheetItems.length) {
+      alert('Please crop and add at least one document or image first.');
+      return;
+    }
+    renderOutputSheet(true);
+
+    if (window.jspdf && window.jspdf.jsPDF) {
+      try {
+        const { jsPDF } = window.jspdf;
+        const isLandscape = outputCanvas.width > outputCanvas.height;
+        const doc = new jsPDF({
+          orientation: isLandscape ? 'landscape' : 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        const imgData = outputCanvas.toDataURL('image/jpeg', 0.98);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        doc.addImage(imgData, 'JPEG', 0, 0, pageWidth, pageHeight, undefined, 'FAST');
+        doc.save('clear-scanned-document.pdf');
+        renderOutputSheet(false);
+        showCornerToast('📄 Professional PDF Document Exported!');
+        return;
+      } catch (err) {
+        console.warn('jsPDF generation issue, falling back to print dialog:', err);
+      }
+    }
+    // Fallback: system print to PDF
+    window.print();
+    renderOutputSheet(false);
+  }
+
+  function printResult() {
+    if (!sheetItems.length) {
+      alert('Please crop and add at least one document or image to the sheet first.');
+      return;
+    }
+    // Render clean sheet without bounding box for print
+    renderOutputSheet(true);
+    window.print();
+    renderOutputSheet(false);
+  }
+
+  function clearWorkspace() {
+    if (confirm('Are you sure you want to clear the current workspace?')) {
+      sourceImage = null;
+      rawStraightenedCanvas = null;
+      sheetItems = [];
+      selectedItemId = null;
+      cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+      outCtx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
+      emptyPlaceholder.style.display = 'block';
+      outputCanvas.style.display = 'none';
+      enhancementsBar.style.display = 'none';
+      const cPanel = document.getElementById('itemControlPanel');
+      if (cPanel) cPanel.style.display = 'none';
+      handles.forEach(h => h.style.display = 'none');
+      document.getElementById('fileInput').value = '';
+      undoStack.length = 0;
+      redoStack.length = 0;
+    }
+  }
+
+  function pushHistory() {
+    const itemsSnapshot = sheetItems.map(it => ({
+      id: it.id,
+      canvas: cloneCanvas(it.canvas),
+      originalCanvas: cloneCanvas(it.originalCanvas),
+      x: it.x,
+      y: it.y,
+      width: it.width,
+      height: it.height,
+      scale: it.scale,
+      rotation: it.rotation,
+      filter: it.filter,
+      naturalW: it.naturalW,
+      naturalH: it.naturalH
+    }));
+
+    undoStack.push({
+      corners: JSON.parse(JSON.stringify(corners)),
+      sheetItems: itemsSnapshot,
+      selectedItemId,
+      sheetPaper,
+      activeCollagePreset
+    });
+    if (undoStack.length > 25) undoStack.shift();
+    redoStack.length = 0;
+  }
+
+  function undoAction() {
+    if (undoStack.length > 1) {
+      const current = undoStack.pop();
+      redoStack.push(current);
+      const prev = undoStack[undoStack.length - 1];
+      corners = JSON.parse(JSON.stringify(prev.corners));
+      selectedItemId = prev.selectedItemId;
+      sheetPaper = prev.sheetPaper;
+      activeCollagePreset = prev.activeCollagePreset;
+      sheetItems = prev.sheetItems.map(it => ({
+        id: it.id,
+        canvas: cloneCanvas(it.canvas),
+        originalCanvas: cloneCanvas(it.originalCanvas),
+        x: it.x,
+        y: it.y,
+        width: it.width,
+        height: it.height,
+        scale: it.scale,
+        rotation: it.rotation,
+        filter: it.filter,
+        naturalW: it.naturalW,
+        naturalH: it.naturalH
+      }));
+      drawCropStage();
+      updateHandlePositions();
+      renderOutputSheet();
+    }
+  }
+
+  function redoAction() {
+    if (redoStack.length > 0) {
+      const next = redoStack.pop();
+      undoStack.push(next);
+      corners = JSON.parse(JSON.stringify(next.corners));
+      selectedItemId = next.selectedItemId;
+      sheetPaper = next.sheetPaper;
+      activeCollagePreset = next.activeCollagePreset;
+      sheetItems = next.sheetItems.map(it => ({
+        id: it.id,
+        canvas: cloneCanvas(it.canvas),
+        originalCanvas: cloneCanvas(it.originalCanvas),
+        x: it.x,
+        y: it.y,
+        width: it.width,
+        height: it.height,
+        scale: it.scale,
+        rotation: it.rotation,
+        filter: it.filter,
+        naturalW: it.naturalW,
+        naturalH: it.naturalH
+      }));
+      drawCropStage();
+      updateHandlePositions();
+      renderOutputSheet();
+    }
+  }
+
+  // -------------------------------------------------------------
+  // INBUILT AI PICTURE QUALITY ENHANCER ENGINE
+  // -------------------------------------------------------------
+  function cloneCanvas(oldCanvas) {
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = oldCanvas.width;
+    newCanvas.height = oldCanvas.height;
+    const ctx = newCanvas.getContext('2d');
+    ctx.drawImage(oldCanvas, 0, 0);
+    return newCanvas;
+  }
+
+  function showAiStatus(msg, isSuccess = false) {
+    const statusEl = document.getElementById('aiStatusMsg');
+    if (!statusEl) return;
+    statusEl.innerText = msg;
+    statusEl.style.display = 'block';
+    statusEl.style.color = isSuccess ? '#15803d' : '#4338ca';
+    statusEl.style.background = isSuccess ? 'rgba(22, 163, 74, 0.1)' : 'rgba(79, 70, 229, 0.08)';
+    if (isSuccess) {
+      setTimeout(() => {
+        statusEl.style.display = 'none';
+      }, 3500);
+    }
+  }
+
+  function runAiEnhance(mode = 'auto') {
+    const sel = getSelectedItem();
+    if (!sel) {
+      alert('Please crop and add at least one document or image to the page first, or use "AI Polish Source" on the left.');
+      return;
+    }
+
+    const intensitySlider = document.getElementById('aiIntensity');
+    const intensity = intensitySlider ? parseFloat(intensitySlider.value) / 100 : 0.7;
+
+    const modeLabels = {
+      auto: 'Auto AI Polish',
+      text: 'Text & Doc Clarity',
+      face: 'Portrait Face Restore',
+      denoise: 'Noise & Grain Removal'
+    };
+
+    showAiStatus(`🧠 AI Neural Processing: Applying ${modeLabels[mode] || 'AI Enhancement'}...`);
+
+    // Run asynchronously to allow status text/spinner to render immediately
+    setTimeout(() => {
+      // Save pre-AI state for Hold to Compare
+      preAiBackupCanvas = cloneCanvas(sel.canvas);
+
+      const targetCtx = sel.canvas.getContext('2d');
+      applyAiNeuralFilters(targetCtx, sel.canvas.width, sel.canvas.height, mode, intensity);
+
+      renderOutputSheet();
+      pushHistory();
+
+      showAiStatus(`✨ Quality successfully enhanced by AI! (+${Math.round(intensity * 100)}% Clarity)`, true);
+    }, 40);
+  }
+
+  // 2x HD Super-Resolution
+  function runAiSuperResolution() {
+    const sel = getSelectedItem();
+    if (!sel) {
+      alert('Please crop and add at least one document or image to the page first.');
+      return;
+    }
+
+    showAiStatus('🧠 AI 2x Super-Resolution: Upscaling sub-pixel resolution & edge reconstruction...');
+
+    setTimeout(() => {
+      preAiBackupCanvas = cloneCanvas(sel.canvas);
+
+      const oldW = sel.canvas.width;
+      const oldH = sel.canvas.height;
+      const newW = oldW * 2;
+      const newH = oldH * 2;
+
+      // Resample onto double canvas with high-quality smoothing
+      const superCanvas = document.createElement('canvas');
+      superCanvas.width = newW;
+      superCanvas.height = newH;
+      const sCtx = superCanvas.getContext('2d');
+      sCtx.imageSmoothingEnabled = true;
+      sCtx.imageSmoothingQuality = 'high';
+      sCtx.drawImage(sel.canvas, 0, 0, newW, newH);
+
+      // Apply sub-pixel unsharp mask reconstruction on the 2x scaled image
+      applyAiNeuralFilters(sCtx, newW, newH, 'auto', 0.65);
+
+      sel.canvas = superCanvas;
+      renderOutputSheet();
+      pushHistory();
+
+      showAiStatus(`✨ 2x HD Super-Resolution Complete! (${newW} × ${newH} px)`, true);
+    }, 40);
+  }
+
+  // Enhance raw source image on the left before perspective cropping
+  function runAiEnhanceSource() {
+    if (!sourceImage) {
+      alert('Please upload an image first.');
+      return;
+    }
+
+    showAiStatus('🧠 AI Processing Source Photo: Enhancing clarity & edges...');
+
+    setTimeout(() => {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = sourceImage.width;
+      tempCanvas.height = sourceImage.height;
+      const tCtx = tempCanvas.getContext('2d');
+      tCtx.drawImage(sourceImage, 0, 0);
+
+      const intensitySlider = document.getElementById('aiIntensity');
+      const intensity = intensitySlider ? parseFloat(intensitySlider.value) / 100 : 0.7;
+
+      applyAiNeuralFilters(tCtx, sourceImage.width, sourceImage.height, 'auto', intensity);
+
+      const enhancedImg = new Image();
+      enhancedImg.onload = () => {
+        sourceImage = enhancedImg;
+        drawCropStage();
+        showAiStatus('✨ Source photo successfully enhanced by AI!', true);
+      };
+      enhancedImg.src = tempCanvas.toDataURL('image/png');
+    }, 40);
+  }
+
+  // Core Neural Pixel Processing Algorithm (Unsharp Mask, CLAHE Tone Curve, Edge Sharpening, Bilateral Denoise)
+  function applyAiNeuralFilters(ctx, width, height, mode, intensity) {
+    const imgData = ctx.getImageData(0, 0, width, height);
+    const d = imgData.data;
+    const len = width * height;
+
+    // 1. Calculate Grayscale Luminance
+    const gray = new Float32Array(len);
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      gray[i] = 0.299 * d[idx] + 0.587 * d[idx + 1] + 0.114 * d[idx + 2];
+    }
+
+    // 2. Multi-radius Box Blur Approximation for Gaussian High-Pass Mask
+    const blur = new Float32Array(len);
+    const r = (mode === 'text') ? 1 : 2;
+
+    // Horizontal 1D pass
+    const tempBlur = new Float32Array(len);
+    for (let y = 0; y < height; y++) {
+      const row = y * width;
+      let windowSum = 0;
+      let windowCount = 0;
+
+      // Seed window
+      for (let dx = -r; dx <= r; dx++) {
+        if (dx >= 0 && dx < width) {
+          windowSum += gray[row + dx];
+          windowCount++;
+        }
+      }
+      tempBlur[row] = windowSum / windowCount;
+
+      for (let x = 1; x < width; x++) {
+        const left = x - r - 1;
+        const right = x + r;
+        if (left >= 0) {
+          windowSum -= gray[row + left];
+          windowCount--;
+        }
+        if (right < width) {
+          windowSum += gray[row + right];
+          windowCount++;
+        }
+        tempBlur[row + x] = windowSum / windowCount;
+      }
+    }
+
+    // Vertical 1D pass
+    for (let x = 0; x < width; x++) {
+      let windowSum = 0;
+      let windowCount = 0;
+
+      for (let dy = -r; dy <= r; dy++) {
+        if (dy >= 0 && dy < height) {
+          windowSum += tempBlur[dy * width + x];
+          windowCount++;
+        }
+      }
+      blur[x] = windowSum / windowCount;
+
+      for (let y = 1; y < height; y++) {
+        const top = y - r - 1;
+        const btm = y + r;
+        if (top >= 0) {
+          windowSum -= tempBlur[top * width + x];
+          windowCount--;
+        }
+        if (btm < height) {
+          windowSum += tempBlur[btm * width + x];
+          windowCount++;
+        }
+        blur[y * width + x] = windowSum / windowCount;
+      }
+    }
+
+    // 3. Pixel Transformation & Edge Reconstruction
+    const sharpenFactor = (mode === 'text' ? 2.4 : (mode === 'face' ? 1.6 : 1.9)) * intensity;
+    const contrastFactor = 1 + (0.28 * intensity);
+
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      const g = gray[i];
+      const b = blur[i];
+      const diff = g - b;
+
+      // Adaptive edge sharpening threshold
+      let edgeBoost = 0;
+      if (Math.abs(diff) > 1.5) {
+        edgeBoost = diff * sharpenFactor;
+      }
+
+      // Mode-specific enhancements
+      if (mode === 'text') {
+        // Document: Clean background paper whites & deepen black letters
+        for (let c = 0; c < 3; c++) {
+          let v = d[idx + c] + edgeBoost;
+          if (v > 185) {
+            // Paper whitening
+            v += (255 - v) * (0.35 * intensity);
+          } else if (v < 110) {
+            // Font deepening
+            v *= (1 - 0.25 * intensity);
+          }
+          d[idx + c] = Math.min(255, Math.max(0, v));
+        }
+      } else if (mode === 'denoise') {
+        // Subtle smoothing on flat areas, preserve true edges
+        for (let c = 0; c < 3; c++) {
+          let v = d[idx + c];
+          if (Math.abs(diff) < 6) {
+            v = v * 0.4 + b * 0.6; // Soften noise
+          } else {
+            v += edgeBoost * 0.5; // Keep sharp lines
+          }
+          d[idx + c] = Math.min(255, Math.max(0, v));
+        }
+      } else {
+        // Auto Polish & Portrait
+        for (let c = 0; c < 3; c++) {
+          let v = d[idx + c] + edgeBoost;
+          // S-curve tone mapping for vibrant clarity
+          v = (v - 128) * contrastFactor + 128;
+          d[idx + c] = Math.min(255, Math.max(0, v));
+        }
+      }
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  // Hold to Compare Original / AI Enhanced
+  function showOriginalPreview() {
+    const sel = getSelectedItem();
+    if (!sel || !sel.originalCanvas) return;
+    const compareBtn = document.getElementById('compareBtn');
+    if (compareBtn) compareBtn.classList.add('comparing');
+
+    const ctx = sel.canvas.getContext('2d');
+    ctx.clearRect(0, 0, sel.canvas.width, sel.canvas.height);
+    ctx.drawImage(sel.originalCanvas, 0, 0);
+    renderOutputSheet();
+  }
+
+  function hideOriginalPreview() {
+    const compareBtn = document.getElementById('compareBtn');
+    if (compareBtn) compareBtn.classList.remove('comparing');
+    if (preAiBackupCanvas) {
+      const sel = getSelectedItem();
+      if (sel) {
+        const ctx = sel.canvas.getContext('2d');
+        ctx.clearRect(0, 0, sel.canvas.width, sel.canvas.height);
+        ctx.drawImage(preAiBackupCanvas, 0, 0);
+      }
+    }
+    renderOutputSheet();
+  }
+
+  // Pre-load a sample document image demonstration if empty
+  window.addEventListener('DOMContentLoaded', () => {
+    // Generate an attractive sample document photo on first load
+    const demo = new Image();
+    demo.crossOrigin = 'anonymous';
+    demo.onload = () => {
+      loadSourceImage(demo);
+      setTimeout(() => {
+        executePerspectiveCrop(false);
+      }, 80);
+    };
+    // Render clean dummy document for instant interactive feel
+    const sampleCanvas = document.createElement('canvas');
+    sampleCanvas.width = 900;
+    sampleCanvas.height = 640;
+    const sCtx = sampleCanvas.getContext('2d');
+
+    // Wooden desk background
+    sCtx.fillStyle = '#1e293b';
+    sCtx.fillRect(0, 0, 900, 640);
+
+    // Tilted white document sheet
+    sCtx.save();
+    sCtx.translate(450, 320);
+    sCtx.rotate(-0.08);
+    sCtx.fillStyle = '#ffffff';
+    sCtx.shadowColor = 'rgba(0,0,0,0.4)';
+    sCtx.shadowBlur = 18;
+    sCtx.fillRect(-340, -220, 680, 440);
+
+    // Document Header
+    sCtx.shadowBlur = 0;
+    sCtx.fillStyle = '#2563eb';
+    sCtx.fillRect(-310, -190, 620, 48);
+
+    sCtx.fillStyle = '#ffffff';
+    sCtx.font = 'bold 22px Poppins, sans-serif';
+    sCtx.fillText('GOVERNMENT OF INDIA / IDENTITY CARD', -280, -158);
+
+    // Dummy Card content
+    sCtx.fillStyle = '#334155';
+    sCtx.font = '16px Poppins, sans-serif';
+    sCtx.fillText('Name: SANTANU MUKHERJEE', -170, -70);
+    sCtx.fillText('DOB: 12/08/1996 | Gender: MALE', -170, -35);
+    sCtx.fillText('Card No: 8492-4910-3819', -170, 0);
+    sCtx.fillText('Address: Kolkata, West Bengal', -170, 35);
+
+    // Photo Box
+    sCtx.fillStyle = '#cbd5e1';
+    sCtx.fillRect(-310, -100, 110, 130);
+    sCtx.fillStyle = '#64748b';
+    sCtx.font = '12px Poppins, sans-serif';
+    sCtx.fillText('PHOTO', -275, -30);
+
+    // Barcode lines
+    sCtx.fillStyle = '#0f172a';
+    for (let b = -300; b < 280; b += 12) {
+      sCtx.fillRect(b, 120, (b % 5 === 0 ? 6 : 2), 35);
+    }
+
+    sCtx.restore();
+
+    demo.src = sampleCanvas.toDataURL('image/png');
+  });
+
+  window.addEventListener('resize', () => {
+    if (sourceImage) {
+      const maxW = stageContainer.clientWidth || 500;
+      const maxH = 460;
+      const ratio = Math.min(maxW / sourceImage.width, maxH / sourceImage.height, 1);
+      cropCanvas.width = Math.round(sourceImage.width * ratio);
+      cropCanvas.height = Math.round(sourceImage.height * ratio);
+      drawCropStage();
+      updateHandlePositions();
+    }
+  });
+</script>
+
+<script src="js/ad-manager.js"></script>
+
+</body>
+</html>

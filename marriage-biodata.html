@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image Size Increaser – Increase Photo & Signature KB Size | GET Tools</title>
-<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html">
-<meta name="description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<title>Free Marriage Biodata Maker Online – Shadi Bio Data Format | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/marriage-biodata.html">
+<meta name="description" content="Create elegant Hindu, Muslim, and Indian marriage biodata online for free. Clean printable format, instant PDF and print preview.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content="GET Tools">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html">
-<meta property="og:title" content="Image Size Increaser – Increase Photo & Signature KB Size | GET Tools">
-<meta property="og:description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/marriage-biodata.html">
+<meta property="og:title" content="Free Marriage Biodata Maker Online | GET Tools">
+<meta property="og:description" content="Create elegant marriage biodata online for free. Clean printable format, instant print and PDF.">
 <meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
-<meta property="og:image:width" content="1024">
-<meta property="og:image:height" content="512">
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Image Size Increaser – Increase Photo & Signature KB Size | GET Tools">
-<meta name="twitter:description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<meta name="twitter:title" content="Free Marriage Biodata Maker Online | GET Tools">
+<meta name="twitter:description" content="Create elegant marriage biodata online for free. Clean printable format.">
 <meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
 <!-- Favicons & Icons -->
@@ -39,9 +37,9 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Image Size Increaser",
-  "url": "https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html",
-  "description": "Increase photo and signature image file size to required KB for online portal applications without visible quality loss.",
+  "name": "Marriage Biodata Maker",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/marriage-biodata.html",
+  "description": "Create customizable matrimonial biodata documents for marriage proposals in your web browser.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "All",
   "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -58,118 +56,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="js/theme.js"></script>
-
-<script>
-let processedFiles = [];
-
-function formatBytes(bytes) {
-    if(bytes < 1024) return bytes + ' B';
-    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
-    else return (bytes/(1024*1024)).toFixed(2)+' MB';
-}
-
-function updateProgress(percent){
-    const progressBar = document.getElementById('progressBar');
-    if(progressBar) progressBar.style.width = percent+'%';
-}
-
-async function increaseImageSize(file, targetKB) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const arrayBuffer = e.target.result;
-            const originalSize = arrayBuffer.byteLength;
-            const targetSizeInBytes = targetKB * 1024;
-
-            if (originalSize >= targetSizeInBytes) {
-                resolve({
-                    blob: new Blob([arrayBuffer], { type: file.type }),
-                    originalSize: originalSize,
-                    newSize: originalSize,
-                    status: 'Skipped (Already larger than target)'
-                });
-                return;
-            }
-
-            const bytesToAdd = targetSizeInBytes - originalSize;
-            const paddingArray = new Uint8Array(bytesToAdd);
-            
-            for (let i = 0; i < bytesToAdd; i++) {
-                paddingArray[i] = Math.floor(Math.random() * 256);
-            }
-
-            const combinedBlob = new Blob([arrayBuffer, paddingArray], { type: file.type });
-            
-            resolve({
-                blob: combinedBlob,
-                originalSize: originalSize,
-                newSize: combinedBlob.size,
-                status: 'Successfully Increased'
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    });
-}
-
-async function increaseMultipleImages() {
-    const fileInput = document.getElementById('imageFiles');
-    const targetInput = document.getElementById('targetKB');
-    const statusText = document.getElementById('status');
-    const fileInfoText = document.getElementById('fileInfo');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    if (!fileInput || fileInput.files.length === 0) {
-        alert('Please select at least one image file.');
-        return;
-    }
-    if (!targetInput || !targetInput.value || targetInput.value <= 0) {
-        alert('Please enter a valid target KB.');
-        return;
-    }
-
-    const targetKB = parseInt(targetInput.value);
-    processedFiles = [];
-    statusText.innerText = 'Processing images...';
-    fileInfoText.innerText = '';
-    updateProgress(0);
-    downloadBtn.disabled = true;
-
-    let files = fileInput.files;
-    let infoOutput = "";
-
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const result = await increaseImageSize(file, targetKB);
-        
-        processedFiles.push({
-            blob: result.blob,
-            name: file.name
-        });
-
-        infoOutput += `${file.name}: ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.newSize)} (${result.status})\n`;
-        
-        let percent = Math.round(((i + 1) / files.length) * 100);
-        updateProgress(percent);
-    }
-
-    statusText.innerText = 'Processing completed successfully!';
-    fileInfoText.innerText = infoOutput;
-    downloadBtn.disabled = false;
-}
-
-function downloadAllImages() {
-    if (processedFiles.length === 0) return;
-
-    processedFiles.forEach(item => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(item.blob);
-        link.download = 'increased_' + item.name;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-}
-</script>
 </head>
 
 <body>
@@ -206,65 +92,138 @@ function downloadAllImages() {
     <a href="terms.html">Terms</a>
   </nav>
 </header>
+
 <!-- Breadcrumb Navigation -->
 <nav class="breadcrumb-nav" aria-label="Breadcrumb">
   <a href="index.html">Home</a>
   <span class="breadcrumb-separator">/</span>
   <a href="index.html#tools">Tools</a>
   <span class="breadcrumb-separator">/</span>
-  <span class="breadcrumb-current">Image Size Increaser</span>
+  <span class="breadcrumb-current">Marriage Biodata Maker</span>
 </nav>
-
 
 <main class="container" style="padding-top: 30px; padding-bottom: 40px;">
   <!-- Tool Card Container -->
-  <div class="tool-page-container" style="max-width: 820px;">
-    <h2 style="text-align: center; margin-bottom: 8px;">Image Size Increaser</h2>
-    <p style="text-align: center; margin-bottom: 24px;">Increase the file size (KB) of photos and signatures to match the minimum KB requirements of government, exam, and job portals without loss of visible quality.</p>
+  <div class="tool-page-container" style="max-width: 900px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Marriage Biodata Maker (शादी बायोडाटा)</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Create beautiful, traditional and modern Indian marriage biodata with personal, family, and astrological details. Ready to print in 1-click.</p>
 
-    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 28px 20px; text-align: center; margin-bottom: 20px;">
-      <label for="imageFiles" style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text);">Upload Photo or Signature Image(s):</label>
-      <input type="file" id="imageFiles" accept="image/jpeg, image/png" multiple style="width: auto; max-width: 100%;">
+    <!-- Inputs Form -->
+    <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 25px; margin-bottom: 25px;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; color: var(--primary);">👤 1. Personal Details</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Full Name:</label>
+          <input type="text" id="bName" value="Pooja Sharma">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Date of Birth:</label>
+          <input type="text" id="bDOB" value="15-August-1998">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Time & Place of Birth:</label>
+          <input type="text" id="bBirthPlace" value="06:30 AM, Varanasi, UP">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Height & Complexion:</label>
+          <input type="text" id="bHeight" value="5 ft 4 in, Fair">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Religion / Caste / Gotra:</label>
+          <input type="text" id="bCaste" value="Hindu, Brahmin, Kashyap">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Manglik Status:</label>
+          <input type="text" id="bManglik" value="Non-Manglik">
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; color: var(--primary);">🎓 2. Education & Career</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Highest Education:</label>
+          <input type="text" id="bEdu" value="M.Com (Master of Commerce)">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Occupation / Job:</label>
+          <input type="text" id="bJob" value="Senior Accountant at MNC">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Annual Income:</label>
+          <input type="text" id="bIncome" value="₹ 6.5 Lakhs per annum">
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; color: var(--primary);">👨‍👩‍👧 3. Family Details & Contact</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Father's Name & Occupation:</label>
+          <input type="text" id="bFather" value="Mr. R. K. Sharma (Govt. Officer)">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Mother's Name & Occupation:</label>
+          <input type="text" id="bMother" value="Mrs. Sunita Sharma (Homemaker)">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Siblings (Brothers/Sisters):</label>
+          <input type="text" id="bSiblings" value="1 Younger Brother (Engineer)">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Contact Number:</label>
+          <input type="text" id="bContact" value="+91 9876543210">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Residential Address:</label>
+          <input type="text" id="bAddress" value="Plot 42, Civil Lines, Varanasi, UP">
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
+        <button onclick="renderBiodata()" class="btn btn-primary" style="height: 46px; padding: 0 28px; font-size: 1rem;">
+          ⚡ Generate Biodata
+        </button>
+        <button onclick="printBiodata()" class="btn btn-secondary" style="height: 46px; padding: 0 28px; font-size: 1rem;">
+          🖨️ Print / Save as PDF
+        </button>
+      </div>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-      <label for="targetKB" style="font-weight: 600; color: var(--text);">Target Minimum Size (KB):</label>
-      <input type="number" id="targetKB" placeholder="e.g. 50, 100, 200" min="1" style="width: 160px; margin-bottom: 0;">
-    </div>
+    <!-- Live Preview Sheet -->
+    <div id="biodataSheet" style="background: #ffffff; color: #1e293b; border: 2px solid #b45309; border-radius: 6px; padding: 35px; box-shadow: var(--shadow-md);">
+      <div id="printBioArea">
+        <div style="text-align: center; border-bottom: 2px solid #b45309; padding-bottom: 12px; margin-bottom: 20px;">
+          <h2 style="margin: 0; color: #b45309; font-size: 24px; letter-spacing: 1px;">॥ श्री गणेशाय नमः ॥</h2>
+          <h1 style="margin: 8px 0 0 0; color: #1e293b; font-size: 22px; text-transform: uppercase;">BIODATA</h1>
+        </div>
 
-    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
-      <button class="btn btn-primary" onclick="increaseMultipleImages()" style="height: 48px; padding: 0 28px; font-size: 1rem;">
-        ⚡ Increase Size Now
-      </button>
-      <button class="btn btn-secondary" id="downloadBtn" onclick="downloadAllImages()" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
-        📥 Download All Images
-      </button>
-    </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.8;">
+          <tr style="background: #fef3c7;"><th colspan="2" style="text-align: left; padding: 6px 10px; color: #92400e; font-size: 15px;">Personal Details</th></tr>
+          <tr><td style="width: 38%; padding: 5px 10px; font-weight: 600;">Full Name:</td><td id="pBioName" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Date of Birth:</td><td id="pBioDOB" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Birth Time & Place:</td><td id="pBioPlace" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Height & Complexion:</td><td id="pBioHeight" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Caste & Gotra:</td><td id="pBioCaste" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Manglik:</td><td id="pBioManglik" style="padding: 5px 10px;"></td></tr>
 
-    <!-- Progress Bar -->
-    <div style="width: 100%; max-width: 500px; height: 12px; background: var(--border); border-radius: 6px; margin: 15px auto; overflow: hidden;">
-      <div id="progressBar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.3s ease;"></div>
-    </div>
+          <tr style="background: #fef3c7;"><th colspan="2" style="text-align: left; padding: 6px 10px; color: #92400e; font-size: 15px; margin-top: 10px;">Education & Career</th></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Education:</td><td id="pBioEdu" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Occupation:</td><td id="pBioJob" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Annual Income:</td><td id="pBioIncome" style="padding: 5px 10px;"></td></tr>
 
-    <p id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></p>
-    <p id="fileInfo" style="text-align: center; font-size: 0.875rem; color: var(--text-muted); margin-top: 6px; white-space: pre-line;"></p>
+          <tr style="background: #fef3c7;"><th colspan="2" style="text-align: left; padding: 6px 10px; color: #92400e; font-size: 15px; margin-top: 10px;">Family Details</th></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Father's Details:</td><td id="pBioFather" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Mother's Details:</td><td id="pBioMother" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Siblings:</td><td id="pBioSiblings" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Contact:</td><td id="pBioContact" style="padding: 5px 10px;"></td></tr>
+          <tr><td style="padding: 5px 10px; font-weight: 600;">Address:</td><td id="pBioAddress" style="padding: 5px 10px;"></td></tr>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
   <div class="adsterra-banner-container">
     <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
-  </div>
-
-  <!-- Educational & SEO Content (Preserved) -->
-  <div class="card" style="max-width: 820px; margin: 30px auto; padding: 30px;">
-    <h2>How Does Image Size Increaser Work?</h2>
-    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
-      <li><strong>Select Images:</strong> Upload single or multiple images (JPEG, JPG, PNG) directly from your device.</li>
-      <li><strong>Set Target KB:</strong> Enter your required target size in KB (e.g. 50 KB or 100 KB for online portals).</li>
-      <li><strong>Lossless Padding:</strong> Safe padding bytes are appended to the file structure without distorting image pixels or clarity.</li>
-      <li><strong>Private Processing:</strong> The whole process runs in browser memory, ensuring your identity documents remain private.</li>
-      <li><strong>Download:</strong> Click Download All Images to retrieve your correctly sized photos.</li>
-    </ul>
   </div>
 </main>
 
@@ -399,6 +358,52 @@ function downloadAllImages() {
     </div>
   </div>
 </footer>
+
+<script>
+function renderBiodata() {
+  document.getElementById('pBioName').innerText = document.getElementById('bName').value;
+  document.getElementById('pBioDOB').innerText = document.getElementById('bDOB').value;
+  document.getElementById('pBioPlace').innerText = document.getElementById('bBirthPlace').value;
+  document.getElementById('pBioHeight').innerText = document.getElementById('bHeight').value;
+  document.getElementById('pBioCaste').innerText = document.getElementById('bCaste').value;
+  document.getElementById('pBioManglik').innerText = document.getElementById('bManglik').value;
+  document.getElementById('pBioEdu').innerText = document.getElementById('bEdu').value;
+  document.getElementById('pBioJob').innerText = document.getElementById('bJob').value;
+  document.getElementById('pBioIncome').innerText = document.getElementById('bIncome').value;
+  document.getElementById('pBioFather').innerText = document.getElementById('bFather').value;
+  document.getElementById('pBioMother').innerText = document.getElementById('bMother').value;
+  document.getElementById('pBioSiblings').innerText = document.getElementById('bSiblings').value;
+  document.getElementById('pBioContact').innerText = document.getElementById('bContact').value;
+  document.getElementById('pBioAddress').innerText = document.getElementById('bAddress').value;
+}
+
+renderBiodata();
+
+function printBiodata() {
+  renderBiodata();
+  const printContent = document.getElementById('printBioArea').innerHTML;
+  const printWin = window.open('', '_blank');
+  printWin.document.write(`
+    <html>
+      <head>
+        <title>Biodata - ${document.getElementById('bName').value}</title>
+        <style>
+          @page { size: A4 portrait; margin: 15mm; }
+          body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #1e293b; line-height: 1.7; }
+          table { width: 100%; border-collapse: collapse; }
+          th { background: #fef3c7; color: #92400e; padding: 6px 10px; text-align: left; }
+          td { padding: 5px 10px; }
+        </style>
+      </head>
+      <body onload="window.print(); window.close();">
+        ${printContent}
+      <script src="js/related-tools.js"></script>
+</body>
+    </html>
+  `);
+  printWin.document.close();
+}
+</script>
 
 <script src="js/ad-manager.js"></script>
 

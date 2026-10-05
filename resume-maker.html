@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Resume & CV Maker – Cyber Cafe Formats | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/resume-maker.html">
+<meta name="description" content="Free online Resume, Bio Data, and CV Maker. Fill the form with academic details, qualifications, experience, and photo to generate print-ready A4 PDF resumes.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/resume-maker.html">
+<meta property="og:title" content="Free Online Resume & CV Maker | GET Tools">
+<meta property="og:description" content="Create professional Resume, Bio Data, and CVs online. Fast print-ready PDF generation for cyber cafes and job applicants.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Resume / CV Maker",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/resume-maker.html",
+  "description": "Create, customize, and print clean job resumes and curriculum vitae directly inside your browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
+
+<style>
+/* Resume Maker Specific Styling */
+.resume-form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.resume-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: inherit;
+}
+
+.resume-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.type-select-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 18px;
+}
+
+.type-select-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.format-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.format-btn {
+  padding: 9px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.format-btn-table {
+  background: #15803d;
+}
+
+.format-btn-simple {
+  background: #ea580c;
+}
+
+.format-btn-both {
+  background: #d97706;
+}
+
+.format-btn.active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px #2563eb, 0 4px 6px -1px rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+}
+
+/* Dynamic Academic Table */
+.academic-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.academic-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 550px;
+}
+
+.academic-table th {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.academic-table td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.academic-table input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.85rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.btn-add {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-add:hover {
+  background: #1d4ed8;
+}
+
+.btn-del-red {
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-del-red:hover {
+  background: #b91c1c;
+}
+
+.btn-del-x {
+  background: #dc2626;
+  color: #ffffff;
+  font-weight: 700;
+  border: none;
+  border-radius: 4px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-del-x:hover {
+  background: #b91c1c;
+}
+
+.dynamic-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.dynamic-row input {
+  margin-bottom: 0;
+}
+
+/* Big Action Button */
+.btn-generate-main {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #1d4ed8;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.3);
+  margin-top: 20px;
+  transition: background 0.2s ease;
+}
+
+.btn-generate-main:hover {
+  background: #1e40af;
+}
+
+/* Print Preview Container */
+#previewContainer {
+  display: none;
+  max-width: 850px;
+  margin: 30px auto;
+}
+
+.preview-actions-bar {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.btn-action-edit {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 30px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-action-edit:hover {
+  background: #1d4ed8;
+}
+
+.btn-action-print {
+  background: #15803d;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 35px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px -1px rgba(21, 128, 61, 0.3);
+}
+
+.btn-action-print:hover {
+  background: #166534;
+}
+
+/* Output A4 Sheet */
+.resume-sheet {
+  background: #ffffff;
+  color: #1e293b;
+  width: 100%;
+  max-width: 800px;
+  min-height: 1050px;
+  margin: 0 auto;
+  padding: 40px 45px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.resume-main-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  border-bottom: 2.5px solid #1e3a8a;
+  padding-bottom: 8px;
+}
+
+.resume-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.resume-candidate-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.resume-contact-info {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.resume-photo-box {
+  width: 110px;
+  height: 130px;
+  border: 1px solid #94a3b8;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.resume-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Professional Section Headings */
+.resume-section-heading {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 18px 0 8px 0;
+  color: #1e3a8a;
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 4px;
+}
+
+.resume-section-heading.has-bg {
+  background: #1e3a8a;
+  color: #ffffff !important;
+  padding: 6px 12px;
+  border-bottom: none;
+  border-radius: 3px;
+}
+
+.resume-content-text {
+  font-size: 13.5px;
+  color: #1e293b;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Print Academic Table */
+.print-academic-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.print-academic-table th {
+  border: 1px solid #334155;
+  background: #f1f5f9;
+  padding: 7px 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: center;
+  color: #0f172a;
+}
+
+.print-academic-table td {
+  border: 1px solid #334155;
+  padding: 6px 8px;
+  font-size: 12.5px;
+  text-align: center;
+  color: #1e293b;
+}
+
+/* Personal Information Print Table */
+.print-personal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+.print-personal-table td {
+  padding: 4px 6px;
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.print-personal-table td.col-label {
+  font-weight: 600;
+  color: #0f172a;
+  width: 170px;
+}
+
+.print-personal-table td.col-colon {
+  width: 15px;
+  text-align: center;
+}
+
+/* Bullet list */
+.resume-bullet-list {
+  padding-left: 20px;
+  margin: 4px 0 10px 0;
+}
+
+.resume-bullet-list li {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+/* Declaration Block */
+.resume-declaration {
+  margin-top: 25px;
+  font-size: 13px;
+}
+
+.declaration-sign-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 35px;
+  font-size: 13px;
+}
+
+/* Print Optimization */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .site-header, .site-footer, .breadcrumb-nav, .adsterra-banner-container,
+  #related-tools-section, .preview-actions-bar, #formCard, .container > h2, .container > p {
+    display: none !important;
+  }
+  #previewContainer, #previewContainer * {
+    visibility: visible;
+  }
+  #previewContainer {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .resume-sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 10mm 12mm !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+</header>
+
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Resume / CV Maker</span>
+</nav>
+
+<main class="container" style="padding-top: 25px; padding-bottom: 40px;">
+
+  <!-- Form Section (Screenshot 2026-10-03 201014) -->
+  <div id="formCard" class="resume-form-card">
+    
+    <!-- 1. Select Type & Professional Color Scheme -->
+    <div class="form-label" style="margin-bottom: 6px;">Select Type:</div>
+    <div class="type-select-row">
+      <label>
+        <input type="radio" name="docType" value="RESUME" checked> Resume
+      </label>
+      <label>
+        <input type="radio" name="docType" value="BIO DATA"> Bio Data
+      </label>
+      <label>
+        <input type="radio" name="docType" value="CV"> CV
+      </label>
+      <label>
+        <input type="radio" name="docType" value="CURRICULUM VITAE"> Curriculum Vitae
+      </label>
+      <label style="color: var(--primary); font-weight: 600;">
+        <input type="checkbox" id="headingBgCheck" checked> Heading Background
+      </label>
+      <label style="margin-left: auto; color: var(--text); font-weight: 600;">
+        Color:
+        <select id="resumeThemeColor" style="padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); font-size: 0.82rem; background: var(--surface); color: var(--text);">
+          <option value="#1e3a8a">Royal Navy Blue</option>
+          <option value="#0f172a">Corporate Dark Slate</option>
+          <option value="#047857">Emerald Green</option>
+          <option value="#991b1b">Classic Crimson</option>
+          <option value="#6d28d9">Royal Purple</option>
+          <option value="#0369a1">Modern Ocean Blue</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- 2. Personal Contact Details -->
+    <label class="form-label" for="candName">Name:</label>
+    <input type="text" id="candName" class="resume-input" placeholder="Enter Full Name" value="SANJOY MUKHERJEE">
+
+    <label class="form-label" for="candAddress">Address:</label>
+    <textarea id="candAddress" class="resume-input" rows="3" placeholder="Enter Full Address">Vill+P.O.- Chaltia, P.S.- Berhampore, Dist.- Murshidabad, Pin- 742165, West Bengal</textarea>
+
+    <label class="form-label" for="candPhone">Contact Number:</label>
+    <input type="text" id="candPhone" class="resume-input" placeholder="Enter Contact Number" value="+91 9876543210">
+
+    <label class="form-label" for="candEmail">Email ID:</label>
+    <input type="email" id="candEmail" class="resume-input" placeholder="Enter Email ID" value="sanjoy.mukherjee@gmail.com">
+
+    <!-- 3. Career Objective -->
+    <label class="form-label" for="careerObj">Career Objective:</label>
+    <input type="text" id="careerObj" class="resume-input" value="To working in a professional & challenging environment where I am able to utilize my skill and also provided an opportunity to learn where my qualification and quality will be an asset.">
+
+    <!-- Format Buttons (Table Formate, Simpal Formate, Both Formate) -->
+    <div class="format-btn-row">
+      <button type="button" class="format-btn format-btn-table active" id="btnFmtTable" onclick="setAcademicFormat('table')">Table Formate</button>
+      <button type="button" class="format-btn format-btn-simple" id="btnFmtSimple" onclick="setAcademicFormat('simple')">Simpal Formate</button>
+      <button type="button" class="format-btn format-btn-both" id="btnFmtBoth" onclick="setAcademicFormat('both')">Both Formate</button>
+    </div>
+
+    <!-- 4. Academic Details Table View -->
+    <div id="academicTableContainer">
+      <div class="form-label">Academic Details (Table View):</div>
+      <div class="academic-table-wrap">
+        <table class="academic-table" id="academicInputTable">
+          <thead>
+            <tr id="academicHeadRow">
+              <th>Exam</th>
+              <th>Board</th>
+              <th>Year</th>
+              <th>%</th>
+              <th>Division</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="academicBody">
+            <tr>
+              <td><input type="text" value="Secondary (10th)"></td>
+              <td><input type="text" value="WBBSE"></td>
+              <td><input type="text" value="2018"></td>
+              <td><input type="text" value="78%"></td>
+              <td><input type="text" value="1st Div"></td>
+              <td><button type="button" class="btn-del-red" onclick="deleteAcademicRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+              <td><input type="text" value="Higher Secondary (12th)"></td>
+              <td><input type="text" value="WBCHSE"></td>
+              <td><input type="text" value="2020"></td>
+              <td><input type="text" value="74%"></td>
+              <td><input type="text" value="1st Div"></td>
+              <td><button type="button" class="btn-del-red" onclick="deleteAcademicRow(this)">Delete</button></td>
+            </tr>
+            <tr>
+              <td><input type="text" value="Graduation (B.A.)"></td>
+              <td><input type="text" value="Kalyani University"></td>
+              <td><input type="text" value="2023"></td>
+              <td><input type="text" value="68%"></td>
+              <td><input type="text" value="1st Div"></td>
+              <td><button type="button" class="btn-del-red" onclick="deleteAcademicRow(this)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+        <button type="button" class="btn-add" onclick="addAcademicRow()">Add Row</button>
+        <button type="button" class="btn-add" onclick="addAcademicColumn()">Add Column</button>
+        <button type="button" class="btn-del-red" onclick="deleteLastAcademicColumn()">Delete Last Column</button>
+      </div>
+    </div>
+
+    <!-- 4b. Academic Details Simple List View -->
+    <div id="academicSimpleContainer" style="display: none; margin-bottom: 20px;">
+      <div class="form-label">Academic Details (Simple Line Format):</div>
+      <div id="simpleAcademicList">
+        <div class="dynamic-row">
+          <input type="text" class="resume-input" value="Secondary (10th) - Passed from WBBSE in 2018 with 78% (1st Div)">
+          <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+        </div>
+        <div class="dynamic-row">
+          <input type="text" class="resume-input" value="Higher Secondary (12th) - Passed from WBCHSE in 2020 with 74% (1st Div)">
+          <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+        </div>
+        <div class="dynamic-row">
+          <input type="text" class="resume-input" value="Graduation (B.A.) - Passed from Kalyani University in 2023 with 68% (1st Div)">
+          <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+        </div>
+      </div>
+      <button type="button" class="btn-add" onclick="addSimpleAcademicRow()">Add More</button>
+    </div>
+
+    <!-- 5. Additional Qualification -->
+    <div class="form-label">Additional Qualification</div>
+    <div id="additionalQualContainer">
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" value="Diploma in Computer Application (DCA) - MS Office, Excel, PowerPoint">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" value="Tally Prime with GST Certification & Internet Applications">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" value="Fast English & Bengali Typing (35+ WPM)">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+    </div>
+    <button type="button" class="btn-add" style="margin-bottom: 20px;" onclick="addAdditionalQual()">Add More</button>
+
+    <!-- 6. Work Experience -->
+    <div class="form-label">Work Experience</div>
+    <div id="workExpContainer">
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" value="1 Year Experience as Computer Operator at Gopinath Enterprise Digital CSC Center">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" value="Hands-on experience in Online Government Form Filing, PAN, Aadhaar, Voter & Documentation">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+    </div>
+    <button type="button" class="btn-add" style="margin-bottom: 20px;" onclick="addWorkExp()">Add More</button>
+
+    <!-- 7. Personal Information -->
+    <div class="form-label">Personal Information</div>
+    <div id="personalInfoContainer">
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Father's Name">
+        <input type="text" class="resume-input" value="Gopinath Mukherjee">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Mother's Name">
+        <input type="text" class="resume-input" value="Sandhya Mukherjee">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Gender">
+        <input type="text" class="resume-input" value="Male">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="DOB">
+        <input type="text" class="resume-input" value="15/08/2000">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Marital Status">
+        <input type="text" class="resume-input" value="Unmarried">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Nationality">
+        <input type="text" class="resume-input" value="Indian">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Languages Known">
+        <input type="text" class="resume-input" value="Bengali, English, Hindi">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+      <div class="dynamic-row">
+        <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" value="Hobbies">
+        <input type="text" class="resume-input" value="Reading Books, Travelling, Technology Research">
+        <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+      </div>
+    </div>
+    <button type="button" class="btn-add" style="margin-bottom: 20px;" onclick="addPersonalInfo()">Add More</button>
+
+    <!-- 8. Photo Upload -->
+    <div class="form-label">Upload Photo:</div>
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+      <input type="file" id="photoFileInput" accept="image/*" style="font-size: 0.88rem;">
+      <button type="button" class="btn-del-red" onclick="removePhoto()">Remove Photo</button>
+    </div>
+
+    <!-- Generate Button -->
+    <button type="button" class="btn-generate-main" onclick="generateResume()">
+      ⚡ Generate Resume
+    </button>
+  </div>
+
+  <!-- Output / Print PDF Preview (Image 2) -->
+  <div id="previewContainer">
+    
+    <!-- Edit & Print PDF Action Bar -->
+    <div class="preview-actions-bar">
+      <button type="button" class="btn-action-edit" onclick="backToEdit()">
+        &lt;&lt;= Edit
+      </button>
+      <button type="button" class="btn-action-print" onclick="printResumePDF()">
+        🖨️ Print PDF
+      </button>
+    </div>
+
+    <!-- The Exact Printable Sheet -->
+    <div class="resume-sheet" id="resumeSheet">
+      
+      <!-- Resume Top Title -->
+      <div class="resume-main-title" id="outDocTitle">RESUME</div>
+
+      <!-- Candidate Contact Header & Optional Photo -->
+      <div class="resume-header-row">
+        <div style="flex: 1;">
+          <div class="resume-candidate-name" id="outName">SANJOY MUKHERJEE</div>
+          <div class="resume-contact-info">
+            <div><strong>Address:</strong> <span id="outAddress">Vill+P.O.- Chaltia, Berhampore, Murshidabad</span></div>
+            <div><strong>Mobile:</strong> <span id="outPhone">+91 9876543210</span></div>
+            <div><strong>Email:</strong> <span id="outEmail">sanjoy.mukherjee@gmail.com</span></div>
+          </div>
+        </div>
+
+        <div class="resume-photo-box" id="outPhotoBox">
+          <img id="outPhotoImg" src="" alt="Candidate Photo">
+        </div>
+      </div>
+
+      <!-- Career Objective -->
+      <div id="secObjective">
+        <div class="resume-section-heading" id="headObjective">Career Objective</div>
+        <p class="resume-content-text" id="outObjective">
+          To working in a professional & challenging environment where I am able to utilize my skill and also provided an opportunity to learn where my qualification and quality will be an asset.
+        </p>
+      </div>
+
+      <!-- Academic Details -->
+      <div id="secAcademic">
+        <div class="resume-section-heading" id="headAcademic">Academic Details</div>
+        <div id="outAcademicArea">
+          <!-- Rendered table or simple format -->
+        </div>
+      </div>
+
+      <!-- Additional Qualification -->
+      <div id="secAdditional">
+        <div class="resume-section-heading" id="headAdditional">Additional Qualification</div>
+        <ul class="resume-bullet-list" id="outAdditionalList"></ul>
+      </div>
+
+      <!-- Work Experience -->
+      <div id="secExperience">
+        <div class="resume-section-heading" id="headExperience">Work Experience</div>
+        <ul class="resume-bullet-list" id="outExperienceList"></ul>
+      </div>
+
+      <!-- Personal Information -->
+      <div id="secPersonal">
+        <div class="resume-section-heading" id="headPersonal">Personal Information</div>
+        <table class="print-personal-table" id="outPersonalTable"></table>
+      </div>
+
+      <!-- Declaration -->
+      <div class="resume-declaration">
+        <div class="resume-section-heading" id="headDeclaration">Declaration</div>
+        <p class="resume-content-text" style="margin-top: 6px;">
+          I hereby declare that all the statements made in this document are true, complete, and correct to the best of my knowledge.
+        </p>
+        
+        <div class="declaration-sign-row">
+          <div>
+            <div>Date: ____________</div>
+            <div style="margin-top: 10px;">Place: ____________</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="margin-bottom: 25px;">( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</div>
+            <div style="font-weight: 700; text-transform: uppercase;" id="outSignName">SANJOY MUKHERJEE</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Secondary Action Bar -->
+    <div class="preview-actions-bar" style="margin-top: 25px;">
+      <button type="button" class="btn-action-edit" onclick="backToEdit()">
+        &lt;&lt;= Edit
+      </button>
+      <button type="button" class="btn-action-print" onclick="printResumePDF()">
+        🖨️ Print PDF
+      </button>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Mega Cyber Cafe Footer (Screenshot Design) -->
+<footer class="site-footer">
+  <div class="footer-mega-container">
+    <div class="footer-mega-grid">
+      
+      <!-- Column 1: Brand Info & Legal Policies -->
+      <div>
+        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
+        
+        <div class="footer-social-row">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0f172a"/></svg>
+          </a>
+        </div>
+
+        <h4 class="footer-col-title" style="margin-top: 24px;">Legal Policies</h4>
+        <ul class="footer-links-list">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: PDF Tools -->
+      <div>
+        <h4 class="footer-col-title">PDF Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+          <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+          <li><a href="pdf-merge.html">Merge PDF</a></li>
+          <li><a href="pdf-compress.html">Compress PDF</a></li>
+          <li><a href="pdf-unlock.html">Unlock PDF</a></li>
+          <li><a href="pdf-lock.html">Lock PDF</a></li>
+          <li><a href="word.html">Word Counter</a></li>
+          <li><a href="case-converter.html">Case Converter</a></li>
+          <li><a href="Professional-HTML-CSS-JS-Minifier.html">video Converter</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Image Tools -->
+      <div>
+        <h4 class="footer-col-title">Image Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="signature-crop.html">Background Remove</a></li>
+          <li><a href="resize.html">Resize Image</a></li>
+          <li><a href="signature-crop.html">Signature Crop</a></li>
+          <li><a href="imageincreaser.html">Image Crop</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
+          <li><a href="combine-photo-signature.html">Restore Image</a></li>
+          <li><a href="png-to-jpg.html">Image Converter</a></li>
+          <li><a href="watermark-image.html">Face Blur</a></li>
+          <li><a href="image-compressor.html">Compress Image</a></li>
+          <li><a href="black-and-white.html">Black And White Image</a></li>
+          <li><a href="watermark-image.html">Watermark</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Typing Tools -->
+      <div>
+        <h4 class="footer-col-title">Typing Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="indic-typing.html#hindi">English To Hindi</a></li>
+          <li><a href="indic-typing.html#asamiya">English To Asamiya</a></li>
+          <li><a href="indic-typing.html#bengali">English To Bengali</a></li>
+          <li><a href="indic-typing.html#gujarati">English To Gujarati</a></li>
+          <li><a href="indic-typing.html#kannada">English To Kannada</a></li>
+          <li><a href="indic-typing.html#malayalam">English To Malayalam</a></li>
+          <li><a href="indic-typing.html#marathi">English To Marathi</a></li>
+          <li><a href="indic-typing.html#oriya">English To Oriya</a></li>
+          <li><a href="indic-typing.html#punjabi">English To Punjabi</a></li>
+          <li><a href="indic-typing.html#sanskrit">English To Sanskrit</a></li>
+          <li><a href="indic-typing.html#sinhala">English To Sinhala</a></li>
+          <li><a href="indic-typing.html#tamil">English To Tamil</a></li>
+          <li><a href="indic-typing.html#telugu">English To Telugu</a></li>
+          <li><a href="indic-typing.html#urdu">English To Urdu</a></li>
+          <li><a href="indic-typing.html">English To All Language</a></li>
+          <li><a href="typing-test.html">Typing Test</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Converter Tool -->
+      <div>
+        <h4 class="footer-col-title">Converter Tool</h4>
+        <ul class="footer-links-list">
+          <li><a href="font-converter.html#k2u">Krutidev To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Krutidev</a></li>
+          <li><a href="font-converter.html#k2u">Krutidev To Mangal</a></li>
+          <li><a href="font-converter.html#u2k">Mangal To Krutidev</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Devlys</a></li>
+          <li><a href="font-converter.html#k2u">DevLys To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Preeti</a></li>
+          <li><a href="font-converter.html#k2u">Preeti To Unicode</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 6: Card (Official Indian Portals) -->
+      <div>
+        <h4 class="footer-col-title">Card</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank" rel="noopener">Adhar Card</a></li>
+          <li><a href="https://food.wb.gov.in/" target="_blank" rel="noopener">Ration Card (WB)</a></li>
+          <li><a href="https://onlineservices.proteantech.in/paam/endUserRegisterContact.html" target="_blank" rel="noopener">Pan Card</a></li>
+          <li><a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">Voter Id</a></li>
+          <li><a href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener">PMJAY Swasthya Bima</a></li>
+          <li><a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/" target="_blank" rel="noopener">AgriStack Farmer ID</a></li>
+          <li><a href="https://nrega.nic.in/" target="_blank" rel="noopener">Job Card</a></li>
+          <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
+          <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
+          <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
+          <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom-bar">
+      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+    </div>
+  </div>
+</footer>
+
+<script>
+let currentAcademicFormat = 'table';
+let candidatePhotoBase64 = null;
+
+// Format Selector (Table Formate, Simpal Formate, Both Formate)
+function setAcademicFormat(fmt) {
+  currentAcademicFormat = fmt;
+  
+  const btnTable = document.getElementById('btnFmtTable');
+  const btnSimple = document.getElementById('btnFmtSimple');
+  const btnBoth = document.getElementById('btnFmtBoth');
+
+  if (btnTable) btnTable.classList.toggle('active', fmt === 'table');
+  if (btnSimple) btnSimple.classList.toggle('active', fmt === 'simple');
+  if (btnBoth) btnBoth.classList.toggle('active', fmt === 'both');
+
+  const tableContainer = document.getElementById('academicTableContainer');
+  const simpleContainer = document.getElementById('academicSimpleContainer');
+
+  if (fmt === 'table') {
+    if (tableContainer) tableContainer.style.display = 'block';
+    if (simpleContainer) simpleContainer.style.display = 'none';
+  } else if (fmt === 'simple') {
+    if (tableContainer) tableContainer.style.display = 'none';
+    if (simpleContainer) simpleContainer.style.display = 'block';
+  } else if (fmt === 'both') {
+    if (tableContainer) tableContainer.style.display = 'block';
+    if (simpleContainer) simpleContainer.style.display = 'block';
+  }
+}
+
+// Add Academic Row
+function addAcademicRow() {
+  const tbody = document.getElementById('academicBody');
+  const tr = document.createElement('tr');
+  const headCols = document.querySelectorAll('#academicHeadRow th').length;
+  
+  let html = '';
+  for (let i = 0; i < headCols - 1; i++) {
+    html += '<td><input type="text" placeholder="..."></td>';
+  }
+  html += '<td><button type="button" class="btn-del-red" onclick="deleteAcademicRow(this)">Delete</button></td>';
+  tr.innerHTML = html;
+  tbody.appendChild(tr);
+}
+
+function deleteAcademicRow(btn) {
+  const row = btn.closest('tr');
+  const tbody = document.getElementById('academicBody');
+  if (tbody.querySelectorAll('tr').length > 1) {
+    row.remove();
+  }
+}
+
+// Add Academic Column (NO PROMPT! Directly adds editable header and cells)
+function addAcademicColumn() {
+  const headRow = document.getElementById('academicHeadRow');
+  const actionTh = headRow.lastElementChild;
+  const customThCount = headRow.querySelectorAll('.custom-th').length;
+  
+  const sampleHeaders = ['Stream', 'School / College', 'Grade', 'Max Marks', 'Percentage', 'Remarks'];
+  const colName = sampleHeaders[customThCount % sampleHeaders.length] || `Field ${customThCount + 1}`;
+
+  const th = document.createElement('th');
+  th.className = 'custom-th';
+  th.style.padding = '4px 6px';
+  th.innerHTML = `<input type="text" value="${colName}" style="font-weight:700; text-align:center; background:transparent; border:1px dashed #2563eb; color:inherit; padding:3px 4px; width:95px; font-size:0.82rem;" title="Click to edit column title">`;
+  headRow.insertBefore(th, actionTh);
+
+  const rows = document.querySelectorAll('#academicBody tr');
+  rows.forEach(r => {
+    const td = document.createElement('td');
+    td.innerHTML = '<input type="text" placeholder="...">';
+    r.insertBefore(td, r.lastElementChild);
+  });
+}
+
+// Delete Last Academic Column
+function deleteLastAcademicColumn() {
+  const headRow = document.getElementById('academicHeadRow');
+  const customThs = headRow.querySelectorAll('.custom-th');
+  if (customThs.length === 0) {
+    return;
+  }
+  const lastTh = customThs[customThs.length - 1];
+  const targetIndex = Array.from(headRow.children).indexOf(lastTh);
+  lastTh.remove();
+
+  const rows = document.querySelectorAll('#academicBody tr');
+  rows.forEach(r => {
+    if (r.children.length > targetIndex) {
+      r.children[targetIndex].remove();
+    }
+  });
+}
+
+// Simple Format Dynamic Row
+function addSimpleAcademicRow() {
+  const list = document.getElementById('simpleAcademicList');
+  const div = document.createElement('div');
+  div.className = 'dynamic-row';
+  div.innerHTML = `
+    <input type="text" class="resume-input" placeholder="e.g. Diploma in IT - State Board (2021) - 75%">
+    <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+  `;
+  list.appendChild(div);
+}
+
+// Additional Qualification Dynamic Rows
+function addAdditionalQual() {
+  const container = document.getElementById('additionalQualContainer');
+  const div = document.createElement('div');
+  div.className = 'dynamic-row';
+  div.innerHTML = `
+    <input type="text" class="resume-input" placeholder="Enter Additional Qualification">
+    <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+  `;
+  container.appendChild(div);
+}
+
+// Work Experience Dynamic Rows
+function addWorkExp() {
+  const container = document.getElementById('workExpContainer');
+  const div = document.createElement('div');
+  div.className = 'dynamic-row';
+  div.innerHTML = `
+    <input type="text" class="resume-input" placeholder="Enter Work Experience">
+    <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+  `;
+  container.appendChild(div);
+}
+
+// Personal Info Dynamic Rows
+function addPersonalInfo() {
+  const container = document.getElementById('personalInfoContainer');
+  const div = document.createElement('div');
+  div.className = 'dynamic-row';
+  div.innerHTML = `
+    <input type="text" class="resume-input" style="width: 35%; flex-shrink: 0;" placeholder="Field Name (e.g. Religion)">
+    <input type="text" class="resume-input" placeholder="Field Value">
+    <button type="button" class="btn-del-x" onclick="this.parentElement.remove()">X</button>
+  `;
+  container.appendChild(div);
+}
+
+// Photo Upload Handler
+document.getElementById('photoFileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    candidatePhotoBase64 = evt.target.result;
+    document.getElementById('outPhotoImg').src = candidatePhotoBase64;
+    document.getElementById('outPhotoBox').style.display = 'flex';
+  };
+  reader.readAsDataURL(file);
+});
+
+function removePhoto() {
+  candidatePhotoBase64 = null;
+  document.getElementById('photoFileInput').value = '';
+  document.getElementById('outPhotoImg').src = '';
+  document.getElementById('outPhotoBox').style.display = 'none';
+}
+
+// Generate Resume Engine
+function generateResume() {
+  // 1. Doc Type
+  const docTypeRadio = document.querySelector('input[name="docType"]:checked');
+  const docType = docTypeRadio ? docTypeRadio.value : 'RESUME';
+  const outDocTitle = document.getElementById('outDocTitle');
+  outDocTitle.innerText = docType;
+
+  // Selected Theme Color
+  const themeColor = document.getElementById('resumeThemeColor').value || '#1e3a8a';
+  outDocTitle.style.color = themeColor;
+  outDocTitle.style.borderColor = themeColor;
+
+  // Heading Background & Colorful Style
+  const isHeadingBg = document.getElementById('headingBgCheck').checked;
+  const headings = document.querySelectorAll('.resume-section-heading');
+  headings.forEach(h => {
+    if (isHeadingBg) {
+      h.classList.add('has-bg');
+      h.style.background = themeColor;
+      h.style.color = '#ffffff';
+      h.style.borderBottom = 'none';
+    } else {
+      h.classList.remove('has-bg');
+      h.style.background = 'transparent';
+      h.style.color = themeColor;
+      h.style.borderBottom = `2px solid ${themeColor}`;
+    }
+  });
+
+  // 2. Personal Contact
+  const name = document.getElementById('candName').value.trim() || 'CANDIDATE NAME';
+  document.getElementById('outName').innerText = name;
+  document.getElementById('outSignName').innerText = name;
+  document.getElementById('outAddress').innerText = document.getElementById('candAddress').value.trim() || '';
+  document.getElementById('outPhone').innerText = document.getElementById('candPhone').value.trim() || '';
+  document.getElementById('outEmail').innerText = document.getElementById('candEmail').value.trim() || '';
+
+  // Photo
+  if (candidatePhotoBase64) {
+    document.getElementById('outPhotoBox').style.display = 'flex';
+  } else {
+    document.getElementById('outPhotoBox').style.display = 'none';
+  }
+
+  // 3. Career Objective
+  const objText = document.getElementById('careerObj').value.trim();
+  const secObj = document.getElementById('secObjective');
+  if (objText) {
+    secObj.style.display = 'block';
+    document.getElementById('outObjective').innerText = objText;
+  } else {
+    secObj.style.display = 'none';
+  }
+
+  // 4. Academic Details Rendering
+  const academicArea = document.getElementById('outAcademicArea');
+  academicArea.innerHTML = '';
+
+  // Read Table Data
+  const headers = [];
+  document.querySelectorAll('#academicHeadRow th').forEach((th, idx, all) => {
+    if (idx < all.length - 1) { // Skip Action
+      const inp = th.querySelector('input');
+      headers.push(inp ? inp.value.trim() : th.textContent.trim());
+    }
+  });
+
+  const rowData = [];
+  document.querySelectorAll('#academicBody tr').forEach(tr => {
+    const cells = [];
+    const inputs = tr.querySelectorAll('input');
+    let hasValue = false;
+    inputs.forEach(inp => {
+      const v = inp.value.trim();
+      if (v) hasValue = true;
+      cells.push(v);
+    });
+    if (hasValue) rowData.push(cells);
+  });
+
+  // Read Simple Format Data
+  const simpleRows = [];
+  document.querySelectorAll('#simpleAcademicList .dynamic-row input').forEach(inp => {
+    const val = inp.value.trim();
+    if (val) simpleRows.push(val);
+  });
+
+  if (currentAcademicFormat === 'table') {
+    if (rowData.length > 0) {
+      let tblHtml = '<table class="print-academic-table"><thead><tr>';
+      headers.forEach(h => {
+        tblHtml += `<th style="background: rgba(30,58,138,0.06); border-color: ${themeColor};">${h}</th>`;
+      });
+      tblHtml += '</tr></thead><tbody>';
+
+      rowData.forEach(r => {
+        tblHtml += '<tr>';
+        r.forEach(val => {
+          tblHtml += `<td style="border-color: #cbd5e1;">${val || '-'}</td>`;
+        });
+        tblHtml += '</tr>';
+      });
+      tblHtml += '</tbody></table>';
+      academicArea.innerHTML = tblHtml;
+      document.getElementById('secAcademic').style.display = 'block';
+    } else {
+      document.getElementById('secAcademic').style.display = 'none';
+    }
+  } else if (currentAcademicFormat === 'simple') {
+    if (simpleRows.length > 0) {
+      let simpleHtml = '<ul class="resume-bullet-list" style="margin-top:6px;">';
+      simpleRows.forEach(line => {
+        simpleHtml += `<li>${line}</li>`;
+      });
+      simpleHtml += '</ul>';
+      academicArea.innerHTML = simpleHtml;
+      document.getElementById('secAcademic').style.display = 'block';
+    } else {
+      document.getElementById('secAcademic').style.display = 'none';
+    }
+  } else if (currentAcademicFormat === 'both') {
+    let combinedHtml = '';
+    if (rowData.length > 0) {
+      combinedHtml += '<table class="print-academic-table"><thead><tr>';
+      headers.forEach(h => {
+        combinedHtml += `<th style="background: rgba(30,58,138,0.06); border-color: ${themeColor};">${h}</th>`;
+      });
+      combinedHtml += '</tr></thead><tbody>';
+      rowData.forEach(r => {
+        combinedHtml += '<tr>';
+        r.forEach(val => {
+          combinedHtml += `<td style="border-color: #cbd5e1;">${val || '-'}</td>`;
+        });
+        combinedHtml += '</tr>';
+      });
+      combinedHtml += '</tbody></table>';
+    }
+    if (simpleRows.length > 0) {
+      combinedHtml += '<ul class="resume-bullet-list" style="margin-top:8px;">';
+      simpleRows.forEach(line => {
+        combinedHtml += `<li>${line}</li>`;
+      });
+      combinedHtml += '</ul>';
+    }
+    academicArea.innerHTML = combinedHtml;
+    document.getElementById('secAcademic').style.display = (rowData.length > 0 || simpleRows.length > 0) ? 'block' : 'none';
+  }
+
+  // 5. Additional Qualification
+  const addlList = document.getElementById('outAdditionalList');
+  addlList.innerHTML = '';
+  let addlCount = 0;
+  document.querySelectorAll('#additionalQualContainer .dynamic-row input').forEach(inp => {
+    const val = inp.value.trim();
+    if (val) {
+      const li = document.createElement('li');
+      li.textContent = val;
+      addlList.appendChild(li);
+      addlCount++;
+    }
+  });
+  document.getElementById('secAdditional').style.display = addlCount > 0 ? 'block' : 'none';
+
+  // 6. Work Experience
+  const expList = document.getElementById('outExperienceList');
+  expList.innerHTML = '';
+  let expCount = 0;
+  document.querySelectorAll('#workExpContainer .dynamic-row input').forEach(inp => {
+    const val = inp.value.trim();
+    if (val) {
+      const li = document.createElement('li');
+      li.textContent = val;
+      expList.appendChild(li);
+      expCount++;
+    }
+  });
+  document.getElementById('secExperience').style.display = expCount > 0 ? 'block' : 'none';
+
+  // 7. Personal Information
+  const pTable = document.getElementById('outPersonalTable');
+  pTable.innerHTML = '';
+  let pCount = 0;
+  document.querySelectorAll('#personalInfoContainer .dynamic-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const label = inputs[0] ? inputs[0].value.trim() : '';
+    const val = inputs[1] ? inputs[1].value.trim() : '';
+    if (label && val) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="col-label">${label}</td>
+        <td class="col-colon">:</td>
+        <td>${val}</td>
+      `;
+      pTable.appendChild(tr);
+      pCount++;
+    }
+  });
+  document.getElementById('secPersonal').style.display = pCount > 0 ? 'block' : 'none';
+
+  // Switch Views
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('previewContainer').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Return to edit
+function backToEdit() {
+  document.getElementById('previewContainer').style.display = 'none';
+  document.getElementById('formCard').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Trigger Print / Save as PDF
+function printResumePDF() {
+  window.print();
+}
+</script>
+
+<script src="js/ad-manager.js"></script>
+<script src="js/related-tools.js"></script>
+</body>
+</html>

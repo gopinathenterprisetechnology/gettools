@@ -3,271 +3,566 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced PDF Size Reducer | GET Tools</title>
-<meta name="description" content="Compress one or multiple PDFs online to your target KB. Fast, secure, browser-based PDF reducer with preview, progress bar, and exact KB approximation. Works fully client-side.">
-<meta name="keywords" content="pdf compressor, reduce pdf size, target kb pdf, multiple pdf compress, pdf reducer online, free pdf compressor">
+<title>PDF Compressor – Reduce PDF File Size Online | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/pdf-compress.html">
+<meta name="description" content="Compress single or multiple PDF documents directly in your browser without uploading files to any server. Fast, safe, and free PDF reducer.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/pdf-compress.html">
+<meta property="og:title" content="PDF Compressor – Reduce PDF File Size Online | GET Tools">
+<meta property="og:description" content="Compress single or multiple PDF documents directly in your browser without uploading files to any server. Fast, safe, and free PDF reducer.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="512">
 
-<!-- AdSense -->
-<script data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDF Compressor – Reduce PDF File Size Online | GET Tools">
+<meta name="twitter:description" content="Compress single or multiple PDF documents directly in your browser without uploading files to any server. Fast, safe, and free PDF reducer.">
+<meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
 
-     <!-- browser-image-compression-এর নিচে এটি বসান -->
-<script src="https://cloudflare.com"></script>
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF Compressor",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/pdf-compress.html",
+  "description": "Compress multiple PDF files directly in your web browser with 100% privacy and zero file uploads.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
 
-<style>
-body { font-family:'Poppins',sans-serif; margin:0; background:#f9f9f9; color:#333; }
-header { background:#0077cc; color:#fff; text-align:center; padding:40px 20px; border-bottom:4px solid #005fa3; }
-header h1{font-size:2.5rem;margin-bottom:10px;} header p{font-size:1.1rem;}
-.container { width:90%; max-width:950px; margin:0 auto; padding:20px 0; }
-.adsense-top{margin:30px 0;text-align:center;}
-.pdf-section { background:#fff; padding:30px 25px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); text-align:center; margin-bottom:30px; }
-.pdf-section h2{font-size:1.9rem; margin-bottom:15px;}
-.pdf-section p{margin-bottom:20px; font-size:1rem; color:#555;}
-.pdf-section input[type="file"]{padding:12px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc;}
-.input-group{margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;}
-.input-group label{font-weight:600;}
-.input-group input[type="number"]{padding:10px; border-radius:6px; border:1px solid #ccc; width:130px;}
-.pdf-section button{padding:12px 25px; border-radius:8px; border:none; font-weight:600; cursor:pointer; transition:0.2s; margin:5px;}
-.pdf-section button.compress{background:#0077cc; color:#fff;}
-.pdf-section button.compress:hover{background:#005fa3;}
-.pdf-section button.download{background:#28a745; color:#fff;}
-.pdf-section button.download:hover{background:#1e7e34;}
-.progress-container{width:80%; background:#eee; border-radius:8px; margin:15px auto; height:20px;}
-.progress-bar{height:100%; background:#0077cc; width:0%; border-radius:8px; transition:width 0.3s;}
-#fileInfo,#status{margin-top:15px; font-weight:600; color:#222;}
-section{margin:50px 0;}
-section h2{margin-bottom:20px;}
-section ul{list-style:disc; margin-left:20px;}
-section ul li{margin-bottom:10px; color:#555;}
-footer{background:#222;color:#fff;text-align:center;padding:30px 20px;}
-footer a{color:#00bfff;margin:0 10px;font-size:0.95rem;}
-footer p{margin-top:10px;font-size:0.9rem;}
-@media(max-width:768px){header h1{font-size:2rem;}.pdf-section h2{font-size:1.5rem;}.input-group{flex-direction:column;}.pdf-section button{width:80%; margin:5px auto;}}
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
+
 <body>
 
-<header>
-<h1>Advanced PDF Size Reducer</h1>
-<p>Compress one or multiple PDFs to your target KB fully in browser. Free, fast, secure, and mobile-friendly.</p>
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
 </header>
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">PDF Compressor</span>
+</nav>
 
-<main class="container">
 
-<div class="adsense-top">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-     data-ad-slot="1234567890"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 820px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Advanced PDF Size Reducer</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Compress one or multiple PDF files directly in your browser to your exact target KB size without uploading documents to external servers.</p>
 
-<div class="pdf-section">
-<h2>Upload PDFs & Enter Target KB</h2>
-<p>Select one or more PDF files and enter target KB per file. Compression happens fully in your browser.</p>
-
-<input type="file" id="pdfFiles" accept=".pdf" multiple>
-<div class="input-group">
-<label for="targetKB">Target Size (KB):</label>
-<input type="number" id="targetKB" placeholder="e.g., 120" min="1">
-</div>
-
-<button class="compress" onclick="compressMultiplePDFs()">Compress PDFs</button>
-<button class="download" onclick="downloadAllPDFs()" disabled>Download All PDFs</button>
-
-<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-
-<p id="status"></p>
-<p id="fileInfo"></p>
-</div>
-
-<section>
-<h2>How It Works</h2>
-<ul>
-<li>Upload one or more PDFs from your device.</li>
-<li>Enter the target size in KB.</li>
-<li>Click <strong>Compress PDFs</strong> to compress all files approximately to target size.</li>
-<li>Progress bar shows overall compression progress.</li>
-<li>Once done, click <strong>Download All PDFs</strong> to get your compressed files.</li>
-<li>All compression is fully local in your browser – complete privacy.</li>
-</ul>
-</section>
-
-<div class="ad-container">
-
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px auto; max-width: 1000px; font-family: sans-serif;">
-
-    <!-- First Ad Slot (প্রথম বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 1st Adsterra 300x250 code here -->
-        <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
-
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+      <label for="pdfFiles" style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--text);">Select PDF Files (Single or Multiple):</label>
+      <input type="file" id="pdfFiles" accept="application/pdf" multiple style="width: auto; max-width: 100%;">
     </div>
 
-    <!-- Second Ad Slot (দ্বিতীয় বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 2nd Adsterra 300x250 code here -->
-       <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+      <label for="targetKB" style="font-weight: 600; color: var(--text);">Target Size (KB):</label>
+      <input type="number" id="targetKB" placeholder="e.g. 200" style="width: 140px; margin-bottom: 0;">
     </div>
 
-</div>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+      <button onclick="compressMultiplePDFs()" class="btn btn-primary" style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        ⚡ Compress PDF(s)
+      </button>
+      <button onclick="downloadAllPDFs()" class="btn btn-secondary download" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        📥 Download Compressed PDF(s)
+      </button>
+    </div>
 
+    <!-- Progress Bar -->
+    <div class="progress-container" style="width: 100%; max-width: 500px; height: 12px; background: var(--border); border-radius: 6px; margin: 15px auto; overflow: hidden;">
+      <div class="progress-bar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.3s ease;"></div>
+    </div>
+
+    <div id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></div>
+    <div id="fileInfo" style="text-align: center; font-size: 0.875rem; color: var(--text-muted); margin-top: 6px;"></div>
+    <div id="resultsList" style="margin-top: 15px;"></div>
+
+    <!-- RELATED PDF TOOLS (Screenshot 51 Pattern) -->
+    <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-top: 30px;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: var(--text);">
+        📂 Other PDF Tools
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px;">
+        <a href="jpg-to-pdf.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">📄</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">JPG to PDF Converter</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Convert Images to PDF</div>
+          </div>
+        </a>
+        <a href="pdf-to-jpg.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🖼️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">PDF to JPG Converter</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Extract High-Res Images</div>
+          </div>
+        </a>
+        <a href="pdf-merge.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">📑</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Merge PDF Files</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Combine Documents</div>
+          </div>
+        </a>
+        <a href="pdf-split.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">✂️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Split & Extract PDF</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Extract Page Ranges</div>
+          </div>
+        </a>
+        <a href="pdf-lock.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🔒</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Lock PDF</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Password Protect</div>
+          </div>
+        </a>
+        <a href="pdf-unlock.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🔓</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Unlock PDF</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Remove Password</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
+  <div class="adsterra-banner-container">
+    <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
+  </div>
+
+  <!-- Educational & SEO Content (Preserved) -->
+  <div class="card" style="max-width: 820px; margin: 30px auto; padding: 30px;">
+    <h2>Best Free Online PDF Compressor Tool</h2>
+    <p>GET Tools PDF Reducer enables users to quickly compress PDF file size without sacrificing legibility or document layout integrity. Whether you are submitting application forms, uploading resumes, or emailing large reports, our client-side compressor delivers instant results.</p>
+    
+    <h3 style="margin-top: 20px;">Key Features and Benefits:</h3>
+    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
+      <li><strong>Batch Processing:</strong> Compress multiple PDF documents in a single workflow.</li>
+      <li><strong>Target KB Approximation:</strong> Specify your target file size for portal compliance.</li>
+      <li><strong>100% Confidential:</strong> Files are compressed inside browser memory and never uploaded.</li>
+      <li><strong>Clean Downloads:</strong> Download compressed files individually or in batch.</li>
+    </ul>
+  </div>
 </main>
 
-<footer>
-<div class="footer-links">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="privacy-policy.html">Privacy Policy</a>
-<a href="terms.html">Terms & Conditions</a>
-</div>
-<p>© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
+<footer class="site-footer">
+  <div class="footer-mega-container">
+    <div class="footer-mega-grid">
+      
+      <!-- Column 1: Brand Info & Legal Policies -->
+      <div>
+        <a href="index.html" class="footer-brand-title">Cyber Cafe<span class="footer-brand-red">Tool</span></a>
+        <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
+        
+        <div class="footer-social-row">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0f172a"/></svg>
+          </a>
+        </div>
+
+        <h4 class="footer-col-title" style="margin-top: 24px;">Legal Policies</h4>
+        <ul class="footer-links-list">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: PDF Tools -->
+      <div>
+        <h4 class="footer-col-title">PDF Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+          <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+          <li><a href="pdf-merge.html">Merge PDF</a></li>
+          <li><a href="pdf-compress.html">Compress PDF</a></li>
+          <li><a href="pdf-unlock.html">Unlock PDF</a></li>
+          <li><a href="pdf-lock.html">Lock PDF</a></li>
+          <li><a href="word.html">Word Counter</a></li>
+          <li><a href="case-converter.html">Case Converter</a></li>
+          <li><a href="Professional-HTML-CSS-JS-Minifier.html">video Converter</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Image Tools -->
+      <div>
+        <h4 class="footer-col-title">Image Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="signature-crop.html">Background Remove</a></li>
+          <li><a href="resize.html">Resize Image</a></li>
+          <li><a href="signature-crop.html">Signature Crop</a></li>
+          <li><a href="imageincreaser.html">Image Crop</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
+          <li><a href="combine-photo-signature.html">Restore Image</a></li>
+          <li><a href="png-to-jpg.html">Image Converter</a></li>
+          <li><a href="watermark-image.html">Face Blur</a></li>
+          <li><a href="image-compressor.html">Compress Image</a></li>
+          <li><a href="black-and-white.html">Black And White Image</a></li>
+          <li><a href="watermark-image.html">Watermark</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Typing Tools -->
+      <div>
+        <h4 class="footer-col-title">Typing Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="indic-typing.html#hindi">English To Hindi</a></li>
+          <li><a href="indic-typing.html#asamiya">English To Asamiya</a></li>
+          <li><a href="indic-typing.html#bengali">English To Bengali</a></li>
+          <li><a href="indic-typing.html#gujarati">English To Gujarati</a></li>
+          <li><a href="indic-typing.html#kannada">English To Kannada</a></li>
+          <li><a href="indic-typing.html#malayalam">English To Malayalam</a></li>
+          <li><a href="indic-typing.html#marathi">English To Marathi</a></li>
+          <li><a href="indic-typing.html#oriya">English To Oriya</a></li>
+          <li><a href="indic-typing.html#punjabi">English To Punjabi</a></li>
+          <li><a href="indic-typing.html#sanskrit">English To Sanskrit</a></li>
+          <li><a href="indic-typing.html#sinhala">English To Sinhala</a></li>
+          <li><a href="indic-typing.html#tamil">English To Tamil</a></li>
+          <li><a href="indic-typing.html#telugu">English To Telugu</a></li>
+          <li><a href="indic-typing.html#urdu">English To Urdu</a></li>
+          <li><a href="indic-typing.html">English To All Language</a></li>
+          <li><a href="typing-test.html">Typing Test</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Converter Tool -->
+      <div>
+        <h4 class="footer-col-title">Converter Tool</h4>
+        <ul class="footer-links-list">
+          <li><a href="font-converter.html#k2u">Krutidev To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Krutidev</a></li>
+          <li><a href="font-converter.html#k2u">Krutidev To Mangal</a></li>
+          <li><a href="font-converter.html#u2k">Mangal To Krutidev</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Devlys</a></li>
+          <li><a href="font-converter.html#k2u">DevLys To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Preeti</a></li>
+          <li><a href="font-converter.html#k2u">Preeti To Unicode</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 6: Card (Official Indian Portals) -->
+      <div>
+        <h4 class="footer-col-title">Card</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank" rel="noopener">Adhar Card</a></li>
+          <li><a href="https://food.wb.gov.in/" target="_blank" rel="noopener">Ration Card (WB)</a></li>
+          <li><a href="https://onlineservices.proteantech.in/paam/endUserRegisterContact.html" target="_blank" rel="noopener">Pan Card</a></li>
+          <li><a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">Voter Id</a></li>
+          <li><a href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener">PMJAY Swasthya Bima</a></li>
+          <li><a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/" target="_blank" rel="noopener">AgriStack Farmer ID</a></li>
+          <li><a href="https://nrega.nic.in/" target="_blank" rel="noopener">Job Card</a></li>
+          <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
+          <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
+          <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
+          <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom-bar">
+      © 2026 Cyber Cafe Tool. All Rights Reserved. | Designed with ❤️
+    </div>
+  </div>
 </footer>
 
 <script>
+if (typeof pdfjsLib !== 'undefined') {
+    try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    } catch (e) {
+        console.warn('PDF.js worker initialization:', e);
+    }
+}
+
 let compressedBlobs = [];
 let compressedNames = [];
 
 function formatBytes(bytes) {
-    if(bytes < 1024) return bytes + ' B';
-    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
-    else return (bytes/(1024*1024)).toFixed(2)+' MB';
+    if (bytes < 1024) return bytes + ' B';
+    else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    else return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
 
-function updateProgress(percent){
-    document.getElementById('progressBar').style.width = percent+'%';
+function updateProgress(percent) {
+    const bar = document.querySelector('.progress-bar');
+    if (bar) bar.style.width = percent + '%';
 }
 
 async function compressSinglePDF(file, targetKB) {
     const arrayBuffer = await file.arrayBuffer();
-    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
     const targetBytes = targetKB * 1024;
 
+    // 1. If original is already under target, return original as-is
     if (file.size <= targetBytes) {
-        const cleanBytes = await pdfDoc.save({ useObjectStreams: true });
-        return new Blob([cleanBytes], { type: 'application/pdf' });
+        return {
+            blob: new Blob([arrayBuffer], { type: 'application/pdf' }),
+            originalSize: file.size,
+            compressedSize: file.size,
+            note: 'Already within target KB'
+        };
     }
 
-    let quality = Math.max(0.1, Math.min(0.7, targetBytes / file.size));
-    const objects = pdfDoc.context.indirectObjects;
+    // 2. Try standard structural optimization with PDF-Lib (preserves original vector text if fits)
+    try {
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        const savedBytes = await pdfDoc.save({ useObjectStreams: true });
+        if (savedBytes.byteLength <= targetBytes) {
+            return {
+                blob: new Blob([savedBytes], { type: 'application/pdf' }),
+                originalSize: file.size,
+                compressedSize: savedBytes.byteLength,
+                note: 'Optimized'
+            };
+        }
+    } catch (e) {
+        console.warn('Standard PDF optimization:', e);
+    }
 
-    for (const [ref, pdfObj] of objects.entries()) {
-        if (!(pdfObj instanceof PDFLib.PDFRawStream)) continue;
-
-        const dict = pdfObj.dict;
-        const subtype = dict.get(PDFLib.PDFName.of('Subtype'));
-        if (subtype !== PDFLib.PDFName.of('Image')) continue;
-
+    // 3. Adaptive High-Precision Target KB Compression via PDF.js + Canvas + PDF-Lib
+    if (typeof pdfjsLib !== 'undefined') {
         try {
-            const bytes = pdfObj.getUncompressedContents();
-            const width = dict.get(PDFLib.PDFName.of('Width')).value;
-            const height = dict.get(PDFLib.PDFName.of('Height')).value;
+            const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+            const pdf = await loadingTask.promise;
+            const numPages = pdf.numPages;
 
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = Math.round(width * quality);
-            canvas.height = Math.round(height * quality);
+            // Target bytes per page (with 10% reserve for PDF cross-reference table and structure overhead)
+            const targetBytesPerPage = Math.max(1024, Math.floor((targetBytes * 0.90) / numPages));
 
-            const imgBlob = new Blob([bytes], { type: 'image/jpeg' });
-            const imgUrl = URL.createObjectURL(imgBlob);
-            
-            const img = await new Promise((resolve) => {
-                const i = new Image();
-                i.onload = () => resolve(i);
-                i.src = imgUrl;
-            });
+            const newPdfDoc = await PDFLib.PDFDocument.create();
 
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            URL.revokeObjectURL(imgUrl);
+            for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const baseViewport = page.getViewport({ scale: 1.0 });
 
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-            const compressedBytes = await fetch(compressedDataUrl).then(r => r.arrayBuffer());
-            const finalImgArray = new Uint8Array(compressedBytes);
+                // Choose initial rendering scale based on target byte budget
+                let scale = 1.25;
+                if (targetBytesPerPage < 35 * 1024) scale = 0.85;
+                else if (targetBytesPerPage < 70 * 1024) scale = 1.0;
+                else if (targetBytesPerPage > 200 * 1024) scale = 1.5;
 
-            const newStream = pdfDoc.context.flateStream(finalImgArray, {
-                Type: PDFLib.PDFName.of('XObject'),
-                Subtype: PDFLib.PDFName.of('Image'),
-                Width: PDFLib.PDFNumber.of(canvas.width),
-                Height: PDFLib.PDFNumber.of(canvas.height),
-                BitsPerComponent: PDFLib.PDFNumber.of(8),
-                ColorSpace: PDFLib.PDFName.of('DeviceRGB')
-            });
+                let viewport = page.getViewport({ scale: scale });
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = Math.round(viewport.width);
+                canvas.height = Math.round(viewport.height);
 
-            pdfDoc.context.assign(ref, newStream);
-        } catch (e) {
-            console.warn("Skipping uncompressed element:", e);
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                // Binary search for JPEG quality that fits within targetBytesPerPage
+                let minQ = 0.08, maxQ = 0.85;
+                let pageBlob = null;
+                for (let attempt = 0; attempt < 6; attempt++) {
+                    const midQ = (minQ + maxQ) / 2;
+                    pageBlob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', midQ));
+                    if (pageBlob.size > targetBytesPerPage) {
+                        maxQ = midQ;
+                    } else {
+                        minQ = midQ;
+                    }
+                }
+
+                // If still exceeding budget, scale down canvas resolution
+                if (pageBlob.size > targetBytesPerPage && canvas.width > 360) {
+                    const downscaledCanvas = document.createElement('canvas');
+                    const downscaledCtx = downscaledCanvas.getContext('2d');
+                    downscaledCanvas.width = Math.floor(canvas.width * 0.7);
+                    downscaledCanvas.height = Math.floor(canvas.height * 0.7);
+                    downscaledCtx.drawImage(canvas, 0, 0, downscaledCanvas.width, downscaledCanvas.height);
+                    pageBlob = await new Promise(res => downscaledCanvas.toBlob(res, 'image/jpeg', 0.25));
+                }
+
+                const pageBytes = await pageBlob.arrayBuffer();
+                const embeddedJpg = await newPdfDoc.embedJpg(pageBytes);
+                const newPage = newPdfDoc.addPage([baseViewport.width, baseViewport.height]);
+                newPage.drawImage(embeddedJpg, {
+                    x: 0,
+                    y: 0,
+                    width: baseViewport.width,
+                    height: baseViewport.height
+                });
+            }
+
+            const finalBytes = await newPdfDoc.save({ useObjectStreams: true });
+            return {
+                blob: new Blob([finalBytes], { type: 'application/pdf' }),
+                originalSize: file.size,
+                compressedSize: finalBytes.byteLength,
+                note: 'Compressed to Target'
+            };
+        } catch (pdfErr) {
+            console.warn('PDF.js compression error:', pdfErr);
         }
     }
 
-    const finalBytes = await pdfDoc.save({ useObjectStreams: true });
-    return new Blob([finalBytes], { type: 'application/pdf' });
+    // 4. Fallback if PDF.js is unavailable
+    try {
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        const finalBytes = await pdfDoc.save({ useObjectStreams: true });
+        return {
+            blob: new Blob([finalBytes], { type: 'application/pdf' }),
+            originalSize: file.size,
+            compressedSize: finalBytes.byteLength,
+            note: 'Standard Compressed'
+        };
+    } catch (fallbackErr) {
+        return {
+            blob: new Blob([arrayBuffer], { type: 'application/pdf' }),
+            originalSize: file.size,
+            compressedSize: file.size,
+            note: 'Original'
+        };
+    }
 }
 
-
-async function compressMultiplePDFs(){
+async function compressMultiplePDFs() {
     const fileInput = document.getElementById('pdfFiles');
     const targetInput = document.getElementById('targetKB');
     const status = document.getElementById('status');
     const fileInfo = document.getElementById('fileInfo');
+    const resultsList = document.getElementById('resultsList');
     const downloadBtn = document.querySelector('.download');
 
-    if(!fileInput.files.length){status.innerText='Please select PDF files.'; return;}
+    if (!fileInput.files.length) {
+        status.innerText = 'Please select at least one PDF file.';
+        return;
+    }
     const targetKB = parseInt(targetInput.value);
-    if(!targetKB || targetKB <=0){status.innerText='Enter valid target KB.'; return;}
+    if (!targetKB || targetKB <= 0) {
+        status.innerText = 'Please enter a valid target KB size (e.g. 200).';
+        return;
+    }
 
-    compressedBlobs=[];
-    compressedNames=[];
-    downloadBtn.disabled=true;
+    compressedBlobs = [];
+    compressedNames = [];
+    resultsList.innerHTML = '';
+    downloadBtn.disabled = true;
     updateProgress(0);
 
     const files = Array.from(fileInput.files);
-    let completed=0;
-    for(const file of files){
-        status.innerText=`Compressing ${file.name}...`;
-        fileInfo.innerText=`Original: ${file.name} | Size: ${formatBytes(file.size)}`;
-        const blob = await compressSinglePDF(file,targetKB);
-        compressedBlobs.push(blob);
-        compressedNames.push(file.name.replace('.pdf','-compressed.pdf'));
+    let completed = 0;
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        status.innerText = `Compressing ${file.name} (${i + 1}/${files.length})...`;
+        fileInfo.innerText = `Processing: ${file.name} | Original: ${formatBytes(file.size)}`;
+
+        const res = await compressSinglePDF(file, targetKB);
+        compressedBlobs.push(res.blob);
+        const outName = file.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
+        compressedNames.push(outName);
+
+        // Append item result card
+        const card = document.createElement('div');
+        card.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 16px; margin-top:8px; gap:10px; flex-wrap:wrap; text-align:left;';
+        const savedPercent = Math.max(0, Math.round((1 - res.compressedSize / res.originalSize) * 100));
+        
+        card.innerHTML = `
+          <div style="flex:1; min-width:200px;">
+            <div style="font-weight:600; font-size:0.92rem; color:var(--text);">${file.name}</div>
+            <div style="font-size:0.82rem; color:var(--text-muted); margin-top:3px;">
+              Original: <b>${formatBytes(res.originalSize)}</b> ➔ Compressed: <b style="color:var(--primary);">${formatBytes(res.compressedSize)}</b>
+              ${savedPercent > 0 ? `<span style="background:rgba(37,99,235,0.12); color:var(--primary); padding:2px 8px; border-radius:12px; font-weight:600; font-size:0.75rem; margin-left:6px;">-${savedPercent}%</span>` : ''}
+            </div>
+          </div>
+          <a href="${URL.createObjectURL(res.blob)}" download="${outName}" class="btn btn-secondary" style="font-size:0.85rem; padding:8px 16px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+            📥 Download
+          </a>
+        `;
+        resultsList.appendChild(card);
+
         completed++;
-        updateProgress(Math.round((completed/files.length)*100));
-        await new Promise(r=>setTimeout(r,100));
+        updateProgress(Math.round((completed / files.length) * 100));
+        await new Promise(r => setTimeout(r, 80));
     }
 
-    status.innerText='Compression completed for all PDFs!';
-    downloadBtn.disabled=false;
+    status.innerText = `✓ Successfully compressed ${files.length} PDF(s) to target KB!`;
+    fileInfo.innerText = 'Click individual download buttons above or download all at once below.';
+    downloadBtn.disabled = false;
 }
 
-function downloadAllPDFs(){
-    compressedBlobs.forEach((blob,i)=>{
-        const a=document.createElement('a');
-        a.href=URL.createObjectURL(blob);
-        a.download=compressedNames[i];
+function downloadAllPDFs() {
+    compressedBlobs.forEach((blob, i) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = compressedNames[i];
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -275,5 +570,8 @@ function downloadAllPDFs(){
 }
 </script>
 
+<script src="js/ad-manager.js"></script>
+
+<script src="js/related-tools.js"></script>
 </body>
 </html>

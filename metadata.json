@@ -1,0 +1,6 @@
+{
+  "name": "GET Tools",
+  "description": "Free online web utilities platform including PDF size reducer, image compressor, universal converter, QR generator, and live Flipkart deals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools</title>
-<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta name="description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<title>Merge PDF Online Free – Combine Multiple PDF Files | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/pdf-merge.html">
+<meta name="description" content="Merge multiple PDF files into one document online for free. Reorder pages, 100% browser-based with zero file uploads and complete privacy.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content="GET Tools">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta property="og:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta property="og:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/pdf-merge.html">
+<meta property="og:title" content="Merge PDF Online Free – Combine Multiple PDF Files | GET Tools">
+<meta property="og:description" content="Merge multiple PDF files into one document online for free. Reorder pages, 100% browser-based with zero file uploads and complete privacy.">
 <meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="512">
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta name="twitter:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta name="twitter:title" content="Merge PDF Online Free – Combine Multiple PDF Files | GET Tools">
+<meta name="twitter:description" content="Merge multiple PDF files into one document online for free. Reorder pages, 100% browser-based with zero file uploads and complete privacy.">
 <meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
 <!-- Favicons & Icons -->
@@ -38,10 +38,18 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "name": "About Us - GET Tools",
-  "url": "https://gopinathenterprisetechnology.github.io/gettools/about.html",
-  "description": "Learn about GET Tools and our mission to build free, client-side web utilities."
+  "@type": "WebApplication",
+  "name": "PDF Merger",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/pdf-merge.html",
+  "description": "Combine and merge multiple PDF documents into a single PDF in the browser with full page reordering.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
 </script>
 
@@ -50,7 +58,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="js/theme.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
+
 <body>
 
 <!-- Header (3-Zone Contract) -->
@@ -63,7 +74,7 @@
       <a href="index.html">Home</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#categories">Categories</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-actions">
@@ -85,51 +96,68 @@
     <a href="terms.html">Terms</a>
   </nav>
 </header>
+
 <!-- Breadcrumb Navigation -->
 <nav class="breadcrumb-nav" aria-label="Breadcrumb">
   <a href="index.html">Home</a>
   <span class="breadcrumb-separator">/</span>
-  <span class="breadcrumb-current">About Us</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Merge PDF</span>
 </nav>
 
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 840px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Merge Multiple PDF Files Online</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Combine two or more PDF documents into a single organized file. Reorder files easily with zero uploads to external servers.</p>
 
-<main class="container" style="padding-top: 40px; padding-bottom: 50px;">
-  <div class="tool-page-container" style="max-width: 800px;">
-    <h2>About GET Tools</h2>
-    <p style="font-size: 1.05rem;">GetTools is a free online tools platform engineered by Gopinath Enterprise & Technology. Our mission is to provide simple, lightning-fast, and completely secure web tools for everyday digital workflows.</p>
-
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Who We Are</h3>
-      <p>Developed with modern browser capabilities, GET Tools eliminates the need to install desktop software or upload sensitive files to remote servers. All calculations, conversions, compressions, and generation operations execute directly on your local device for maximum performance and confidentiality.</p>
+    <!-- Upload Box -->
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+      <label for="pdfInput" style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--text);">Select PDF Files to Merge:</label>
+      <input type="file" id="pdfInput" accept="application/pdf" multiple style="width: auto; max-width: 100%;">
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 6px;">Select 2 or more PDF documents from your computer or phone.</p>
     </div>
 
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Our Mission</h3>
-      <p>We aim to build high-quality, accessible, and intuitive tools including QR Code Generators, Chronological Age Calculators, Word Counters, PDF Compressors, Image Compressors, and developer utilities that help students, professionals, and creators worldwide.</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 16px;">Why Choose GET Tools?</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ 100% Free Tools</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Unlimited access to all utilities with no subscription paywalls or hidden charges.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Fast & Lightweight</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Engineered for minimal footprint, blazing-fast startup, and instant processing.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Zero Installation</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Works seamlessly inside any modern browser across Windows, macOS, Android, and iOS.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Total File Privacy</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Client-side execution ensures your photos, PDFs, and text never leave your machine.</p>
-        </div>
+    <!-- File List Area -->
+    <div id="fileListContainer" style="margin-bottom: 20px;">
+      <div id="emptyMsg" style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 20px;">
+        No PDF files selected yet.
       </div>
+      <div id="fileList" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
 
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+      <button onclick="mergePDFs()" id="mergeBtn" class="btn btn-primary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        ⚡ Merge PDF Files
+      </button>
+      <button onclick="downloadMergedPDF()" id="downloadBtn" class="btn btn-secondary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        📥 Download Merged PDF
+      </button>
+    </div>
+
+    <!-- Status & Results -->
+    <div id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></div>
+  </div>
+
+  <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
+  <div class="adsterra-banner-container">
+    <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
+  </div>
+
+  <!-- Educational & SEO Content (Preserved) -->
+  <div class="card" style="max-width: 840px; margin: 30px auto; padding: 30px;">
+    <h2>Free Online PDF Merger for Students & Cyber Cafes</h2>
+    <p>GET Tools PDF Merger lets you quickly combine marksheets, certificates, identity proofs, invoices, and multi-page reports into a single, cohesive PDF document. Designed with privacy as the highest priority, all processing is executed locally in your browser memory.</p>
+
+    <h3 style="margin-top: 20px;">Key Features:</h3>
+    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
+      <li><strong>Flexible Page Ordering:</strong> Use the Move Up / Move Down controls to set the exact order of your documents.</li>
+      <li><strong>100% Confidential:</strong> None of your confidential documents leave your device. Zero cloud uploads.</li>
+      <li><strong>Preserves High Resolution:</strong> Embedded vector text, signatures, and stamps maintain original clarity.</li>
+      <li><strong>No Watermarks, No Limits:</strong> Free to use for unlimited PDF merging tasks.</li>
+    </ul>
   </div>
 </main>
 
@@ -139,7 +167,7 @@
       
       <!-- Column 1: Brand Info & Legal Policies -->
       <div>
-        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <a href="index.html" class="footer-brand-title">Cyber Cafe<span class="footer-brand-red">Tool</span></a>
         <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
         
         <div class="footer-social-row">
@@ -188,7 +216,7 @@
           <li><a href="resize.html">Resize Image</a></li>
           <li><a href="signature-crop.html">Signature Crop</a></li>
           <li><a href="imageincreaser.html">Image Crop</a></li>
-          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
           <li><a href="combine-photo-signature.html">Restore Image</a></li>
           <li><a href="png-to-jpg.html">Image Converter</a></li>
           <li><a href="watermark-image.html">Face Blur</a></li>
@@ -250,9 +278,7 @@
           <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
           <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
           <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
-          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
           <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
-          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
         </ul>
       </div>
 
@@ -260,10 +286,128 @@
 
     <!-- Copyright -->
     <div class="footer-bottom-bar">
-      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+      © 2026 Cyber Cafe Tool. All Rights Reserved. | Designed with ❤️
     </div>
   </div>
 </footer>
 
+<script>
+let selectedFiles = [];
+let mergedPdfBlob = null;
+
+const pdfInput = document.getElementById('pdfInput');
+const fileList = document.getElementById('fileList');
+const emptyMsg = document.getElementById('emptyMsg');
+const mergeBtn = document.getElementById('mergeBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const status = document.getElementById('status');
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+  else return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+pdfInput.addEventListener('change', function(e) {
+  const newFiles = Array.from(e.target.files);
+  newFiles.forEach(f => selectedFiles.push(f));
+  renderFileList();
+  pdfInput.value = '';
+});
+
+function renderFileList() {
+  fileList.innerHTML = '';
+  if (selectedFiles.length === 0) {
+    emptyMsg.style.display = 'block';
+    mergeBtn.disabled = true;
+    return;
+  }
+  emptyMsg.style.display = 'none';
+  mergeBtn.disabled = selectedFiles.length < 2;
+
+  selectedFiles.forEach((file, index) => {
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 14px; gap:10px; flex-wrap:wrap;';
+    
+    item.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:200px;">
+        <span style="font-weight:700; color:var(--primary); font-size:0.9rem;">#${index + 1}</span>
+        <div>
+          <div style="font-weight:600; font-size:0.9rem; color:var(--text);">${file.name}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">${formatBytes(file.size)}</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;">▲</button>
+        <button onclick="moveItem(${index}, 1)" ${index === selectedFiles.length - 1 ? 'disabled' : ''} class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;">▼</button>
+        <button onclick="removeItem(${index})" class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem; color:#ef4444;">✕</button>
+      </div>
+    `;
+    fileList.appendChild(item);
+  });
+}
+
+function moveItem(index, dir) {
+  const target = index + dir;
+  if (target < 0 || target >= selectedFiles.length) return;
+  const temp = selectedFiles[index];
+  selectedFiles[index] = selectedFiles[target];
+  selectedFiles[target] = temp;
+  renderFileList();
+}
+
+function removeItem(index) {
+  selectedFiles.splice(index, 1);
+  renderFileList();
+}
+
+async function mergePDFs() {
+  if (selectedFiles.length < 2) {
+    alert('Please select at least 2 PDF files to merge.');
+    return;
+  }
+
+  status.innerText = 'Merging PDF documents in browser...';
+  mergeBtn.disabled = true;
+  downloadBtn.disabled = true;
+
+  try {
+    const mergedDoc = await PDFLib.PDFDocument.create();
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      status.innerText = `Merging file ${i + 1} of ${selectedFiles.length}: ${selectedFiles[i].name}...`;
+      const arrayBuffer = await selectedFiles[i].arrayBuffer();
+      const pdf = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+      const copiedPages = await mergedDoc.copyPages(pdf, pdf.getPageIndices());
+      copiedPages.forEach(page => mergedDoc.addPage(page));
+    }
+
+    const mergedBytes = await mergedDoc.save({ useObjectStreams: true });
+    mergedPdfBlob = new Blob([mergedBytes], { type: 'application/pdf' });
+
+    status.innerHTML = `✓ Successfully merged ${selectedFiles.length} files into 1 PDF! (Size: <b>${formatBytes(mergedPdfBlob.size)}</b>)`;
+    mergeBtn.disabled = false;
+    downloadBtn.disabled = false;
+  } catch (err) {
+    console.error(err);
+    status.innerText = 'Error merging files: ' + err.message;
+    mergeBtn.disabled = false;
+  }
+}
+
+function downloadMergedPDF() {
+  if (!mergedPdfBlob) return;
+  const link = document.createElement('a');
+  link.download = 'merged-document.pdf';
+  link.href = URL.createObjectURL(mergedPdfBlob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+<script src="js/ad-manager.js"></script>
+
+<script src="js/related-tools.js"></script>
 </body>
 </html>

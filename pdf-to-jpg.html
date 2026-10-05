@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image Size Increaser – Increase Photo & Signature KB Size | GET Tools</title>
-<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html">
-<meta name="description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<title>PDF to JPG Converter Online Free – Extract Images from PDF | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/pdf-to-jpg.html">
+<meta name="description" content="Convert PDF document pages into high-resolution JPG images online for free. Individual page download or batch ZIP package. 100% private.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content="GET Tools">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html">
-<meta property="og:title" content="Image Size Increaser – Increase Photo & Signature KB Size | GET Tools">
-<meta property="og:description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/pdf-to-jpg.html">
+<meta property="og:title" content="PDF to JPG Converter Online Free – Extract Images from PDF | GET Tools">
+<meta property="og:description" content="Convert PDF document pages into high-resolution JPG images online for free. Individual page download or batch ZIP package. 100% private.">
 <meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
-<meta property="og:image:width" content="1024">
-<meta property="og:image:height" content="512">
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Image Size Increaser – Increase Photo & Signature KB Size | GET Tools">
-<meta name="twitter:description" content="Increase photo and signature file size to required KB for exam and job application forms online. Free client-side image upsize utility.">
+<meta name="twitter:title" content="PDF to JPG Converter Online Free | GET Tools">
+<meta name="twitter:description" content="Convert PDF pages to high-resolution JPG images online. 100% client-side privacy.">
 <meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
 <!-- Favicons & Icons -->
@@ -39,9 +37,9 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Image Size Increaser",
-  "url": "https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html",
-  "description": "Increase photo and signature image file size to required KB for online portal applications without visible quality loss.",
+  "name": "PDF to JPG Converter",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/pdf-to-jpg.html",
+  "description": "Convert all pages of any PDF document into crisp JPG image files directly inside your browser.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "All",
   "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -59,117 +57,8 @@
 <link rel="stylesheet" href="style.css">
 <script src="js/theme.js"></script>
 
-<script>
-let processedFiles = [];
-
-function formatBytes(bytes) {
-    if(bytes < 1024) return bytes + ' B';
-    else if(bytes < 1024*1024) return (bytes/1024).toFixed(2)+' KB';
-    else return (bytes/(1024*1024)).toFixed(2)+' MB';
-}
-
-function updateProgress(percent){
-    const progressBar = document.getElementById('progressBar');
-    if(progressBar) progressBar.style.width = percent+'%';
-}
-
-async function increaseImageSize(file, targetKB) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const arrayBuffer = e.target.result;
-            const originalSize = arrayBuffer.byteLength;
-            const targetSizeInBytes = targetKB * 1024;
-
-            if (originalSize >= targetSizeInBytes) {
-                resolve({
-                    blob: new Blob([arrayBuffer], { type: file.type }),
-                    originalSize: originalSize,
-                    newSize: originalSize,
-                    status: 'Skipped (Already larger than target)'
-                });
-                return;
-            }
-
-            const bytesToAdd = targetSizeInBytes - originalSize;
-            const paddingArray = new Uint8Array(bytesToAdd);
-            
-            for (let i = 0; i < bytesToAdd; i++) {
-                paddingArray[i] = Math.floor(Math.random() * 256);
-            }
-
-            const combinedBlob = new Blob([arrayBuffer, paddingArray], { type: file.type });
-            
-            resolve({
-                blob: combinedBlob,
-                originalSize: originalSize,
-                newSize: combinedBlob.size,
-                status: 'Successfully Increased'
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    });
-}
-
-async function increaseMultipleImages() {
-    const fileInput = document.getElementById('imageFiles');
-    const targetInput = document.getElementById('targetKB');
-    const statusText = document.getElementById('status');
-    const fileInfoText = document.getElementById('fileInfo');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    if (!fileInput || fileInput.files.length === 0) {
-        alert('Please select at least one image file.');
-        return;
-    }
-    if (!targetInput || !targetInput.value || targetInput.value <= 0) {
-        alert('Please enter a valid target KB.');
-        return;
-    }
-
-    const targetKB = parseInt(targetInput.value);
-    processedFiles = [];
-    statusText.innerText = 'Processing images...';
-    fileInfoText.innerText = '';
-    updateProgress(0);
-    downloadBtn.disabled = true;
-
-    let files = fileInput.files;
-    let infoOutput = "";
-
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const result = await increaseImageSize(file, targetKB);
-        
-        processedFiles.push({
-            blob: result.blob,
-            name: file.name
-        });
-
-        infoOutput += `${file.name}: ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.newSize)} (${result.status})\n`;
-        
-        let percent = Math.round(((i + 1) / files.length) * 100);
-        updateProgress(percent);
-    }
-
-    statusText.innerText = 'Processing completed successfully!';
-    fileInfoText.innerText = infoOutput;
-    downloadBtn.disabled = false;
-}
-
-function downloadAllImages() {
-    if (processedFiles.length === 0) return;
-
-    processedFiles.forEach(item => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(item.blob);
-        link.download = 'increased_' + item.name;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-}
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 
 <body>
@@ -206,65 +95,107 @@ function downloadAllImages() {
     <a href="terms.html">Terms</a>
   </nav>
 </header>
+
 <!-- Breadcrumb Navigation -->
 <nav class="breadcrumb-nav" aria-label="Breadcrumb">
   <a href="index.html">Home</a>
   <span class="breadcrumb-separator">/</span>
   <a href="index.html#tools">Tools</a>
   <span class="breadcrumb-separator">/</span>
-  <span class="breadcrumb-current">Image Size Increaser</span>
+  <span class="breadcrumb-current">PDF to JPG</span>
 </nav>
-
 
 <main class="container" style="padding-top: 30px; padding-bottom: 40px;">
   <!-- Tool Card Container -->
-  <div class="tool-page-container" style="max-width: 820px;">
-    <h2 style="text-align: center; margin-bottom: 8px;">Image Size Increaser</h2>
-    <p style="text-align: center; margin-bottom: 24px;">Increase the file size (KB) of photos and signatures to match the minimum KB requirements of government, exam, and job portals without loss of visible quality.</p>
+  <div class="tool-page-container" style="max-width: 860px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Convert PDF Pages to JPG Images</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Extract and render each page of your PDF document as a crisp, high-resolution JPG image file directly in your browser.</p>
 
-    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 28px 20px; text-align: center; margin-bottom: 20px;">
-      <label for="imageFiles" style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text);">Upload Photo or Signature Image(s):</label>
-      <input type="file" id="imageFiles" accept="image/jpeg, image/png" multiple style="width: auto; max-width: 100%;">
+    <!-- Upload Box -->
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+      <label for="pdfFileInput" style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--text);">Select PDF File to Convert:</label>
+      <input type="file" id="pdfFileInput" accept="application/pdf" style="width: auto; max-width: 100%;">
+      <div id="pdfMeta" style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);"></div>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-      <label for="targetKB" style="font-weight: 600; color: var(--text);">Target Minimum Size (KB):</label>
-      <input type="number" id="targetKB" placeholder="e.g. 50, 100, 200" min="1" style="width: 160px; margin-bottom: 0;">
+    <!-- Options -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px;">
+      <div>
+        <label for="renderScale" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Resolution / Quality:</label>
+        <select id="renderScale">
+          <option value="1.5" selected>Standard (150 DPI - High Quality)</option>
+          <option value="2.0">Ultra High (300 DPI - Print Quality)</option>
+          <option value="1.0">Compact (72 DPI - Fast & Small File)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="jpgQuality" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">JPEG Compression:</label>
+        <select id="jpgQuality">
+          <option value="0.9" selected>90% Quality (Crisp & Clear)</option>
+          <option value="0.95">95% High Quality</option>
+          <option value="0.8">80% Compact Size</option>
+        </select>
+      </div>
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
-      <button class="btn btn-primary" onclick="increaseMultipleImages()" style="height: 48px; padding: 0 28px; font-size: 1rem;">
-        ⚡ Increase Size Now
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+      <button onclick="convertPdfToJpg()" id="convertBtn" class="btn btn-primary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        ⚡ Convert Pages to JPG
       </button>
-      <button class="btn btn-secondary" id="downloadBtn" onclick="downloadAllImages()" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
-        📥 Download All Images
+      <button onclick="downloadAllZip()" id="zipBtn" class="btn btn-secondary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        📦 Download All Pages (ZIP)
       </button>
     </div>
 
-    <!-- Progress Bar -->
-    <div style="width: 100%; max-width: 500px; height: 12px; background: var(--border); border-radius: 6px; margin: 15px auto; overflow: hidden;">
-      <div id="progressBar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.3s ease;"></div>
-    </div>
+    <!-- Status -->
+    <div id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-bottom: 15px;"></div>
 
-    <p id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></p>
-    <p id="fileInfo" style="text-align: center; font-size: 0.875rem; color: var(--text-muted); margin-top: 6px; white-space: pre-line;"></p>
+    <!-- Results Grid -->
+    <div id="resultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px;"></div>
+
+    <!-- RELATED PDF TOOLS (Screenshot 51 Pattern) -->
+    <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-top: 35px;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: var(--text);">
+        📂 Other PDF Tools
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px;">
+        <a href="jpg-to-pdf.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">📄</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">JPG to PDF Converter</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Convert Images to PDF</div>
+          </div>
+        </a>
+        <a href="pdf-compress.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🗜️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">PDF Compressor</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Exact Target KB Size</div>
+          </div>
+        </a>
+        <a href="pdf-merge.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">📑</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Merge PDF Files</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Combine Documents</div>
+          </div>
+        </a>
+        <a href="pdf-split.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">✂️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Split & Extract PDF</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Extract Page Ranges</div>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
   <div class="adsterra-banner-container">
     <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
-  </div>
-
-  <!-- Educational & SEO Content (Preserved) -->
-  <div class="card" style="max-width: 820px; margin: 30px auto; padding: 30px;">
-    <h2>How Does Image Size Increaser Work?</h2>
-    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
-      <li><strong>Select Images:</strong> Upload single or multiple images (JPEG, JPG, PNG) directly from your device.</li>
-      <li><strong>Set Target KB:</strong> Enter your required target size in KB (e.g. 50 KB or 100 KB for online portals).</li>
-      <li><strong>Lossless Padding:</strong> Safe padding bytes are appended to the file structure without distorting image pixels or clarity.</li>
-      <li><strong>Private Processing:</strong> The whole process runs in browser memory, ensuring your identity documents remain private.</li>
-      <li><strong>Download:</strong> Click Download All Images to retrieve your correctly sized photos.</li>
-    </ul>
   </div>
 </main>
 
@@ -323,7 +254,7 @@ function downloadAllImages() {
           <li><a href="resize.html">Resize Image</a></li>
           <li><a href="signature-crop.html">Signature Crop</a></li>
           <li><a href="imageincreaser.html">Image Crop</a></li>
-          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
           <li><a href="combine-photo-signature.html">Restore Image</a></li>
           <li><a href="png-to-jpg.html">Image Converter</a></li>
           <li><a href="watermark-image.html">Face Blur</a></li>
@@ -385,9 +316,7 @@ function downloadAllImages() {
           <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
           <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
           <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
-          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
           <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
-          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
         </ul>
       </div>
 
@@ -399,6 +328,148 @@ function downloadAllImages() {
     </div>
   </div>
 </footer>
+
+<script>
+if (typeof pdfjsLib !== 'undefined') {
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  } catch(e) {}
+}
+
+let loadedPdf = null;
+let currentFileBaseName = 'document';
+let renderedImages = [];
+
+const pdfFileInput = document.getElementById('pdfFileInput');
+const pdfMeta = document.getElementById('pdfMeta');
+const convertBtn = document.getElementById('convertBtn');
+const zipBtn = document.getElementById('zipBtn');
+const status = document.getElementById('status');
+const resultsGrid = document.getElementById('resultsGrid');
+const renderScaleSelect = document.getElementById('renderScale');
+const jpgQualitySelect = document.getElementById('jpgQuality');
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+  else return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+pdfFileInput.addEventListener('change', async function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  currentFileBaseName = file.name.replace(/\.pdf$/i, '');
+  pdfMeta.innerText = 'Loading PDF in browser...';
+  status.innerText = '';
+  resultsGrid.innerHTML = '';
+  renderedImages = [];
+  zipBtn.disabled = true;
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+    loadedPdf = await loadingTask.promise;
+
+    pdfMeta.innerHTML = `Loaded: <b>${file.name}</b> (${formatBytes(file.size)}) | Total Pages: <b style="color:var(--primary);">${loadedPdf.numPages}</b>`;
+    convertBtn.disabled = false;
+  } catch (err) {
+    console.error(err);
+    pdfMeta.innerText = 'Error opening PDF: ' + err.message;
+    convertBtn.disabled = true;
+  }
+});
+
+async function convertPdfToJpg() {
+  if (!loadedPdf) return;
+
+  const numPages = loadedPdf.numPages;
+  const scale = parseFloat(renderScaleSelect.value) || 1.5;
+  const quality = parseFloat(jpgQualitySelect.value) || 0.9;
+
+  convertBtn.disabled = true;
+  zipBtn.disabled = true;
+  resultsGrid.innerHTML = '';
+  renderedImages = [];
+
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    status.innerText = `Converting page ${pageNum} of ${numPages}...`;
+    const page = await loadedPdf.getPage(pageNum);
+    const viewport = page.getViewport({ scale: scale });
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
+    const fileName = `${currentFileBaseName}-page-${pageNum}.jpg`;
+    renderedImages.push({ blob, fileName });
+
+    // Append card
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.padding = '12px';
+    card.style.textAlign = 'center';
+
+    const imgPreview = document.createElement('img');
+    imgPreview.src = URL.createObjectURL(blob);
+    imgPreview.style.maxWidth = '100%';
+    imgPreview.style.maxHeight = '200px';
+    imgPreview.style.borderRadius = '4px';
+    imgPreview.style.boxShadow = 'var(--shadow-sm)';
+
+    card.innerHTML = `
+      <div style="font-weight:600; font-size:0.85rem; margin-bottom:8px; color:var(--text);">Page ${pageNum}</div>
+    `;
+    card.appendChild(imgPreview);
+
+    const info = document.createElement('div');
+    info.style.cssText = 'font-size:0.75rem; color:var(--text-muted); margin:8px 0;';
+    info.innerText = `Size: ${formatBytes(blob.size)}`;
+    card.appendChild(info);
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = fileName;
+    downloadLink.className = 'btn btn-secondary';
+    downloadLink.style.cssText = 'font-size:0.8rem; padding:6px 12px; width:100%; text-decoration:none; display:inline-block;';
+    downloadLink.innerText = '📥 Download JPG';
+    card.appendChild(downloadLink);
+
+    resultsGrid.appendChild(card);
+  }
+
+  status.innerHTML = `✓ Successfully converted all ${numPages} page(s) to JPG!`;
+  convertBtn.disabled = false;
+  zipBtn.disabled = false;
+}
+
+async function downloadAllZip() {
+  if (renderedImages.length === 0) return;
+
+  status.innerText = 'Compressing images into ZIP file...';
+  const zip = new JSZip();
+
+  renderedImages.forEach(item => {
+    zip.file(item.fileName, item.blob);
+  });
+
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(zipBlob);
+  a.download = `${currentFileBaseName}-jpg-pages.zip`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  status.innerHTML = `✓ ZIP download started! (${formatBytes(zipBlob.size)})`;
+}
+</script>
 
 <script src="js/ad-manager.js"></script>
 

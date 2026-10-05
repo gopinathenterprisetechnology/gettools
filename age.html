@@ -3,315 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator – Calculate Exact Chronological Age & DOB | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/age.html">
+<meta name="description" content="Calculate your exact chronological age in years, months, days, minutes, and live seconds with zodiac sign and next birthday countdown.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
 
-<title>Ultimate Advanced Age Calculator - GET Tools</title>
-<meta name="description" content="Calculate exact age in years, months, days, hours, minutes and seconds. Includes zodiac sign, birthday countdown, live counter, share, download and PDF export.">
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/age.html">
+<meta property="og:title" content="Age Calculator – Calculate Exact Chronological Age & DOB | GET Tools">
+<meta property="og:description" content="Calculate your exact chronological age in years, months, days, minutes, and live seconds with zodiac sign and next birthday countdown.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="512">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Age Calculator – Calculate Exact Chronological Age & DOB | GET Tools">
+<meta name="twitter:description" content="Calculate your exact chronological age in years, months, days, minutes, and live seconds with zodiac sign and next birthday countdown.">
+<meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Advanced Age Calculator",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/age.html",
+  "description": "Calculate exact chronological age in years, months, days, minutes, plus birthday countdown and zodiac information.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-:root{
---bg: linear-gradient(135deg,#667eea,#764ba2);
---card: rgba(255,255,255,0.15);
---text:#ffffff;
---glass: blur(15px);
-}
-body.dark{
---bg: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
---card: rgba(0,0,0,0.4);
---text:#ffffff;
-}
-body{
-margin:0;
-font-family:Poppins;
-background:var(--bg);
-color:var(--text);
-transition:0.5s;
-}
-header{
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-position:relative;
-}
-.toggle{
-position:absolute;
-right:20px;
-top:15px;
-cursor:pointer;
-font-size:20px;
-}
-.container{
-max-width:800px;
-margin:20px auto;
-background:var(--card);
-backdrop-filter:var(--glass);
-padding:25px;
-border-radius:20px;
-box-shadow:0 15px 40px rgba(0,0,0,0.3);
-}
-input,button,select{
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:none;
-}
-button{
-background:#ffffff;
-color:#333;
-cursor:pointer;
-font-weight:bold;
-}
-.result-box{
-margin-top:20px;
-padding:15px;
-background:rgba(255,255,255,0.2);
-border-radius:12px;
-}
-.ad-box{
-margin:30px 0;
-padding:20px;
-border:2px dashed rgba(255,255,255,0.5);
-text-align:center;
-}
-footer{
-text-align:center;
-padding:20px;
-font-size:14px;
-}
-</style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
 
-<header>
-GET Tools - Ultimate Age Calculator
-<span class="toggle" onclick="toggleMode()">🌙</span>
-</header>
-
-<div class="container">
-
-<select id="lang">
-<option>English</option>
-<option>Hindi</option>
-<option>Bengali</option>
-</select>
-
-<br>
-
-<label>Date of Birth</label>
-<input type="date" id="dob">
-
-<br>
-
-<label>Calculate Till (Optional)</label>
-<input type="date" id="tillDate">
-
-<br>
-<button onclick="startLive()">Calculate Age</button>
-
-<div class="result-box" id="resultBox" style="display:none;">
-<div id="result"></div>
-<button onclick="shareResult()">Share</button>
-<button onclick="downloadTXT()">Download TXT</button>
-<button onclick="downloadPDF()">Download PDF</button>
-</div>
-
-<p id="zodiac"></p>
-<p id="birthday"></p>
-
-<canvas id="ageChart"></canvas>
-
-<div class="ad-box">
-<div class="ad-container">
-
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px auto; max-width: 1000px; font-family: sans-serif;">
-
-    <!-- First Ad Slot (প্রথম বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 1st Adsterra 300x250 code here -->
-        <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
-
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
     </div>
-
-    <!-- Second Ad Slot (দ্বিতীয় বিজ্ঞাপন) -->
-    <div style="width: 300px; height: 250px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-        <!-- Paste your 2nd Adsterra 300x250 code here -->
-       <script>
-  atOptions = {
-    'key' : '84d92560ee6aee4bc88b08b8a08cf64e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/84d92560ee6aee4bc88b08b8a08cf64e/invoke.js"></script>
-    </div>
-
-</div>
-
-</div>
-<hr style="margin:40px 0;">
-
-<h2>Free Online Advanced Age Calculator with Live Results</h2>
-
-<p>
-GET Tools Advanced Age Calculator is a powerful and accurate online age calculator designed to calculate your exact age in years, months, days, hours, minutes, and seconds. 
-Unlike basic age tools, this calculator provides live updating age details along with birthday countdown and zodiac sign detection.
-</p>
-
-<h3>Calculate Exact Age in Multiple Formats</h3>
-
-<p>
-Our free age calculator helps you instantly calculate total years, months, and days lived. 
-You can also see your age in total days, total hours, total minutes, and even total seconds. 
-This feature is useful for official forms, government documentation, school admission, and personal record keeping.
-</p>
-
-<h3>Birthday Countdown & Zodiac Sign Finder</h3>
-
-<p>
-Easily find out how many days are left until your next birthday. 
-The built-in zodiac sign detector automatically shows your horoscope sign based on your date of birth. 
-This makes our calculator not just functional but also fun and interactive.
-</p>
-
-<h3>Live Age Counter with Download & Share Options</h3>
-
-<p>
-This advanced tool includes a real-time live age counter that updates automatically every second. 
-You can also download your age details as a TXT file or PDF document, or share the results directly from your device.
-</p>
-
-<h3>Why Choose GET Tools Age Calculator?</h3>
-
-<ul>
-<li>✔ 100% Free and Unlimited Usage</li>
-<li>✔ Mobile Friendly & Fast Loading</li>
-<li>✔ Secure and Privacy Safe</li>
-<li>✔ No Registration Required</li>
-<li>✔ Accurate Age Calculation Algorithm</li>
-<li>✔ Live Seconds Counter</li>
-<li>✔ Birthday Reminder & Countdown</li>
-</ul>
-
-<h3>Best Age Calculator Online for Students & Professionals</h3>
-
-<p>
-Whether you need to calculate age for school admission, job applications, passport forms, insurance documents, or personal curiosity, 
-GET Tools provides one of the most accurate and user-friendly age calculators available online.
-</p>
-</div>
-
-<footer>
-  <div class="footer-links">
+  </div>
+  <nav class="mobile-nav-menu">
     <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
     <a href="contact.html">Contact</a>
     <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms & Conditions</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Advanced Age Calculator</span>
+</nav>
+
+
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 760px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Advanced Age Calculator</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Calculate your exact chronological age in years, months, days, minutes, and seconds with live birthday countdown and horoscope detection.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+      <div>
+        <label for="lang" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 6px;">Language Output:</label>
+        <select id="lang">
+          <option>English</option>
+          <option>Hindi</option>
+          <option>Bengali</option>
+        </select>
+      </div>
+      <div>
+        <label for="dob" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 6px;">Date of Birth *</label>
+        <input type="date" id="dob">
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label for="tillDate" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 6px;">Calculate Till (Optional, Defaults to Today):</label>
+      <input type="date" id="tillDate">
+    </div>
+
+    <button onclick="startLive()" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 1rem; margin-bottom: 20px;">
+      🎂 Calculate Exact Age
+    </button>
+
+    <!-- Results Box -->
+    <div id="resultBox" style="display: none; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-top: 20px;">
+      <div id="result" style="font-size: 1.05rem; font-weight: 500; line-height: 1.7; margin-bottom: 16px;"></div>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+        <button onclick="shareResult()" class="btn btn-secondary" style="font-size: 0.875rem;">🔗 Share</button>
+        <button onclick="downloadTXT()" class="btn btn-secondary" style="font-size: 0.875rem;">📄 Download TXT</button>
+        <button onclick="downloadPDF()" class="btn btn-secondary" style="font-size: 0.875rem;">📑 Download PDF</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px;">
+        <p id="zodiac" style="font-weight: 600; color: var(--primary); margin: 0;"></p>
+        <p id="birthday" style="font-weight: 600; color: var(--accent); margin: 0; text-align: right;"></p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <canvas id="ageChart" style="max-height: 240px;"></canvas>
+      </div>
+    </div>
   </div>
 
-  <p style="margin-top:10px;">
-© 2026 GET Tools - Gopinath Enterprise Technology.</p>
-  <p>All Rights Reserved.</p>
+  <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
+  <div class="adsterra-banner-container">
+    <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
+  </div>
+
+  <!-- Educational & SEO Content (Preserved) -->
+  <div class="card" style="max-width: 800px; margin: 30px auto; padding: 25px;">
+    <h3>Free Online Advanced Age Calculator with Live Results</h3>
+    <p>GET Tools Advanced Age Calculator is a powerful and accurate online age calculator designed to calculate your exact age in years, months, days, hours, minutes, and seconds. Unlike basic age tools, this calculator provides live updating age details along with birthday countdown and zodiac sign detection.</p>
+    
+    <h4 style="margin-top: 15px; margin-bottom: 8px;">Key Features and Benefits:</h4>
+    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
+      <li><strong>Live Dynamic Age Counter:</strong> Watch your age tick forward live in seconds and minutes.</li>
+      <li><strong>Next Birthday Countdown:</strong> Find out the exact number of days remaining until your next celebration.</li>
+      <li><strong>Multilingual Support:</strong> Get age breakdown in English, Hindi, and Bengali.</li>
+      <li><strong>Export to PDF & TXT:</strong> Download official age certification documents directly to your device.</li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-mega-container">
+    <div class="footer-mega-grid">
+      
+      <!-- Column 1: Brand Info & Legal Policies -->
+      <div>
+        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
+        
+        <div class="footer-social-row">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0f172a"/></svg>
+          </a>
+        </div>
+
+        <h4 class="footer-col-title" style="margin-top: 24px;">Legal Policies</h4>
+        <ul class="footer-links-list">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: PDF Tools -->
+      <div>
+        <h4 class="footer-col-title">PDF Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+          <li><a href="pdf-to-jpg.html">PDF to JPG</a></li>
+          <li><a href="pdf-merge.html">Merge PDF</a></li>
+          <li><a href="pdf-compress.html">Compress PDF</a></li>
+          <li><a href="pdf-unlock.html">Unlock PDF</a></li>
+          <li><a href="pdf-lock.html">Lock PDF</a></li>
+          <li><a href="word.html">Word Counter</a></li>
+          <li><a href="case-converter.html">Case Converter</a></li>
+          <li><a href="Professional-HTML-CSS-JS-Minifier.html">video Converter</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Image Tools -->
+      <div>
+        <h4 class="footer-col-title">Image Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="signature-crop.html">Background Remove</a></li>
+          <li><a href="resize.html">Resize Image</a></li>
+          <li><a href="signature-crop.html">Signature Crop</a></li>
+          <li><a href="imageincreaser.html">Image Crop</a></li>
+          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="combine-photo-signature.html">Restore Image</a></li>
+          <li><a href="png-to-jpg.html">Image Converter</a></li>
+          <li><a href="watermark-image.html">Face Blur</a></li>
+          <li><a href="image-compressor.html">Compress Image</a></li>
+          <li><a href="black-and-white.html">Black And White Image</a></li>
+          <li><a href="watermark-image.html">Watermark</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Typing Tools -->
+      <div>
+        <h4 class="footer-col-title">Typing Tools</h4>
+        <ul class="footer-links-list">
+          <li><a href="indic-typing.html#hindi">English To Hindi</a></li>
+          <li><a href="indic-typing.html#asamiya">English To Asamiya</a></li>
+          <li><a href="indic-typing.html#bengali">English To Bengali</a></li>
+          <li><a href="indic-typing.html#gujarati">English To Gujarati</a></li>
+          <li><a href="indic-typing.html#kannada">English To Kannada</a></li>
+          <li><a href="indic-typing.html#malayalam">English To Malayalam</a></li>
+          <li><a href="indic-typing.html#marathi">English To Marathi</a></li>
+          <li><a href="indic-typing.html#oriya">English To Oriya</a></li>
+          <li><a href="indic-typing.html#punjabi">English To Punjabi</a></li>
+          <li><a href="indic-typing.html#sanskrit">English To Sanskrit</a></li>
+          <li><a href="indic-typing.html#sinhala">English To Sinhala</a></li>
+          <li><a href="indic-typing.html#tamil">English To Tamil</a></li>
+          <li><a href="indic-typing.html#telugu">English To Telugu</a></li>
+          <li><a href="indic-typing.html#urdu">English To Urdu</a></li>
+          <li><a href="indic-typing.html">English To All Language</a></li>
+          <li><a href="typing-test.html">Typing Test</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Converter Tool -->
+      <div>
+        <h4 class="footer-col-title">Converter Tool</h4>
+        <ul class="footer-links-list">
+          <li><a href="font-converter.html#k2u">Krutidev To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Krutidev</a></li>
+          <li><a href="font-converter.html#k2u">Krutidev To Mangal</a></li>
+          <li><a href="font-converter.html#u2k">Mangal To Krutidev</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Devlys</a></li>
+          <li><a href="font-converter.html#k2u">DevLys To Unicode</a></li>
+          <li><a href="font-converter.html#u2k">Unicode To Preeti</a></li>
+          <li><a href="font-converter.html#k2u">Preeti To Unicode</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 6: Card (Official Indian Portals) -->
+      <div>
+        <h4 class="footer-col-title">Card</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank" rel="noopener">Adhar Card</a></li>
+          <li><a href="https://food.wb.gov.in/" target="_blank" rel="noopener">Ration Card (WB)</a></li>
+          <li><a href="https://onlineservices.proteantech.in/paam/endUserRegisterContact.html" target="_blank" rel="noopener">Pan Card</a></li>
+          <li><a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">Voter Id</a></li>
+          <li><a href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener">PMJAY Swasthya Bima</a></li>
+          <li><a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/" target="_blank" rel="noopener">AgriStack Farmer ID</a></li>
+          <li><a href="https://nrega.nic.in/" target="_blank" rel="noopener">Job Card</a></li>
+          <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
+          <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
+          <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
+          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
+          <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
+          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom-bar">
+      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+    </div>
+  </div>
 </footer>
 
 <script>
-
-let interval;
-let birthDate;
+let timer;
 
 function toggleMode(){
-document.body.classList.toggle("dark");
+  toggleTheme();
 }
 
 function startLive(){
-clearInterval(interval);
+clearInterval(timer);
 calculateAge();
-interval=setInterval(updateLiveSeconds,1000);
+timer=setInterval(calculateAge,1000);
 }
 
 function calculateAge(){
-
-const dobInput=document.getElementById("dob").value;
-if(!dobInput){
-alert("Please select Date of Birth");
+let dobVal=document.getElementById("dob").value;
+if(!dobVal){
+alert("Please select your Date of Birth");
+clearInterval(timer);
 return;
 }
 
-birthDate=new Date(dobInput);
-const tillInput=document.getElementById("tillDate").value;
-const now=tillInput?new Date(tillInput):new Date();
+let dob=new Date(dobVal);
+let tillVal=document.getElementById("tillDate").value;
+let now=tillVal?new Date(tillVal):new Date();
 
-if(birthDate>now){
-alert("DOB cannot be future date");
+if(dob>now){
+alert("Date of Birth cannot be in the future!");
+clearInterval(timer);
 return;
 }
 
-const diff=now-birthDate;
+let diff=now-dob;
 
-const seconds=Math.floor(diff/1000);
-const minutes=Math.floor(seconds/60);
-const hours=Math.floor(minutes/60);
-const days=Math.floor(hours/24);
+let years=now.getFullYear()-dob.getFullYear();
+let months=now.getMonth()-dob.getMonth();
+let days=now.getDate()-dob.getDate();
 
-let years=now.getFullYear()-birthDate.getFullYear();
-let months=now.getMonth()-birthDate.getMonth();
-let dateDiff=now.getDate()-birthDate.getDate();
-
-if(dateDiff<0){
+if(days<0){
 months--;
-dateDiff+=new Date(now.getFullYear(),now.getMonth(),0).getDate();
+let prevMonth=new Date(now.getFullYear(),now.getMonth(),0);
+days+=prevMonth.getDate();
 }
 if(months<0){
 years--;
 months+=12;
 }
 
-document.getElementById("result").innerHTML=
-`<h3>Your Exact Age</h3>
-<p>${years} Years, ${months} Months, ${dateDiff} Days</p>
-<p>Total Days: ${days} Days</p>
-<p>Total Hours: ${hours} Hours</p>
-<p>Total Minutes: ${minutes} Minutes</p>
-<p>Total Seconds: <span id="liveSec">${seconds}</span> Seconds</p>`;
+let totalDays=Math.floor(diff/(1000*60*60*24));
+let hours=Math.floor((diff/(1000*60*60))%24);
+let minutes=Math.floor((diff/(1000*60))%60);
+let seconds=Math.floor((diff/1000)%60);
 
+let lang=document.getElementById("lang").value;
+let output="";
+
+if(lang==="Hindi"){
+output=`
+<b>आपकी उम्र:</b> ${years} वर्ष, ${months} महीने, ${days} दिन<br>
+<b>समय बीता:</b> ${hours} घंटे, ${minutes} मिनट, ${seconds} सेकंड<br>
+<b>कुल दिन:</b> ${totalDays}
+`;
+}else if(lang==="Bengali"){
+output=`
+<b>আপনার বয়স:</b> ${years} বছর, ${months} মাস, ${days} দিন<br>
+<b>সময় অতিক্রান্ত:</b> ${hours} ঘন্টা, ${minutes} মিনিট, ${seconds} সেকেন্ড<br>
+<b>মোট দিন:</b> ${totalDays}
+`;
+}else{
+output=`
+<b>Your Age:</b> ${years} Years, ${months} Months, ${days} Days<br>
+<b>Time Lived:</b> ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds<br>
+<b>Total Days:</b> ${totalDays}
+`;
+}
+
+document.getElementById("result").innerHTML=output;
 document.getElementById("resultBox").style.display="block";
 
-detectZodiac(birthDate);
-birthdayCountdown(birthDate);
-drawChart(years,days);
+zodiac(dob);
+birthdayCountdown(dob);
+drawChart(years,totalDays);
 }
 
-function updateLiveSeconds(){
-if(!birthDate) return;
-let now=new Date();
-let seconds=Math.floor((now-birthDate)/1000);
-document.getElementById("liveSec").innerText=seconds;
-}
-
-function detectZodiac(d){
+function zodiac(d){
 let m=d.getMonth()+1;
 let sign="Pisces ♓";
 if((m==3)||(m==4)) sign="Aries ♈";
 if((m==5)||(m==6)) sign="Gemini ♊";
-document.getElementById("zodiac").innerHTML="Zodiac Sign: "+sign;
+document.getElementById("zodiac").innerHTML="Zodiac: "+sign;
 }
 
 function birthdayCountdown(d){
@@ -320,7 +410,7 @@ let next=new Date(today.getFullYear(),d.getMonth(),d.getDate());
 if(today>next) next.setFullYear(today.getFullYear()+1);
 let diff=next-today;
 let days=Math.ceil(diff/(1000*60*60*24));
-document.getElementById("birthday").innerHTML="Next Birthday in "+days+" Days 🎉";
+document.getElementById("birthday").innerHTML="Next Birthday: in "+days+" Days 🎉";
 
 if(days===0){
 confetti();
@@ -335,9 +425,14 @@ type:'bar',
 data:{
 labels:['Years','Days Lived'],
 datasets:[{
-label:'Age Stats',
-data:[years,days]
+label:'Age Statistics',
+data:[years,days],
+backgroundColor: ['#2563eb', '#10b981']
 }]
+},
+options: {
+  responsive: true,
+  maintainAspectRatio: false
 }
 });
 }
@@ -347,7 +442,7 @@ const text=document.getElementById("result").innerText;
 if(navigator.share){
 navigator.share({title:"My Age Details",text:text});
 }else{
-alert("Sharing not supported.");
+alert("Sharing not supported on this browser.");
 }
 }
 
@@ -366,9 +461,10 @@ const doc=new jsPDF();
 doc.text(document.getElementById("result").innerText,10,10);
 doc.save("age-result.pdf");
 }
-
 </script>
 
+<script src="js/ad-manager.js"></script>
 
+<script src="js/related-tools.js"></script>
 </body>
 </html>

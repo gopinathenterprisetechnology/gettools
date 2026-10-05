@@ -3,170 +3,232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium QR Generator | GET Tools</title>
+<title>QR Code Generator – Create Custom QR Codes for URLs & WiFi | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/qr.html">
+<meta name="description" content="Generate high-resolution QR codes for websites, WiFi networks, UPI payments, and plain text with custom colors and instant PNG download.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/qr.html">
+<meta property="og:title" content="QR Code Generator – Create Custom QR Codes for URLs & WiFi | GET Tools">
+<meta property="og:description" content="Generate high-resolution QR codes for websites, WiFi networks, UPI payments, and plain text with custom colors and instant PNG download.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="512">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QR Code Generator – Create Custom QR Codes for URLs & WiFi | GET Tools">
+<meta name="twitter:description" content="Generate high-resolution QR codes for websites, WiFi networks, UPI payments, and plain text with custom colors and instant PNG download.">
+<meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Generator",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/qr.html",
+  "description": "Create high-resolution QR codes for website URLs, contact details, UPI payments, WiFi access, and plain text.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<style>
-
-:root{
-  --bg:#F8FAFC;
-  --card:#ffffff;
-  --text:#1E293B;
-}
-
-body.dark{
-  --bg:#0F172A;
-  --card:#1E293B;
-  --text:#ffffff;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  transition:0.3s;
-}
-
-.container{
-  background:var(--card);
-  transition:0.3s;
-}
-
-#qrCanvas{
-  margin-top:20px;
-  text-align:center;
-  animation:fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:scale(0.9);}
-  to{opacity:1; transform:scale(1);}
-}
-
-.toggle-btn{
-  float:right;
-  cursor:pointer;
-  font-size:14px;
-  padding:5px 10px;
-  border-radius:20px;
-  background:#2563EB;
-  color:white;
-}
-
-.history-item{
-  font-size:12px;
-  padding:6px;
-  background:#e2e8f0;
-  margin-bottom:5px;
-  cursor:pointer;
-  border-radius:6px;
-}
-
-body.dark .history-item{
-  background:#334155;
-}
-
-</style>
 </head>
 
 <body>
 
-<header>
-GET Tools - Ultimate QR Generator
-<span class="toggle-btn" onclick="toggleDark()">Dark Mode</span>
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
 </header>
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">QR Code Generator</span>
+</nav>
 
-<div class="container">
 
-<h1>Advanced QR Generator</h1>
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 760px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Advanced QR Code Generator</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Create custom high-resolution QR codes for websites, plain text, phone calls, SMS, and UPI payments with real-time preview.</p>
 
-<select id="qrType">
-  <option value="text">Text</option>
-  <option value="url">URL</option>
-  <option value="phone">Phone</option>
-  <option value="sms">SMS</option>
-  <option value="payment">UPI Payment</option>
-</select>
+    <div style="margin-bottom: 16px;">
+      <label for="qrType" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">QR Code Type:</label>
+      <select id="qrType">
+        <option value="text">Plain Text</option>
+        <option value="url">Website URL</option>
+        <option value="phone">Phone Number</option>
+        <option value="sms">SMS Message</option>
+        <option value="payment">UPI Payment</option>
+      </select>
+    </div>
 
-<div id="mainInput">
-  <input type="text" id="textInput" placeholder="Enter value">
-</div>
+    <div id="mainInput" style="margin-bottom: 16px;">
+      <label for="textInput" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Enter Value / Content:</label>
+      <input type="text" id="textInput" placeholder="Enter text or paste URL..." value="https://gopinathenterprisetechnology.github.io/gettools/">
+    </div>
 
-<div id="paymentFields" style="display:none;">
-  <input type="text" id="upiId" placeholder="UPI ID">
-  <input type="number" id="amount" placeholder="Amount">
-  <input type="text" id="note" placeholder="Note">
-</div>
+    <div id="paymentFields" style="display: none; background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 16px;">
+      <label for="upiId" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 4px;">UPI ID (e.g. name@upi):</label>
+      <input type="text" id="upiId" placeholder="e.g. merchant@okhdfcbank">
+      
+      <label for="amount" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 4px;">Amount (Optional, ₹):</label>
+      <input type="number" id="amount" placeholder="e.g. 500">
+      
+      <label for="note" style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 4px;">Payment Note / Description:</label>
+      <input type="text" id="note" placeholder="e.g. Services payment">
+    </div>
 
-<select id="qrSize">
-  <option value="80">80x85</option>
-  <option value="100">100x100</option>
-  <option value="200">200x200</option>
-  <option value="300">300x300</option>
-  <option value="400">400x400</option>
-</select>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px;">
+      <div>
+        <label for="qrSize" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Resolution / Size:</label>
+        <select id="qrSize">
+          <option value="150">150 x 150 px</option>
+          <option value="200" selected>200 x 200 px</option>
+          <option value="300">300 x 300 px</option>
+          <option value="400">400 x 400 px</option>
+        </select>
+      </div>
 
-<input type="color" id="qrColor" value="#000000">
-<input type="file" id="logoInput" accept="image/*">
+      <div>
+        <label for="qrColor" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">QR Color:</label>
+        <input type="color" id="qrColor" value="#000000" style="height: 48px; padding: 4px; cursor: pointer;">
+      </div>
 
-<button onclick="downloadQR()">Download</button>
+      <div>
+        <label for="logoInput" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Add Center Logo (Optional):</label>
+        <input type="file" id="logoInput" accept="image/*" style="font-size: 0.85rem;">
+      </div>
+    </div>
 
-<div id="qrCanvas"></div>
+    <!-- Live QR Canvas Display Box -->
+    <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 25px; margin: 20px auto; max-width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+      <div id="qrCanvas"></div>
+    </div>
 
-<h3>QR History</h3>
-<div id="historyBox"></div>
-<hr style="margin:40px 0;">
+    <button onclick="downloadQR()" class="btn btn-primary" style="width: 100%; height: 48px; font-size: 1rem; margin-bottom: 24px;">
+      📥 Download QR Code Image
+    </button>
 
-<h2>Free Online QR Code Generator with Logo, Color & UPI Support</h2>
+    <!-- History Section -->
+    <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+      <h4 style="margin-bottom: 12px; font-size: 1rem;">Recent QR History:</h4>
+      <div id="historyBox" style="display: flex; flex-direction: column; gap: 8px;"></div>
+    </div>
+  </div>
 
-<p>
-GET Tools offers a powerful and completely free QR Code Generator that allows you to create custom QR codes instantly. 
-You can generate QR codes for text, website URLs, phone numbers, SMS messages, and even UPI payment requests. 
-Our tool supports custom colors, adjustable sizes, logo embedding, and instant live preview.
-</p>
+  <!-- Real Monetization: Adsterra Native Container -->
+  <div class="adsterra-native-container">
+    <div id="container-726b7da223dd01facb179be0a51c21a6"></div>
+  </div>
 
-<h3>Why Use Our QR Code Generator?</h3>
+  <!-- Educational & SEO Content (Preserved) -->
+  <div class="card" style="max-width: 760px; margin: 30px auto; padding: 30px;">
+    <h2>Free Online QR Code Generator with Logo, Color & UPI Support</h2>
+    <p>GET Tools offers a powerful and completely free QR Code Generator that allows you to create custom QR codes instantly. You can generate QR codes for text, website URLs, phone numbers, SMS messages, and even UPI payment requests. Our tool supports custom colors, adjustable sizes, logo embedding, and instant live preview.</p>
 
-<ul>
-<li>✔ 100% Free and Secure</li>
-<li>✔ No Registration Required</li>
-<li>✔ Supports UPI Payment QR Codes</li>
-<li>✔ Add Custom Logo in QR Code</li>
-<li>✔ Choose Custom Colors and Sizes</li>
-<li>✔ Mobile Friendly & Fast Loading</li>
-</ul>
+    <h3 style="margin-top: 20px;">Why Use Our QR Code Generator?</h3>
+    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
+      <li><strong>100% Free and Secure:</strong> No registration required, generated entirely on your device.</li>
+      <li><strong>UPI Payment QR Codes:</strong> Generate instant payment requests with preset amount and note.</li>
+      <li><strong>Logo Embedding:</strong> Overlay your company or brand logo in the center of the QR code.</li>
+      <li><strong>High-Resolution Downloads:</strong> Download crisp, high-DPI image files ready for print and digital media.</li>
+    </ul>
+  </div>
+</main>
 
-<h3>Create UPI Payment QR Code Easily</h3>
-
-<p>
-With our advanced QR generator, you can create a UPI payment QR code by simply entering your UPI ID and payment amount. 
-This is ideal for small businesses, shop owners, freelancers, and digital payments across India.
-</p>
-
-<h3>How Does a QR Code Work?</h3>
-
-<p>
-A QR (Quick Response) code stores information in a machine-readable format. When scanned using a smartphone camera or QR scanner app, 
-the encoded data is instantly accessed. QR codes are widely used for payments, marketing, websites, and contact sharing.
-</p>
-
-<h3>Best Free QR Code Generator Online</h3>
-
-<p>
-If you are looking for a fast, reliable, and professional QR code maker online, GET Tools provides one of the best free solutions available. 
-Start generating unlimited QR codes with logo and custom design today.
-</p>
-</div>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">All Tools</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms & Conditions</a>
+    </div>
+    <p class="footer-copy">© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
+  </div>
+</footer>
 
 <script>
-
 let qr;
 let history = [];
 
-document.getElementById("qrType").addEventListener("change", updateForm);
+const qrType = document.getElementById("qrType");
+const textInput = document.getElementById("textInput");
+const upiId = document.getElementById("upiId");
+const amount = document.getElementById("amount");
+const note = document.getElementById("note");
+const qrSize = document.getElementById("qrSize");
+const qrColor = document.getElementById("qrColor");
+const logoInput = document.getElementById("logoInput");
+const qrCanvas = document.getElementById("qrCanvas");
+const historyBox = document.getElementById("historyBox");
+const paymentFields = document.getElementById("paymentFields");
+const mainInput = document.getElementById("mainInput");
+
+qrType.addEventListener("change", updateForm);
 document.querySelectorAll("input,select").forEach(el=>{
   el.addEventListener("input", generateQR);
 });
@@ -179,69 +241,74 @@ function updateForm(){
 }
 
 function generateQR(){
-
+  let data = "";
   const type = qrType.value;
-  const size = parseInt(qrSize.value);
-  const color = qrColor.value;
-  let data="";
 
-  if(type==="payment"){
-    if(!upiId.value || !amount.value) return;
-    data=`upi://pay?pa=${upiId.value}&am=${amount.value}&tn=${encodeURIComponent(note.value)}`;
-  }else{
-    if(!textInput.value) return;
-    if(type==="phone") data="tel:"+textInput.value;
-    else if(type==="sms") data="sms:"+textInput.value;
-    else data=textInput.value;
+  if(type==="url" || type==="text"){
+    data = textInput.value || "https://gopinathenterprisetechnology.github.io/gettools/";
+  } else if(type==="phone"){
+    data = "tel:" + textInput.value;
+  } else if(type==="sms"){
+    data = "sms:" + textInput.value;
+  } else if(type==="payment"){
+    const uId = upiId.value || "merchant@upi";
+    const amt = amount.value;
+    const nt = note.value;
+    data = `upi://pay?pa=${encodeURIComponent(uId)}&pn=Merchant`;
+    if(amt) data += `&am=${encodeURIComponent(amt)}`;
+    if(nt) data += `&tn=${encodeURIComponent(nt)}`;
   }
 
-  qrCanvas.innerHTML="";
+  if(!data) return;
 
-  qr=new QRCode(qrCanvas,{
-    text:data,
-    width:size,
-    height:size,
-    colorDark:color,
-    colorLight:"#ffffff"
+  qrCanvas.innerHTML = "";
+
+  qr = new QRCode(qrCanvas, {
+    text: data,
+    width: parseInt(qrSize.value),
+    height: parseInt(qrSize.value),
+    colorDark: qrColor.value,
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
   });
 
-  setTimeout(()=>addLogoCenter(),400);
+  if(logoInput.files && logoInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      setTimeout(()=>{
+        const imgEl = qrCanvas.querySelector("img");
+        if(imgEl){
+          const logo = new Image();
+          logo.src = e.target.result;
+          logo.onload = function(){
+            const canvas = document.createElement("canvas");
+            canvas.width = qrSize.value;
+            canvas.height = qrSize.value;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imgEl,0,0);
+            const lSize = qrSize.value * 0.22;
+            const pos = (qrSize.value - lSize)/2;
+            ctx.fillStyle="#ffffff";
+            ctx.fillRect(pos-2, pos-2, lSize+4, lSize+4);
+            ctx.drawImage(logo,pos,pos,lSize,lSize);
+            imgEl.src = canvas.toDataURL();
+          };
+        }
+      },150);
+    };
+    reader.readAsDataURL(logoInput.files[0]);
+  }
 
   saveHistory(data);
 }
 
-function addLogoCenter(){
-  const file=logoInput.files[0];
-  if(!file) return;
-
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const img=new Image();
-    img.src=e.target.result;
-    img.onload=function(){
-      const canvas=qrCanvas.querySelector("canvas");
-      const ctx=canvas.getContext("2d");
-      const logoSize=canvas.width/4;
-      ctx.drawImage(img,
-        (canvas.width-logoSize)/2,
-        (canvas.height-logoSize)/2,
-        logoSize,logoSize);
-    }
-  }
-  reader.readAsDataURL(file);
-}
-
 function downloadQR(){
-  const canvas=qrCanvas.querySelector("canvas");
-  if(!canvas) return alert("Generate QR first");
-  const link=document.createElement("a");
-  link.download="qr.png";
-  link.href=canvas.toDataURL();
+  const img = qrCanvas.querySelector("img");
+  if(!img) return alert("Please generate a QR code first.");
+  const link = document.createElement("a");
+  link.href = img.src;
+  link.download = "gettools-qr-code.png";
   link.click();
-}
-
-function toggleDark(){
-  document.body.classList.toggle("dark");
 }
 
 function saveHistory(data){
@@ -254,9 +321,14 @@ function saveHistory(data){
 function renderHistory(){
   historyBox.innerHTML="";
   history.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="history-item";
-    div.innerText=item.substring(0,40);
+    const div = document.createElement("div");
+    div.style.fontSize="13px";
+    div.style.padding="8px 12px";
+    div.style.background="var(--surface-alt)";
+    div.style.border="1px solid var(--border)";
+    div.style.borderRadius="var(--radius-sm)";
+    div.style.cursor="pointer";
+    div.innerText = item.substring(0,50) + (item.length > 50 ? "..." : "");
     div.onclick=()=>{
       textInput.value=item;
       qrType.value="text";
@@ -267,30 +339,9 @@ function renderHistory(){
 }
 
 updateForm();
-
 </script>
 
-<div class="ad-box">
-<script async="async" data-cfasync="false" src="https://pl29577099.effectivecpmnetwork.com/726b7da223dd01facb179be0a51c21a6/invoke.js"></script>
-<div id="container-726b7da223dd01facb179be0a51c21a6"></div>
-
-
-</div>
-
-  
-  <footer>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms & Conditions</a>
-  </div>
-
-  <p style="margin-top:10px;">
-© 2026 GET Tools - Gopinath Enterprise Technology.</p>
-  <p>All Rights Reserved.</p>
-</footer>
+<script src="js/ad-manager.js"></script>
 
 </body>
 </html>

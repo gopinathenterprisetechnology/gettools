@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools</title>
-<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta name="description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<title>Lock PDF Online Free – Password Protect PDF Document | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/pdf-lock.html">
+<meta name="description" content="Protect your sensitive PDF files with secure passwords online. Encrypt bank statements, confidential documents, and contracts directly in your browser.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content="GET Tools">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta property="og:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta property="og:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/pdf-lock.html">
+<meta property="og:title" content="Lock PDF Online Free – Password Protect PDF Document | GET Tools">
+<meta property="og:description" content="Protect your sensitive PDF files with secure passwords online. Encrypt bank statements, confidential documents, and contracts directly in your browser.">
 <meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
-<meta property="og:image:width" content="1024">
-<meta property="og:image:height" content="512">
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta name="twitter:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta name="twitter:title" content="Lock PDF Online Free | GET Tools">
+<meta name="twitter:description" content="Password protect and encrypt PDF documents online with 100% browser privacy.">
 <meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
 <!-- Favicons & Icons -->
@@ -38,10 +36,18 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "name": "About Us - GET Tools",
-  "url": "https://gopinathenterprisetechnology.github.io/gettools/about.html",
-  "description": "Learn about GET Tools and our mission to build free, client-side web utilities."
+  "@type": "WebApplication",
+  "name": "PDF Locker",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/pdf-lock.html",
+  "description": "Encrypt and password protect any PDF document directly inside your web browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
 </script>
 
@@ -50,7 +56,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="js/theme.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
+
 <body>
 
 <!-- Header (3-Zone Contract) -->
@@ -63,7 +72,7 @@
       <a href="index.html">Home</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#categories">Categories</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-actions">
@@ -85,51 +94,95 @@
     <a href="terms.html">Terms</a>
   </nav>
 </header>
+
 <!-- Breadcrumb Navigation -->
 <nav class="breadcrumb-nav" aria-label="Breadcrumb">
   <a href="index.html">Home</a>
   <span class="breadcrumb-separator">/</span>
-  <span class="breadcrumb-current">About Us</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Lock PDF</span>
 </nav>
 
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 840px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Password Protect & Lock PDF</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Secure your confidential PDF documents with strong encryption without uploading files to external servers.</p>
 
-<main class="container" style="padding-top: 40px; padding-bottom: 50px;">
-  <div class="tool-page-container" style="max-width: 800px;">
-    <h2>About GET Tools</h2>
-    <p style="font-size: 1.05rem;">GetTools is a free online tools platform engineered by Gopinath Enterprise & Technology. Our mission is to provide simple, lightning-fast, and completely secure web tools for everyday digital workflows.</p>
-
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Who We Are</h3>
-      <p>Developed with modern browser capabilities, GET Tools eliminates the need to install desktop software or upload sensitive files to remote servers. All calculations, conversions, compressions, and generation operations execute directly on your local device for maximum performance and confidentiality.</p>
+    <!-- Upload Box -->
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+      <label for="pdfFile" style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--text);">Select PDF Document to Lock:</label>
+      <input type="file" id="pdfFile" accept="application/pdf" style="width: auto; max-width: 100%;">
+      <div id="fileInfo" style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);"></div>
     </div>
 
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Our Mission</h3>
-      <p>We aim to build high-quality, accessible, and intuitive tools including QR Code Generators, Chronological Age Calculators, Word Counters, PDF Compressors, Image Compressors, and developer utilities that help students, professionals, and creators worldwide.</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 16px;">Why Choose GET Tools?</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ 100% Free Tools</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Unlimited access to all utilities with no subscription paywalls or hidden charges.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Fast & Lightweight</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Engineered for minimal footprint, blazing-fast startup, and instant processing.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Zero Installation</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Works seamlessly inside any modern browser across Windows, macOS, Android, and iOS.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Total File Privacy</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Client-side execution ensures your photos, PDFs, and text never leave your machine.</p>
-        </div>
+    <!-- Password Inputs -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 20px;">
+      <div>
+        <label for="userPassword" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Set Password:</label>
+        <input type="password" id="userPassword" placeholder="Enter secure password">
+      </div>
+      <div>
+        <label for="confirmPassword" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Confirm Password:</label>
+        <input type="password" id="confirmPassword" placeholder="Re-enter password">
       </div>
     </div>
 
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+      <button onclick="lockPDF()" id="lockBtn" class="btn btn-primary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        🔒 Lock & Encrypt PDF
+      </button>
+      <button onclick="downloadLockedPDF()" id="downloadBtn" class="btn btn-secondary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        📥 Download Protected PDF
+      </button>
+    </div>
+
+    <!-- Status -->
+    <div id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></div>
+
+    <!-- RELATED PDF TOOLS (Screenshot 51 Pattern) -->
+    <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; margin-top: 35px;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: var(--text);">
+        📂 Other PDF Tools
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px;">
+        <a href="pdf-unlock.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🔓</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Unlock PDF Tool</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Remove PDF Passwords</div>
+          </div>
+        </a>
+        <a href="pdf-compress.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">🗜️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">PDF Compressor</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Exact Target KB Size</div>
+          </div>
+        </a>
+        <a href="pdf-merge.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">📑</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Merge PDF Files</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Combine Multi Documents</div>
+          </div>
+        </a>
+        <a href="pdf-split.html" class="card" style="padding: 12px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">✂️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.88rem; color: var(--text);">Split & Extract PDF</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Extract Page Ranges</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
+  <div class="adsterra-banner-container">
+    <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
   </div>
 </main>
 
@@ -139,7 +192,7 @@
       
       <!-- Column 1: Brand Info & Legal Policies -->
       <div>
-        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <a href="index.html" class="footer-brand-title">Cyber Cafe<span class="footer-brand-red">Tool</span></a>
         <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
         
         <div class="footer-social-row">
@@ -188,7 +241,7 @@
           <li><a href="resize.html">Resize Image</a></li>
           <li><a href="signature-crop.html">Signature Crop</a></li>
           <li><a href="imageincreaser.html">Image Crop</a></li>
-          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
           <li><a href="combine-photo-signature.html">Restore Image</a></li>
           <li><a href="png-to-jpg.html">Image Converter</a></li>
           <li><a href="watermark-image.html">Face Blur</a></li>
@@ -250,9 +303,7 @@
           <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
           <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
           <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
-          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
           <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
-          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
         </ul>
       </div>
 
@@ -260,10 +311,105 @@
 
     <!-- Copyright -->
     <div class="footer-bottom-bar">
-      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+      © 2026 Cyber Cafe Tool. All Rights Reserved. | Designed with ❤️
     </div>
   </div>
 </footer>
 
+<script>
+let originalPdfBuffer = null;
+let currentFileName = 'document';
+let lockedBlob = null;
+
+const pdfFile = document.getElementById('pdfFile');
+const fileInfo = document.getElementById('fileInfo');
+const userPassword = document.getElementById('userPassword');
+const confirmPassword = document.getElementById('confirmPassword');
+const lockBtn = document.getElementById('lockBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const status = document.getElementById('status');
+
+pdfFile.addEventListener('change', async function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  currentFileName = file.name;
+  fileInfo.innerText = 'Analyzing document...';
+  status.innerText = '';
+  downloadBtn.disabled = true;
+
+  try {
+    originalPdfBuffer = await file.arrayBuffer();
+    fileInfo.innerHTML = `Loaded: <b>${file.name}</b> (${(file.size / 1024).toFixed(1)} KB)`;
+    lockBtn.disabled = false;
+  } catch (err) {
+    fileInfo.innerText = 'Could not load PDF: ' + err.message;
+    lockBtn.disabled = true;
+  }
+});
+
+async function lockPDF() {
+  if (!originalPdfBuffer) return;
+
+  const pwd = userPassword.value;
+  const cpwd = confirmPassword.value;
+
+  if (!pwd) {
+    alert('Please enter a password.');
+    return;
+  }
+  if (pwd !== cpwd) {
+    alert('Passwords do not match. Please re-enter.');
+    return;
+  }
+
+  status.innerText = 'Encrypting PDF with secure password...';
+  lockBtn.disabled = true;
+
+  try {
+    const pdfDoc = await PDFLib.PDFDocument.load(originalPdfBuffer, { ignoreEncryption: true });
+    
+    // Encrypt PDF using PDF-Lib encryption if supported or reconstruct secured stream
+    pdfDoc.encrypt({
+      userPassword: pwd,
+      ownerPassword: pwd + '_owner',
+      permissions: {
+        printing: 'highResolution',
+        modifying: false,
+        copying: false,
+        annotating: false,
+        fillingForms: true,
+        contentAccessibility: true
+      }
+    });
+
+    const encryptedBytes = await pdfDoc.save();
+    lockedBlob = new Blob([encryptedBytes], { type: 'application/pdf' });
+
+    status.innerHTML = `✓ Successfully encrypted and locked PDF document!`;
+    lockBtn.disabled = false;
+    downloadBtn.disabled = false;
+  } catch (err) {
+    console.error(err);
+    status.innerText = 'Error locking PDF: ' + err.message;
+    lockBtn.disabled = false;
+  }
+}
+
+function downloadLockedPDF() {
+  if (!lockedBlob) return;
+  const link = document.createElement('a');
+  const base = currentFileName.replace(/\.pdf$/i, '');
+  link.download = `${base}-protected.pdf`;
+  link.href = URL.createObjectURL(lockedBlob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+<script src="js/ad-manager.js"></script>
+
+<script src="js/related-tools.js"></script>
 </body>
 </html>

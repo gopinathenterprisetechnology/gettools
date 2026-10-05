@@ -1,79 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Image Resizer</title>
-<style>
-body{
-font-family:Arial;
-background:#111;
-color:white;
-text-align:center;
-padding:20px;
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Resizer – Resize Image Dimensions in Pixels & DPI | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/resize.html">
+<meta name="description" content="Resize image width and height in pixels, millimeters, or centimeters with aspect ratio lock and 300 DPI support directly in your web browser.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Gopinath Enterprise Technology">
 
-.container{
-background:#1e1e1e;
-padding:20px;
-border-radius:10px;
-max-width:500px;
-margin:auto;
-}
+<!-- Open Graph / Facebook -->
+<meta property="og:site_name" content="GET Tools">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/resize.html">
+<meta property="og:title" content="Image Resizer – Resize Image Dimensions in Pixels & DPI | GET Tools">
+<meta property="og:description" content="Resize image width and height in pixels, millimeters, or centimeters with aspect ratio lock and 300 DPI support directly in your web browser.">
+<meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="512">
 
-input{
-padding:8px;
-margin:5px;
-width:120px;
-}
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Image Resizer – Resize Image Dimensions in Pixels & DPI | GET Tools">
+<meta name="twitter:description" content="Resize image width and height in pixels, millimeters, or centimeters with aspect ratio lock and 300 DPI support directly in your web browser.">
+<meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
-button{
-padding:10px 20px;
-margin-top:10px;
-cursor:pointer;
-}
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2563EB">
 
-#preview{
-max-width:100%;
-margin-top:20px;
-border-radius:10px;
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Image Resizer Tool",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/resize.html",
+  "description": "Resize image dimensions with custom width, height, aspect ratio lock, and DPI presets in your browser.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
+</script>
 
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="js/theme.js"></script>
 </head>
+
 <body>
 
-<div class="container">
+<!-- Header (3-Zone Contract) -->
+<header class="site-header">
+  <div class="nav-wrapper">
+    <a href="index.html" class="nav-brand">
+      GET <span class="brand-accent">Tools</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        <svg class="icon-sun" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav-menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#tools">All Tools</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Image Resizer Tool</span>
+</nav>
 
-<h2>Resize Image</h2>
 
-<label>Width</label>
-<input type="number" id="width">
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 640px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Image Resizer Tool</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Resize image dimensions in pixels, millimeters, or centimeters with optional aspect ratio lock directly in your browser.</p>
 
-<label>Height</label>
-<input type="number" id="height">
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; margin-bottom: 20px;">
+      <label for="imageInput" style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text);">Select Image to Resize:</label>
+      <input type="file" id="imageInput" accept="image/*" style="width: auto; max-width: 100%;">
+    </div>
 
-<div id="dpiBox" style="display:none;">
-<br>
-<label>DPI</label>
-<input type="number" id="dpi" value="300">
-</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div>
+        <label for="width" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Width (px):</label>
+        <input type="number" id="width" placeholder="e.g. 800" style="margin-bottom: 0;">
+      </div>
+      <div>
+        <label for="height" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Height (px):</label>
+        <input type="number" id="height" placeholder="e.g. 600" style="margin-bottom: 0;">
+      </div>
+    </div>
 
-<br>
-<label>
-<input type="checkbox" id="ratio" checked>
-Maintain Aspect Ratio
-</label>
+    <div id="dpiBox" style="display: none; margin-bottom: 16px;">
+      <label for="dpi" style="display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); margin-bottom: 6px;">Print DPI:</label>
+      <input type="number" id="dpi" value="300" style="margin-bottom: 0;">
+    </div>
 
-<br><br>
-<button onclick="applyResize()">Resize Now</button>
+    <div style="margin-bottom: 20px;">
+      <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 0.9rem; cursor: pointer; color: var(--text);">
+        <input type="checkbox" id="ratio" checked style="width: auto; margin: 0;">
+        Maintain Original Aspect Ratio
+      </label>
+    </div>
 
-<img id="preview" style="max-width:100%; display:block; margin:15px auto;">
+    <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+      <button type="button" onclick="applyResize()" class="btn btn-primary" style="flex: 1; height: 48px; font-size: 1rem;">
+        📐 Resize Image Now
+      </button>
+      <a id="downloadLink" style="display: none; flex: 1; text-decoration: none;" download="resized-image.jpg">
+        <button type="button" class="btn btn-secondary" style="width: 100%; height: 48px; background: var(--accent); color: white; border: none; font-size: 1rem;">
+          📥 Download Image
+        </button>
+      </a>
+    </div>
 
-</div>
+    <!-- Image Preview -->
+    <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center;">
+      <img id="preview" style="max-width: 100%; max-height: 360px; height: auto; border-radius: var(--radius-sm); display: block; margin: 0 auto;" alt="Resized image preview">
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">All Tools</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms & Conditions</a>
+    </div>
+    <p class="footer-copy">© 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved.</p>
+  </div>
+</footer>
 
 <script>
-
-<script>
-
 document.addEventListener("DOMContentLoaded", function(){
 
 let preview = document.getElementById("preview");
@@ -81,64 +178,83 @@ let widthInput = document.getElementById("width");
 let heightInput = document.getElementById("height");
 let dpiBox = document.getElementById("dpiBox");
 let dpiInput = document.getElementById("dpi");
+let imageInput = document.getElementById("imageInput");
+let downloadLink = document.getElementById("downloadLink");
 
-let unit = localStorage.getItem("resizeUnit");
+let unit = localStorage.getItem("resizeUnit") || "px";
 let imgSrc = localStorage.getItem("resizeImageData");
-
-if(!imgSrc){
-alert("No image found. Upload again.");
-return;
-}
-
-preview.src = imgSrc;
 
 let originalWidth, originalHeight;
 
-preview.onload = function(){
+function setupImage(source) {
+  preview.src = source;
+  preview.onload = function(){
+    originalWidth = preview.naturalWidth;
+    originalHeight = preview.naturalHeight;
 
-originalWidth = preview.naturalWidth;
-originalHeight = preview.naturalHeight;
+    if(!originalWidth){
+      alert("Image dimension not detected");
+      return;
+    }
 
-if(!originalWidth){
-alert("Image dimension not detected");
-return;
+    if(unit==="px"){
+      widthInput.value = originalWidth;
+      heightInput.value = originalHeight;
+    }
+
+    if(unit==="mm"){
+      dpiBox.style.display="block";
+      let dpi=300;
+      widthInput.value=((originalWidth/dpi)*25.4).toFixed(2);
+      heightInput.value=((originalHeight/dpi)*25.4).toFixed(2);
+    }
+
+    if(unit==="cm"){
+      dpiBox.style.display="block";
+      let dpi=300;
+      widthInput.value=((originalWidth/dpi)*2.54).toFixed(2);
+      heightInput.value=((originalHeight/dpi)*2.54).toFixed(2);
+    }
+  };
 }
 
-if(unit==="px"){
-widthInput.value = originalWidth;
-heightInput.value = originalHeight;
+if(imgSrc){
+  setupImage(imgSrc);
 }
 
-if(unit==="mm"){
-dpiBox.style.display="block";
-let dpi=300;
-widthInput.value=((originalWidth/dpi)*25.4).toFixed(2);
-heightInput.value=((originalHeight/dpi)*25.4).toFixed(2);
+if(imageInput){
+  imageInput.addEventListener("change", function(e){
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = function(evt){
+      setupImage(evt.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
 }
-
-if(unit==="cm"){
-dpiBox.style.display="block";
-let dpi=300;
-widthInput.value=((originalWidth/dpi)*2.54).toFixed(2);
-heightInput.value=((originalHeight/dpi)*2.54).toFixed(2);
-}
-
-};
 
 // Maintain ratio
 widthInput.addEventListener("input",function(){
 if(!document.getElementById("ratio").checked) return;
+if(!originalWidth) return;
 let ratio = originalHeight/originalWidth;
 heightInput.value=(this.value*ratio).toFixed(2);
 });
 
 heightInput.addEventListener("input",function(){
 if(!document.getElementById("ratio").checked) return;
+if(!originalHeight) return;
 let ratio = originalWidth/originalHeight;
 widthInput.value=(this.value*ratio).toFixed(2);
 });
 
 window.applyResize=function(){
+
+if(!preview.src || preview.src === "" || preview.naturalWidth === 0){
+  alert("Please select or upload an image first.");
+  return;
+}
 
 let w=widthInput.value;
 let h=heightInput.value;
@@ -157,6 +273,11 @@ h=(h/2.54)*dpi;
 w=parseInt(w);
 h=parseInt(h);
 
+if(!w || !h || w <= 0 || h <= 0){
+  alert("Please enter valid width and height.");
+  return;
+}
+
 let canvas=document.createElement("canvas");
 canvas.width=w;
 canvas.height=h;
@@ -164,20 +285,24 @@ canvas.height=h;
 let ctx=canvas.getContext("2d");
 ctx.drawImage(preview,0,0,w,h);
 
-preview.src=canvas.toDataURL("image/jpeg",1);
-
+let resizedData = canvas.toDataURL("image/jpeg",1);
+preview.src=resizedData;
 originalWidth=w;
 originalHeight=h;
+
+if(downloadLink){
+  downloadLink.href = resizedData;
+  downloadLink.style.display = "inline-block";
+}
 
 alert("Image Resized Successfully!");
 
 };
 
 });
-
 </script>
 
-</script>
-
+<script src="js/ad-manager.js"></script>
+<script src="js/related-tools.js"></script>
 </body>
 </html>

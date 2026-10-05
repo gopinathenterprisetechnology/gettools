@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools</title>
-<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta name="description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<title>Split PDF Online Free – Extract Pages from PDF Document | GET Tools</title>
+<link rel="canonical" href="https://gopinathenterprisetechnology.github.io/gettools/pdf-split.html">
+<meta name="description" content="Split and extract specific pages from PDF documents online for free. Custom page ranges, 100% private client-side execution with zero file uploads.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gopinath Enterprise Technology">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content="GET Tools">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/about.html">
-<meta property="og:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta property="og:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta property="og:url" content="https://gopinathenterprisetechnology.github.io/gettools/pdf-split.html">
+<meta property="og:title" content="Split PDF Online Free – Extract Pages from PDF Document | GET Tools">
+<meta property="og:description" content="Split and extract specific pages from PDF documents online for free. Custom page ranges, 100% private client-side execution with zero file uploads.">
 <meta property="og:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="512">
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About Us – GET Tools Mission & Privacy-First Web Utilities | GET Tools">
-<meta name="twitter:description" content="Learn about GET Tools, our mission to provide free, privacy-first, client-side utilities with zero file uploads and zero software installation.">
+<meta name="twitter:title" content="Split PDF Online Free – Extract Pages from PDF Document | GET Tools">
+<meta name="twitter:description" content="Split and extract specific pages from PDF documents online for free. Custom page ranges, 100% private client-side execution with zero file uploads.">
 <meta name="twitter:image" content="https://gopinathenterprisetechnology.github.io/gettools/1200x-600-15-1-1024x512.png">
 
 <!-- Favicons & Icons -->
@@ -38,10 +38,18 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "name": "About Us - GET Tools",
-  "url": "https://gopinathenterprisetechnology.github.io/gettools/about.html",
-  "description": "Learn about GET Tools and our mission to build free, client-side web utilities."
+  "@type": "WebApplication",
+  "name": "PDF Splitter",
+  "url": "https://gopinathenterprisetechnology.github.io/gettools/pdf-split.html",
+  "description": "Extract individual pages or page ranges from PDF files with complete client-side security.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
 </script>
 
@@ -50,7 +58,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="js/theme.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
+
 <body>
 
 <!-- Header (3-Zone Contract) -->
@@ -63,7 +74,7 @@
       <a href="index.html">Home</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#categories">Categories</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-actions">
@@ -85,51 +96,66 @@
     <a href="terms.html">Terms</a>
   </nav>
 </header>
+
 <!-- Breadcrumb Navigation -->
 <nav class="breadcrumb-nav" aria-label="Breadcrumb">
   <a href="index.html">Home</a>
   <span class="breadcrumb-separator">/</span>
-  <span class="breadcrumb-current">About Us</span>
+  <a href="index.html#tools">Tools</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current">Split PDF</span>
 </nav>
 
+<main class="container" style="padding-top: 30px; padding-bottom: 40px;">
+  <!-- Tool Card Container -->
+  <div class="tool-page-container" style="max-width: 840px;">
+    <h2 style="text-align: center; margin-bottom: 8px;">Split & Extract PDF Pages Online</h2>
+    <p style="text-align: center; margin-bottom: 24px;">Extract specific pages or page ranges from any PDF document without sending private data to cloud servers.</p>
 
-<main class="container" style="padding-top: 40px; padding-bottom: 50px;">
-  <div class="tool-page-container" style="max-width: 800px;">
-    <h2>About GET Tools</h2>
-    <p style="font-size: 1.05rem;">GetTools is a free online tools platform engineered by Gopinath Enterprise & Technology. Our mission is to provide simple, lightning-fast, and completely secure web tools for everyday digital workflows.</p>
-
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Who We Are</h3>
-      <p>Developed with modern browser capabilities, GET Tools eliminates the need to install desktop software or upload sensitive files to remote servers. All calculations, conversions, compressions, and generation operations execute directly on your local device for maximum performance and confidentiality.</p>
+    <!-- Upload Box -->
+    <div style="background: var(--surface-alt); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 30px 20px; text-align: center; margin-bottom: 20px;">
+      <label for="pdfInput" style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--text);">Select PDF File to Split:</label>
+      <input type="file" id="pdfInput" accept="application/pdf" style="width: auto; max-width: 100%;">
+      <div id="fileDocInfo" style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);"></div>
     </div>
 
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 12px;">Our Mission</h3>
-      <p>We aim to build high-quality, accessible, and intuitive tools including QR Code Generators, Chronological Age Calculators, Word Counters, PDF Compressors, Image Compressors, and developer utilities that help students, professionals, and creators worldwide.</p>
+    <!-- Controls Form -->
+    <div id="splitControls" style="display: none; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 20px;">
+      <label for="pageRange" style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 6px;">Specify Pages to Extract:</label>
+      <input type="text" id="pageRange" placeholder="e.g. 1, 3-5, 8" style="margin-bottom: 8px;">
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Example: "1-3" extracts pages 1 to 3; "1, 4, 7" extracts pages 1, 4, and 7.</p>
     </div>
 
-    <div style="margin: 30px 0;">
-      <h3 style="margin-bottom: 16px;">Why Choose GET Tools?</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ 100% Free Tools</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Unlimited access to all utilities with no subscription paywalls or hidden charges.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Fast & Lightweight</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Engineered for minimal footprint, blazing-fast startup, and instant processing.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Zero Installation</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Works seamlessly inside any modern browser across Windows, macOS, Android, and iOS.</p>
-        </div>
-        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          <strong style="color: var(--text);">✔ Total File Privacy</strong>
-          <p style="font-size: 0.85rem; margin-top: 6px; margin-bottom: 0;">Client-side execution ensures your photos, PDFs, and text never leave your machine.</p>
-        </div>
-      </div>
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+      <button onclick="splitPDF()" id="splitBtn" class="btn btn-primary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        ✂️ Extract & Split PDF
+      </button>
+      <button onclick="downloadSplitPDF()" id="downloadBtn" class="btn btn-secondary" disabled style="height: 48px; padding: 0 28px; font-size: 1rem;">
+        📥 Download Extracted PDF
+      </button>
     </div>
 
+    <!-- Status & Results -->
+    <div id="status" style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 10px;"></div>
+  </div>
+
+  <!-- Real Monetization: Adsterra 300x250 Banner Slot -->
+  <div class="adsterra-banner-container">
+    <div class="adsterra-banner-slot" data-ad-type="banner-300x250"></div>
+  </div>
+
+  <!-- Educational & SEO Content (Preserved) -->
+  <div class="card" style="max-width: 840px; margin: 30px auto; padding: 30px;">
+    <h2>Free Client-Side PDF Splitter & Page Extractor</h2>
+    <p>GET Tools PDF Splitter is an indispensable tool for students, advocates, accountants, and cyber cafe users who need to extract single pages or specific sections from large PDF files (like bank statements, court petitions, e-books, or government gazettes).</p>
+
+    <h3 style="margin-top: 20px;">Key Features:</h3>
+    <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted);">
+      <li><strong>Flexible Page Syntax:</strong> Supports single pages (e.g. <code>2</code>) and multi-page ranges (e.g. <code>2-7, 10</code>).</li>
+      <li><strong>Zero Server Uploads:</strong> PDF extraction runs 100% locally within your browser using WebAssembly and JavaScript.</li>
+      <li><strong>Preserves Document Quality:</strong> Hyperlinks, vector graphics, fonts, and images are copied losslessly.</li>
+    </ul>
   </div>
 </main>
 
@@ -139,7 +165,7 @@
       
       <!-- Column 1: Brand Info & Legal Policies -->
       <div>
-        <a href="index.html" class="footer-brand-title">GET <span class="footer-brand-red">Tools</span></a>
+        <a href="index.html" class="footer-brand-title">Cyber Cafe<span class="footer-brand-red">Tool</span></a>
         <p class="footer-brand-desc">All the necessary tools in one place to make the daily work of your cyber café easier and faster.</p>
         
         <div class="footer-social-row">
@@ -188,7 +214,7 @@
           <li><a href="resize.html">Resize Image</a></li>
           <li><a href="signature-crop.html">Signature Crop</a></li>
           <li><a href="imageincreaser.html">Image Crop</a></li>
-          <li><a href="image-adjust.html">Image Adjust</a></li>
+          <li><a href="passport-photo-maker.html">Image Adjust</a></li>
           <li><a href="combine-photo-signature.html">Restore Image</a></li>
           <li><a href="png-to-jpg.html">Image Converter</a></li>
           <li><a href="watermark-image.html">Face Blur</a></li>
@@ -250,9 +276,7 @@
           <li><a href="https://abha.abdm.gov.in/" target="_blank" rel="noopener">Abha Card</a></li>
           <li><a href="https://eshram.gov.in/" target="_blank" rel="noopener">E-Shram Card</a></li>
           <li><a href="https://apaar.education.gov.in/" target="_blank" rel="noopener">APAAR Card</a></li>
-          <li><a href="https://www.abc.gov.in/" target="_blank" rel="noopener">ABC ID Card</a></li>
           <li><a href="https://labour.gov.in/" target="_blank" rel="noopener">Labour Card</a></li>
-          <li><a href="https://silpasathi.wb.gov.in/" target="_blank" rel="noopener">Shilpa Sathi (WB)</a></li>
         </ul>
       </div>
 
@@ -260,10 +284,131 @@
 
     <!-- Copyright -->
     <div class="footer-bottom-bar">
-      © 2026 GET Tools - Gopinath Enterprise Technology. All Rights Reserved. | Designed with ❤️
+      © 2026 Cyber Cafe Tool. All Rights Reserved. | Designed with ❤️
     </div>
   </div>
 </footer>
 
+<script>
+let loadedPdfDoc = null;
+let totalPagesCount = 0;
+let splitPdfBlob = null;
+let currentFileName = '';
+
+const pdfInput = document.getElementById('pdfInput');
+const fileDocInfo = document.getElementById('fileDocInfo');
+const splitControls = document.getElementById('splitControls');
+const pageRangeInput = document.getElementById('pageRange');
+const splitBtn = document.getElementById('splitBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const status = document.getElementById('status');
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+  else return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+pdfInput.addEventListener('change', async function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  currentFileName = file.name;
+  fileDocInfo.innerText = 'Analyzing PDF structure...';
+  status.innerText = '';
+  downloadBtn.disabled = true;
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    loadedPdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+    totalPagesCount = loadedPdfDoc.getPageCount();
+
+    fileDocInfo.innerHTML = `Loaded: <b>${file.name}</b> (${formatBytes(file.size)}) | Total Pages: <b style="color:var(--primary);">${totalPagesCount}</b>`;
+    splitControls.style.display = 'block';
+    pageRangeInput.value = `1-${Math.min(totalPagesCount, 3)}`;
+    splitBtn.disabled = false;
+  } catch (err) {
+    console.error(err);
+    fileDocInfo.innerText = 'Could not load PDF: ' + err.message;
+    splitBtn.disabled = true;
+  }
+});
+
+function parsePageRanges(rangeStr, maxPages) {
+  const pages = new Set();
+  const parts = rangeStr.split(',');
+
+  for (let part of parts) {
+    part = part.trim();
+    if (!part) continue;
+
+    if (part.includes('-')) {
+      const sub = part.split('-');
+      const start = parseInt(sub[0]);
+      const end = parseInt(sub[1]);
+      if (isNaN(start) || isNaN(end)) continue;
+      const minP = Math.max(1, Math.min(start, end));
+      const maxP = Math.min(maxPages, Math.max(start, end));
+      for (let p = minP; p <= maxP; p++) pages.add(p);
+    } else {
+      const p = parseInt(part);
+      if (!isNaN(p) && p >= 1 && p <= maxPages) pages.add(p);
+    }
+  }
+
+  return Array.from(pages).sort((a, b) => a - b);
+}
+
+async function splitPDF() {
+  if (!loadedPdfDoc) return;
+
+  const rangeStr = pageRangeInput.value.trim();
+  const selectedPages = parsePageRanges(rangeStr, totalPagesCount);
+
+  if (selectedPages.length === 0) {
+    alert(`Please enter valid page numbers between 1 and ${totalPagesCount}.`);
+    return;
+  }
+
+  status.innerText = `Extracting ${selectedPages.length} pages (${selectedPages.join(', ')})...`;
+  splitBtn.disabled = true;
+  downloadBtn.disabled = true;
+
+  try {
+    const newDoc = await PDFLib.PDFDocument.create();
+    // PDF-Lib uses 0-based indices
+    const indicesToCopy = selectedPages.map(p => p - 1);
+    const copiedPages = await newDoc.copyPages(loadedPdfDoc, indicesToCopy);
+
+    copiedPages.forEach(p => newDoc.addPage(p));
+
+    const finalBytes = await newDoc.save({ useObjectStreams: true });
+    splitPdfBlob = new Blob([finalBytes], { type: 'application/pdf' });
+
+    status.innerHTML = `✓ Successfully extracted ${selectedPages.length} pages! (Size: <b>${formatBytes(splitPdfBlob.size)}</b>)`;
+    splitBtn.disabled = false;
+    downloadBtn.disabled = false;
+  } catch (err) {
+    console.error(err);
+    status.innerText = 'Error splitting PDF: ' + err.message;
+    splitBtn.disabled = false;
+  }
+}
+
+function downloadSplitPDF() {
+  if (!splitPdfBlob) return;
+  const link = document.createElement('a');
+  const base = currentFileName.replace(/\.pdf$/i, '');
+  link.download = `${base}-extracted-pages.pdf`;
+  link.href = URL.createObjectURL(splitPdfBlob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+<script src="js/ad-manager.js"></script>
+
+<script src="js/related-tools.js"></script>
 </body>
 </html>

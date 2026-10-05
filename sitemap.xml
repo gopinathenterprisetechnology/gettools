@@ -1,24 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-<loc>https://gopinathenterprisetechnology.github.io/gettools/</loc>
-<priority>1.0</priority>
-</url>
+  <!-- Homepage -->
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/</loc>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
 
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/index.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/about.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/contact.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/privacy-policy.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/terms.html</loc></url>
+  <!-- 12 Real Tools -->
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/image-compressor.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/imageincreaser.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/resize.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/png-to-jpg.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-compress.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/qr.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/word.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/age.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/Advance-Color-Palette-Generator.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/Professional-HTML-CSS-JS-Minifier.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/Strong-Password-Generator.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/Text-to-Speech-Converter.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/passport-photo-maker.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/combine-photo-signature.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-merge.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-split.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/indic-typing.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/signature-crop.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/jpg-to-pdf.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-to-jpg.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-lock.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-unlock.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/case-converter.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/black-and-white.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/watermark-image.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/font-converter.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/resume-maker.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/marriage-biodata.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/typing-test.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/document-typing.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/image-adjust.html</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-<!-- TOOLS -->
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/age.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/word.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/resize.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/pdf-compress.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/png-to-jpg.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/image-compressor.html</loc></url>
-<url><loc>https://gopinathenterprisetechnology.github.io/gettools/qr.html</loc></url>
+  <!-- Informational & Legal Pages -->
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/about.html</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/contact.html</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/privacy-policy.html</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/terms.html</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://gopinathenterprisetechnology.github.io/gettools/disclaimer.html</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
 </urlset>
